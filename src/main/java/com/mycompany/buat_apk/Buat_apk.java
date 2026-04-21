@@ -4,6 +4,8 @@
 
 package com.mycompany.buat_apk;
 
+import io.github.cdimascio.dotenv.Dotenv;
+
 /**
  *
  * @author najwa amanda
@@ -11,6 +13,10 @@ package com.mycompany.buat_apk;
 public class Buat_apk {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        Dotenv dotenv = Dotenv.load();
+        System.out.println(dotenv.get("DB_URL"));
+        System.out.println(dotenv.get("DB_USERNAME"));
+        System.out.println(dotenv.get("DB_PASSWORD"));
+        System.out.println("Hello World!!");
     }
 }
