@@ -52,7 +52,7 @@ public class frame_produk extends javax.swing.JFrame {
         jLabel2.setText("Nama Produk :");
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel3.setText("Harga :");
+        jLabel3.setText("Haarga :");
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel4.setText("Jumlah :");
