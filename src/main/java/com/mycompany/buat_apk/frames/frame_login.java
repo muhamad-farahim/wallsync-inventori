@@ -1,3 +1,4 @@
+package com.mycompany.buat_apk.frames;
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -38,6 +39,7 @@ public class frame_login extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(600, 500));
         getContentPane().setLayout(null);
 
         jTextField3.setToolTipText("Masukkan username");
@@ -47,22 +49,22 @@ public class frame_login extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Microsoft JhengHei UI", 1, 24)); // NOI18N
         jLabel1.setText("Selamat Datang");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(230, 43, 220, 32);
+        jLabel1.setBounds(230, 43, 220, 29);
 
         jLabel2.setFont(new java.awt.Font("Microsoft JhengHei UI", 0, 12)); // NOI18N
         jLabel2.setText("Masuk ke akun Anda untuk melanjutkan");
         getContentPane().add(jLabel2);
-        jLabel2.setBounds(230, 81, 240, 17);
+        jLabel2.setBounds(230, 81, 240, 15);
 
         jLabel3.setFont(new java.awt.Font("Microsoft JhengHei UI", 0, 12)); // NOI18N
         jLabel3.setText("Username");
         getContentPane().add(jLabel3);
-        jLabel3.setBounds(230, 133, 57, 17);
+        jLabel3.setBounds(230, 133, 64, 15);
 
         jLabel4.setFont(new java.awt.Font("Microsoft JhengHei UI", 0, 12)); // NOI18N
         jLabel4.setText("Password");
         getContentPane().add(jLabel4);
-        jLabel4.setBounds(230, 212, 60, 17);
+        jLabel4.setBounds(230, 212, 60, 15);
 
         jButton1.setBackground(new java.awt.Color(51, 153, 255));
         jButton1.setFont(new java.awt.Font("Microsoft JhengHei UI", 1, 12)); // NOI18N
@@ -72,7 +74,7 @@ public class frame_login extends javax.swing.JFrame {
         getContentPane().add(jButton1);
         jButton1.setBounds(230, 286, 259, 33);
 
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/blue-background-dark-blue-abstract-background-geometry-shine-and-layer-element-for-presentation-design-vector.jpg"))); // NOI18N
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/a.jpg"))); // NOI18N
         getContentPane().add(jLabel5);
         jLabel5.setBounds(-340, 0, 560, 490);
 
@@ -80,7 +82,7 @@ public class frame_login extends javax.swing.JFrame {
         getContentPane().add(jPasswordField1);
         jPasswordField1.setBounds(230, 240, 260, 30);
 
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/desktop-pc-1920x1080-thumbnail_00108.jpg"))); // NOI18N
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/b.jpg"))); // NOI18N
         getContentPane().add(jLabel6);
         jLabel6.setBounds(220, 0, 340, 490);
 
@@ -109,7 +111,18 @@ public class frame_login extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new frame_login().setVisible(true));
+        // java.awt.EventQueue.invokeLater(() -> new frame_login().setVisible(true));
+
+        java.awt.EventQueue.invokeLater(() -> {
+        try {
+            frame_login frame = new frame_login();
+            frame.setLocationRelativeTo(null); // Center it
+            frame.setVisible(true);
+            System.out.println("Frame should be visible now.");
+        } catch (Exception e) {
+            e.printStackTrace(); // This will tell us exactly why it's stuck
+        }
+    });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

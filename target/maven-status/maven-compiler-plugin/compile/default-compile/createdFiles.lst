@@ -1,3 +1,13 @@
-frame_produk.class
-frame_user.class
-frame_login.class
+com/mycompany/buat_apk/repo/mysql/ProductRepo.class
+com/mycompany/buat_apk/db/DbConnection.class
+com/mycompany/buat_apk/repo/mysql/StockRepo.class
+com/mycompany/buat_apk/domains/entities/products/CreateProduct.class
+com/mycompany/buat_apk/domains/entities/stocks/Stocks.class
+com/mycompany/buat_apk/config/AppConfig.class
+com/mycompany/buat_apk/domains/entities/products/Product.class
+com/mycompany/buat_apk/login.class
+com/mycompany/buat_apk/domains/entities/stocks/CreateStock.class
+com/mycompany/buat_apk/domains/repositories/StockRepository.class
+com/mycompany/buat_apk/domains/repositories/ProductRepository.class
+com/mycompany/buat_apk/Buat_apk.class
+com/mycompany/buat_apk/frames/frame_login.class
