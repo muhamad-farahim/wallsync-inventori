@@ -4,7 +4,22 @@ package com.mycompany.buat_apk.frames;
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.mycompany.buat_apk.db.DbConnection;
+import com.mycompany.buat_apk.domains.entities.categories.Category;
+import com.mycompany.buat_apk.domains.entities.products.CreateProduct;
 import com.mycompany.buat_apk.domains.frames.ComboCategory;
+import com.mycompany.buat_apk.domains.repositories.ProductRepository;
+import com.mycompany.buat_apk.domains.repositories.StockRepository;
+import com.mycompany.buat_apk.registry.ServiceRegistry;
+import com.mycompany.buat_apk.repo.mysql.ProductRepo;
+import com.mycompany.buat_apk.repo.mysql.StockRepo;
+import com.mycompany.buat_apk.services.CategoryService;
+import com.mycompany.buat_apk.services.ProductService;
 
 /**
  *
@@ -21,10 +36,17 @@ public class frame_produk extends javax.swing.JFrame {
     private Long price;
     private Long category_id;
 
+    private final ProductService productService;
+    private final CategoryService categoryService;
+
     /**
      * Creates new form frame_produk
      */
     public frame_produk() {
+        ServiceRegistry serviceRegistry = ServiceRegistry.getInstance();
+
+        this.productService = serviceRegistry.productService;
+        this.categoryService = serviceRegistry.categoryService;
         initComponents();
     }
 
@@ -79,11 +101,16 @@ public class frame_produk extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel6.setText("Kategori :");
 
-        categoryField.setModel(new javax.swing.DefaultComboBoxModel<>(new ComboCategory[] {
-            new ComboCategory(1l, "Wallpaper"),
-            new ComboCategory(2l, "Wall panel"),
-            new ComboCategory(3l, "Kitchen set")
-        }));
+        List<Category> listCategories = this.categoryService.getAllCategories();
+        List<ComboCategory> listComboCategories = new ArrayList<>();
+
+        for (Category category : listCategories) {
+            listComboCategories.add(new ComboCategory(category.getId(), category.getName()));
+        }
+
+        ComboCategory[] arrayComboCategory = listComboCategories.toArray(new ComboCategory[0]);
+
+        categoryField.setModel(new javax.swing.DefaultComboBoxModel<>(arrayComboCategory));
 
         saveButton.setBackground(new java.awt.Color(0, 0, 153));
         saveButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -187,8 +214,11 @@ public class frame_produk extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-        // TODO add your handling code here:
-        
+        clearForm();
+    }//GEN-LAST:event_cancelButtonActionPerformed
+
+
+    private void clearForm() {
         nameField.setText("");
         priceField.setText("");
         stockField.setText("");
@@ -196,9 +226,16 @@ public class frame_produk extends javax.swing.JFrame {
 
         clearImage();
 
-    }//GEN-LAST:event_cancelButtonActionPerformed
+        this.name = "";
+        this.description = "";
+        this.category_id = null;
+        this.photo = null;
+        this.price = null;
+        this.stock = 0;
+    }
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {
+
         //GEN-FIRST:event_saveButtonActionPerformed
         String name = nameField.getText();
         String desc = nameField.getText();
@@ -280,6 +317,14 @@ public class frame_produk extends javax.swing.JFrame {
             return;
         }
 
+        CreateProduct createProductData = new CreateProduct();
+        createProductData.setName(this.name);
+        createProductData.setImage(this.photo.getName());
+        createProductData.setQuantity(this.stock);
+        createProductData.setCategoryId(this.category_id);
+        createProductData.setDescription(this.description);
+        createProductData.setPrice(this.price);
+
         System.out.println("name: " + this.name);
         System.out.println("description: " + this.description);
         System.out.print("stock: ");
@@ -291,9 +336,10 @@ public class frame_produk extends javax.swing.JFrame {
         System.out.print("photo: ");
         System.out.println(this.photo.getName());
 
-        clearImage(); 
+        this.productService.createProduct(1l, createProductData);
 
 
+        clearForm();
     }//GEN-LAST:event_saveButtonActionPerformed
 
     private void uploadFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uploadFileButtonActionPerformed

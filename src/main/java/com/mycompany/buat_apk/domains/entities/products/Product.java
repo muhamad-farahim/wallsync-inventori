@@ -9,14 +9,16 @@ public class Product {
     private String description;
     private Long category_id;
     private Date created_at;
+    private Long price;
 
-    public Product(Long id, String name, String image, String description, Long category_id, Date created_at) {
+    public Product(Long id, String name, String image, String description, Long category_id, Date created_at, Long price) {
         this.id = id;
         this.name = name;
         this.image = image;
         this.description = description;
         this.category_id = category_id;
         this.created_at = created_at;
+        this.price = price;
     }
 
     public Product() {
@@ -60,6 +62,14 @@ public class Product {
 
     public void setCategoryId(Long category_id) {
         this.category_id = category_id;
+    }
+
+    public Long getPrice() {
+        return price;
+    }
+
+    public void setPrice(Long price) {
+        this.price = price;
     }
 
     public Date getCreated_at() {

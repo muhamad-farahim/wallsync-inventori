@@ -1,29 +1,27 @@
  package com.mycompany.buat_apk.domains.entities.stocks;
 
  public class CreateStock {
-    private Long id;
+    private Long user_id;
     private Long productId;
-    private Long customerId;
+    private Long customerId = null;
     private int quantity;
-    private Long price;
+    private Long price = null;
 
-    public CreateStock(Long id, Long productId, Long customerId, int quantity, Long price) {
-        this.id = id;
+    public CreateStock(Long user_id, Long productId, int quantity) {
+        this.user_id = user_id;
         this.productId = productId;
-        this.customerId = customerId;
         this.quantity = quantity;
-        this.price = price;
     }
 
     public CreateStock() {
 	}
 
-	public Long getId() {
-        return id;
+	public Long getUserId() {
+        return user_id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setUserId(Long id) {
+        this.user_id = id;
     }
 
     public Long getProductId() {

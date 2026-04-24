@@ -1,8 +1,10 @@
 package com.mycompany.buat_apk.domains.repositories;
 
-import com.mycompany.buat_apk.domains.entities.stocks.Stocks;
+import java.sql.SQLException;
+
+import com.mycompany.buat_apk.domains.entities.stocks.CreateStock;
 
 public interface StockRepository {
-    public Stocks createStocks(Stocks s);
-    public int getProductStocks(int product_id);
+    public CreateStock createStocks(CreateStock s) throws SQLException;
+    public int getProductStocks(int product_id) throws SQLException;
 }

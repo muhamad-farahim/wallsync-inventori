@@ -7,6 +7,6 @@ import com.mycompany.buat_apk.domains.entities.products.CreateProduct;
 import com.mycompany.buat_apk.domains.entities.products.Product;
 
 public interface ProductRepository {
-    public CreateProduct createProduct(CreateProduct c) throws SQLException;
+    public Long createProductReturnId(CreateProduct c) throws SQLException;
     public List<Product> getAllProducts() throws SQLException;
 }
