@@ -3,3 +3,6 @@
 .project
 .settings
 notes.txt
+
+target/
+storage/images/*
