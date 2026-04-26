@@ -5,8 +5,11 @@ import java.util.List;
 
 import com.mycompany.buat_apk.domains.entities.products.CreateProduct;
 import com.mycompany.buat_apk.domains.entities.products.Product;
+import com.mycompany.buat_apk.domains.entities.products.ProductWithStocks;
 
 public interface ProductRepository {
     public Long createProductReturnId(CreateProduct c) throws SQLException;
     public List<Product> getAllProducts() throws SQLException;
+    public List<ProductWithStocks> getAllProductsWithStocks() throws SQLException;
+    public void deleteProductById(Long id) throws SQLException;
 }

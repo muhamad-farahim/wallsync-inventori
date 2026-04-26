@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.mycompany.buat_apk.domains.entities.products.CreateProduct;
 import com.mycompany.buat_apk.domains.entities.products.Product;
+import com.mycompany.buat_apk.domains.entities.products.ProductWithStocks;
 import com.mycompany.buat_apk.domains.repositories.ProductRepository;
 
 public class ProductRepo implements ProductRepository {
@@ -68,5 +69,52 @@ public class ProductRepo implements ProductRepository {
         }
         return products;
     }
+
+    @Override
+public List<ProductWithStocks> getAllProductsWithStocks() throws SQLException {
+    List<ProductWithStocks> products = new ArrayList<>();
+    
+    String sql = "SELECT p.id, p.name, p.image, p.description, p.category_id, p.created_at, p.price, c.name AS cname, " +
+                 "COALESCE(SUM(s.quantity), 0) AS total_stock " +
+                 "FROM products p " +
+                 "LEFT JOIN stocks s ON p.id = s.product_id INNER JOIN categories c ON p.category_id = c.id " +
+                 "GROUP BY p.id, p.name, p.image, p.description, p.category_id, p.created_at, p.price, c.name";
+
+    try (PreparedStatement stmt = conn.prepareStatement(sql);
+         java.sql.ResultSet rs = stmt.executeQuery()) {
+
+        while (rs.next()) {
+            ProductWithStocks product = new ProductWithStocks(
+                rs.getLong("id"),
+                rs.getString("name"),
+                rs.getString("image"),
+                rs.getString("description"),
+                rs.getLong("category_id"),
+                rs.getTimestamp("created_at"),
+                rs.getLong("price"),
+                rs.getInt("total_stock"),
+                rs.getString("cname")
+            );
+            products.add(product);
+        }
+    }
+    return products;
+}
+
+	@Override
+	public void deleteProductById(Long id) throws SQLException {
+        String query = "DELETE FROM products WHERE id=?";
+
+        PreparedStatement stmt = this.conn.prepareStatement(query);
+        stmt.setLong(1, id);
+
+        stmt.executeUpdate();
+
+        System.out.print("Product with the id of: ");
+        System.out.print(id);
+        System.out.println("has been deleted");
+	}
+
+
 
 }

@@ -4,6 +4,15 @@
  */
 package com.mycompany.buat_apk.frames;
 
+import java.awt.List;
+
+import javax.swing.JFrame;
+import javax.swing.table.DefaultTableModel;
+
+import com.mycompany.buat_apk.domains.entities.products.ProductWithStocks;
+import com.mycompany.buat_apk.registry.ServiceRegistry;
+import com.mycompany.buat_apk.services.ProductService;
+
 /**
  *
  * @author DANDY
@@ -11,13 +20,23 @@ package com.mycompany.buat_apk.frames;
 public class frame_manProduk extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(frame_manProduk.class.getName());
+    private MainFrame parent;
+
+    private ProductService service;
 
     /**
      * Creates new form frame_manProduk
      */
-    public frame_manProduk() {
+    public frame_manProduk(MainFrame parent) {
         initComponents();
+        this.parent = parent;
+
+        ServiceRegistry serviceRegistry = ServiceRegistry.getInstance();
+        this.service = serviceRegistry.productService;
+
+        this.loadTableData();
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -180,7 +199,7 @@ public class frame_manProduk extends javax.swing.JFrame {
                 .addGap(16, 16, 16)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 22, Short.MAX_VALUE)
+                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel7)
                 .addGap(18, 18, 18))
@@ -216,7 +235,7 @@ public class frame_manProduk extends javax.swing.JFrame {
                 .addGap(17, 17, 17)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 22, Short.MAX_VALUE)
+                .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel10)
                 .addGap(17, 17, 17))
@@ -252,7 +271,7 @@ public class frame_manProduk extends javax.swing.JFrame {
                 .addGap(15, 15, 15)
                 .addComponent(jLabel11)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 22, Short.MAX_VALUE)
+                .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel13)
                 .addGap(19, 19, 19))
@@ -269,6 +288,7 @@ public class frame_manProduk extends javax.swing.JFrame {
         jButton3.setFont(new java.awt.Font("Poppins Medium", 1, 12)); // NOI18N
         jButton3.setForeground(new java.awt.Color(255, 255, 255));
         jButton3.setText("+ Tambah Produk");
+        jButton3.addActionListener(this::jButton3ActionPerformed);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -366,6 +386,32 @@ public class frame_manProduk extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        this.parent.goTo("PRODUCT_CREATE");
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    public void loadTableData() {
+        DefaultTableModel tableModel = (DefaultTableModel) this.jTable1.getModel();
+
+        tableModel.setRowCount(0);
+
+        java.util.List<ProductWithStocks> productList = this.service.getAllProductsWithStocks();
+
+        for (ProductWithStocks p : productList) {
+            Object[] rowData = {
+                p.getName(),
+                p.getCategoryName(),
+                p.getPrice(),
+                p.getStocks(),
+                p.getStocks() < 1 ? "Out of Stock" : "In stock",
+                "View"
+            };
+
+            tableModel.addRow(rowData);
+        }
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -386,9 +432,10 @@ public class frame_manProduk extends javax.swing.JFrame {
             logger.log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        MainFrame mf = new MainFrame();
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new frame_manProduk().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new frame_manProduk(mf).setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -418,8 +465,5 @@ public class frame_manProduk extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
-    private java.awt.Panel panel4;
-    private java.awt.Panel panel5;
-    private java.awt.Panel panel6;
     // End of variables declaration//GEN-END:variables
 }

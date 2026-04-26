@@ -1,9 +1,11 @@
 package com.mycompany.buat_apk.services;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import com.mycompany.buat_apk.domains.entities.products.CreateProduct;
 import com.mycompany.buat_apk.domains.entities.products.Product;
+import com.mycompany.buat_apk.domains.entities.products.ProductWithStocks;
 import com.mycompany.buat_apk.domains.entities.stocks.CreateStock;
 import com.mycompany.buat_apk.domains.repositories.ProductRepository;
 import com.mycompany.buat_apk.domains.repositories.StockRepository;
@@ -43,5 +45,15 @@ public class ProductService {
         //create the stock
         
         return data;
+    }
+
+    public List<ProductWithStocks> getAllProductsWithStocks() {
+        try {
+            return this.repo.getAllProductsWithStocks();
+        }catch(SQLException e) {
+            System.err.println("Error when fetching all products with stocks");
+            System.out.println(e.getMessage());
+            return null;
+        }
     }
 }

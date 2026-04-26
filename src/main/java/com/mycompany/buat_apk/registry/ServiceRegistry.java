@@ -26,8 +26,6 @@ public class ServiceRegistry {
 
 
     private ServiceRegistry() {
-        Dotenv dotenv = Dotenv.load();
-        AppConfig.setEnvironmentVariable(dotenv);
 
         Connection conn = null;
 

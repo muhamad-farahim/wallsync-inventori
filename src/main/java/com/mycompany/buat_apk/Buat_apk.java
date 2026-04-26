@@ -12,6 +12,7 @@ import java.sql.Statement;
 
 import com.mycompany.buat_apk.config.AppConfig;
 import com.mycompany.buat_apk.db.DbConnection;
+import com.mycompany.buat_apk.frames.MainFrame;
 
 import io.github.cdimascio.dotenv.Dotenv;
 
@@ -23,28 +24,9 @@ public class Buat_apk {
 
     public static void main(String[] args) {
         // Set environment variables
-        Dotenv dotenv = Dotenv.load();
-        AppConfig.setEnvironmentVariable(dotenv);
-
-        //Try the db connections
-        try(Connection conn = DbConnection.getConnection()) {
-            String query = "SELECT id, nama_produk, harga FROM produk;";
-            
-            Statement stmt = conn.createStatement();
-            ResultSet res = stmt.executeQuery(query);
-
-            while(res.next()) {
-                System.out.print("Id: ");
-                System.out.println(res.getInt("id"));
-                System.out.println("Nama produk: " + res.getString("nama_produk"));
-                System.out.println("Harga: " + res.getInt("harga"));
-            }
-
-        } catch(SQLException e) {
-            System.out.println(e.getMessage());
-            return;
-        }
         
+        MainFrame mf = new MainFrame();
+        mf.start();
     }
 
 }

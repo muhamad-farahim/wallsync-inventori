@@ -4,20 +4,14 @@ package com.mycompany.buat_apk.frames;
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mycompany.buat_apk.db.DbConnection;
 import com.mycompany.buat_apk.domains.entities.categories.Category;
 import com.mycompany.buat_apk.domains.entities.products.CreateProduct;
+import com.mycompany.buat_apk.domains.entities.products.ProductWithStocks;
 import com.mycompany.buat_apk.domains.frames.ComboCategory;
-import com.mycompany.buat_apk.domains.repositories.ProductRepository;
-import com.mycompany.buat_apk.domains.repositories.StockRepository;
 import com.mycompany.buat_apk.registry.ServiceRegistry;
-import com.mycompany.buat_apk.repo.mysql.ProductRepo;
-import com.mycompany.buat_apk.repo.mysql.StockRepo;
 import com.mycompany.buat_apk.services.CategoryService;
 import com.mycompany.buat_apk.services.ProductService;
 
@@ -29,6 +23,8 @@ public class frame_produk extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(frame_produk.class.getName());
     private java.io.File photo = null;
+
+    private MainFrame parent;
 
     private String name;
     private String description;
@@ -42,12 +38,21 @@ public class frame_produk extends javax.swing.JFrame {
     /**
      * Creates new form frame_produk
      */
-    public frame_produk() {
+    public frame_produk(MainFrame parent) {
+        this.parent = parent;
+
         ServiceRegistry serviceRegistry = ServiceRegistry.getInstance();
 
         this.productService = serviceRegistry.productService;
         this.categoryService = serviceRegistry.categoryService;
+        
+        for (ProductWithStocks e : this.productService.getAllProductsWithStocks()) {
+           System.out.println(e.getImageFile().getAbsolutePath()); 
+        }
+
         initComponents();
+
+        loadCategories();
     }
 
     /**
@@ -77,6 +82,7 @@ public class frame_produk extends javax.swing.JFrame {
         uploadFileButton = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
+        backButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -102,8 +108,6 @@ public class frame_produk extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel6.setText("Kategori");
 
-        categoryField.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Wallpaper", "WallPanel", "WoodPanel", "Marble Panel" }));
-
         saveButton.setBackground(new java.awt.Color(0, 0, 153));
         saveButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         saveButton.setForeground(new java.awt.Color(255, 255, 255));
@@ -126,12 +130,15 @@ public class frame_produk extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel8.setText("Informasi Produk");
 
+        backButton.setText("Back");
+        backButton.addActionListener(this::backButtonActionPerformed);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(41, Short.MAX_VALUE)
+                .addContainerGap(44, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -144,12 +151,15 @@ public class frame_produk extends javax.swing.JFrame {
                                     .addComponent(uploadFileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(50, 50, 50)))
                             .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(layout.createSequentialGroup()
-                                    .addGap(179, 179, 179)
+                                    .addGap(36, 36, 36)
+                                    .addComponent(backButton)
+                                    .addGap(47, 47, 47)
                                     .addComponent(cancelButton)
                                     .addGap(26, 26, 26)
                                     .addComponent(saveButton))
@@ -165,8 +175,7 @@ public class frame_produk extends javax.swing.JFrame {
                                     .addComponent(priceField, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(18, 18, 18)
                                     .addComponent(stockField))
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 405, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 405, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(64, 64, 64))))
         );
         layout.setVerticalGroup(
@@ -208,7 +217,8 @@ public class frame_produk extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(cancelButton)
-                            .addComponent(saveButton))))
+                            .addComponent(saveButton)
+                            .addComponent(backButton))))
                 .addContainerGap(292, Short.MAX_VALUE))
         );
 
@@ -359,6 +369,11 @@ public class frame_produk extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_uploadFileButtonActionPerformed
+
+    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
+        // TODO add your handling code here:
+        this.parent.goTo("PRODUCT_LIST");
+    }//GEN-LAST:event_backButtonActionPerformed
     
     private void displayImage(String path) {
         try {
@@ -413,14 +428,41 @@ public class frame_produk extends javax.swing.JFrame {
             logger.log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        MainFrame mf = new MainFrame();
+
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new frame_produk().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new frame_produk(mf).setVisible(true));
+    }
+
+    public void loadCategories() {
+        try {
+            List<Category> categoryList = this.categoryService.getAllCategories();
+
+            List<ComboCategory> comboCategoryList = new ArrayList<>();
+
+            for (Category c : categoryList) {
+                comboCategoryList.add(new ComboCategory(c.getId(), c.getName())); 
+            }
+
+            ComboCategory[] comboCategoryArray = comboCategoryList.toArray(new ComboCategory[0]);
+
+            categoryField.setModel(new javax.swing.DefaultComboBoxModel<>(comboCategoryArray));
+
+        } catch (Exception e) {
+            // Standard error handling for Jakarta-based SWE projects
+            System.err.println("Error loading categories: " + e.getMessage());
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                    "Error: Could not retrieve categories.", 
+                    "Database Error", 
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton backButton;
     private javax.swing.JButton cancelButton;
-    private javax.swing.JComboBox<String> categoryField;
+    private javax.swing.JComboBox<ComboCategory> categoryField;
     private javax.swing.JTextArea descField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
