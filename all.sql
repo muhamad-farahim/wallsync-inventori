@@ -6,8 +6,10 @@ DROP TABLE IF EXISTS users;
 
 CREATE TABLE users (
     id BIGINT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
     username VARCHAR(50) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE categories (
@@ -44,13 +46,15 @@ CREATE TABLE stocks (
     customer_id BIGINT,
     quantity INT NOT NULL,
     price BIGINT,
+    description TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY(product_id) REFERENCES products(id) ON DELETE CASCADE,
     FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY(customer_id) REFERENCES customers(id) ON DELETE CASCADE
 );
 
-INSERT INTO users (username, password) VALUES ("admin", "test");
+INSERT INTO users (username, name, password) VALUES ("admin", "Farahim", "test");
+INSERT INTO users (username, name, password) VALUES ("admin2", "Dandy", "test");
 
 INSERT INTO categories (name, code) VALUES ('Wall panel', 'interior');
 INSERT INTO categories (name, code) VALUES ('Wallpaper', 'wallpaper');

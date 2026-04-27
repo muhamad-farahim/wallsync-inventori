@@ -8,9 +8,12 @@ import com.mycompany.buat_apk.db.DbConnection;
 import com.mycompany.buat_apk.domains.repositories.CategoryRepository;
 import com.mycompany.buat_apk.domains.repositories.ProductRepository;
 import com.mycompany.buat_apk.domains.repositories.StockRepository;
+import com.mycompany.buat_apk.domains.repositories.UserRepository;
 import com.mycompany.buat_apk.repo.mysql.CategoryRepo;
 import com.mycompany.buat_apk.repo.mysql.ProductRepo;
 import com.mycompany.buat_apk.repo.mysql.StockRepo;
+import com.mycompany.buat_apk.repo.mysql.UserRepo;
+import com.mycompany.buat_apk.services.AuthService;
 import com.mycompany.buat_apk.services.CategoryService;
 import com.mycompany.buat_apk.services.ProductService;
 
@@ -23,6 +26,7 @@ public class ServiceRegistry {
     //Services
     public ProductService productService;
     public CategoryService categoryService;
+    public AuthService authService;
 
 
     private ServiceRegistry() {
@@ -41,9 +45,11 @@ public class ServiceRegistry {
         ProductRepository productRepository = new ProductRepo(conn);
         StockRepository stockRepository = new StockRepo(conn);
         CategoryRepository categoryRepository = new CategoryRepo(conn);
+        UserRepository userRepository = new UserRepo(conn);
 
         this.productService = new ProductService(productRepository, stockRepository);
         this.categoryService = new CategoryService(categoryRepository);
+        this.authService = new AuthService(userRepository);
     }
 
     public static ServiceRegistry getInstance() {

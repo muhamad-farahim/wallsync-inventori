@@ -4,6 +4,11 @@ package com.mycompany.buat_apk.frames;
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 
+import com.mycompany.buat_apk.domains.entities.users.User;
+import com.mycompany.buat_apk.registry.AppContextRegistry;
+import com.mycompany.buat_apk.registry.ServiceRegistry;
+import com.mycompany.buat_apk.services.AuthService;
+
 /**
  *
  * @author najwa amanda
@@ -11,11 +16,22 @@ package com.mycompany.buat_apk.frames;
 public class frame_login extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(frame_login.class.getName());
+    private MainFrame parent;
+    private AuthService service;
+    private AppContextRegistry context;
 
     /**
      * Creates new form frame_login
      */
-    public frame_login() {
+    public frame_login(MainFrame parent) {
+        this.parent=parent;
+
+        ServiceRegistry services = ServiceRegistry.getInstance();
+        this.service = services.authService;
+
+        AppContextRegistry context = AppContextRegistry.getInstance();
+        this.context = context;
+
         initComponents();
     }
 
@@ -28,59 +44,60 @@ public class frame_login extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTextField3 = new javax.swing.JTextField();
+        usernameField = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        loginButton = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
-        jPasswordField1 = new javax.swing.JPasswordField();
+        passwordField = new javax.swing.JPasswordField();
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(600, 500));
         getContentPane().setLayout(null);
 
-        jTextField3.setToolTipText("Masukkan username");
-        getContentPane().add(jTextField3);
-        jTextField3.setBounds(660, 220, 259, 33);
+        usernameField.setToolTipText("Masukkan username");
+        getContentPane().add(usernameField);
+        usernameField.setBounds(660, 220, 259, 33);
 
         jLabel1.setFont(new java.awt.Font("Microsoft JhengHei UI", 1, 24)); // NOI18N
         jLabel1.setText("Selamat Datang");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(660, 110, 220, 32);
+        jLabel1.setBounds(660, 110, 220, 29);
 
         jLabel2.setFont(new java.awt.Font("Microsoft JhengHei UI", 0, 12)); // NOI18N
         jLabel2.setText("Masuk ke akun Anda untuk melanjutkan");
         getContentPane().add(jLabel2);
-        jLabel2.setBounds(660, 140, 240, 17);
+        jLabel2.setBounds(660, 140, 240, 15);
 
         jLabel3.setFont(new java.awt.Font("Microsoft JhengHei UI", 0, 12)); // NOI18N
         jLabel3.setText("Username");
         getContentPane().add(jLabel3);
-        jLabel3.setBounds(660, 200, 57, 17);
+        jLabel3.setBounds(660, 200, 64, 15);
 
         jLabel4.setFont(new java.awt.Font("Microsoft JhengHei UI", 0, 12)); // NOI18N
         jLabel4.setText("Password");
         getContentPane().add(jLabel4);
-        jLabel4.setBounds(660, 270, 60, 17);
+        jLabel4.setBounds(660, 270, 60, 15);
 
-        jButton1.setBackground(new java.awt.Color(51, 153, 255));
-        jButton1.setFont(new java.awt.Font("Microsoft JhengHei UI", 1, 12)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Masuk");
-        jButton1.setToolTipText("");
-        getContentPane().add(jButton1);
-        jButton1.setBounds(660, 350, 259, 33);
+        loginButton.setBackground(new java.awt.Color(51, 153, 255));
+        loginButton.setFont(new java.awt.Font("Microsoft JhengHei UI", 1, 12)); // NOI18N
+        loginButton.setForeground(new java.awt.Color(255, 255, 255));
+        loginButton.setText("Masuk");
+        loginButton.setToolTipText("");
+        loginButton.addActionListener(this::loginButtonActionPerformed);
+        getContentPane().add(loginButton);
+        loginButton.setBounds(660, 350, 259, 33);
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/a.jpg"))); // NOI18N
         getContentPane().add(jLabel5);
         jLabel5.setBounds(-340, 0, 970, 490);
 
-        jPasswordField1.setToolTipText("masukkan passsword");
-        getContentPane().add(jPasswordField1);
-        jPasswordField1.setBounds(660, 300, 260, 30);
+        passwordField.setToolTipText("masukkan passsword");
+        getContentPane().add(passwordField);
+        passwordField.setBounds(660, 300, 260, 30);
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/b.jpg"))); // NOI18N
         getContentPane().add(jLabel6);
@@ -88,6 +105,35 @@ public class frame_login extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
+        String username = usernameField.getText();
+        char[] passwordChar = passwordField.getPassword();
+        String password = new String(passwordChar);
+
+        User login = this.service.login(username, password);
+        System.out.println("login: ");
+        System.out.println(login);
+
+        if (login != null) {
+            
+            this.context.setActiveUser(login);
+            this.parent.goTo("PRODUCT_LIST");
+            return;
+        }
+
+
+        javax.swing.JOptionPane.showMessageDialog(
+                this, 
+                "Invalid username or password. Please try again.", 
+                "Login Failed", 
+                javax.swing.JOptionPane.ERROR_MESSAGE
+                );
+
+        passwordField.setText("");
+        passwordField.requestFocus();
+
+    }//GEN-LAST:event_loginButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -115,7 +161,9 @@ public class frame_login extends javax.swing.JFrame {
 
         java.awt.EventQueue.invokeLater(() -> {
         try {
-            frame_login frame = new frame_login();
+            MainFrame mf = new MainFrame();
+
+            frame_login frame = new frame_login(mf);
             frame.setLocationRelativeTo(null); // Center it
             frame.setVisible(true);
             System.out.println("Frame should be visible now.");
@@ -126,14 +174,14 @@ public class frame_login extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JButton loginButton;
+    private javax.swing.JPasswordField passwordField;
+    private javax.swing.JTextField usernameField;
     // End of variables declaration//GEN-END:variables
 }

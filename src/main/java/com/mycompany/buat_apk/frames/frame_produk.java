@@ -11,6 +11,7 @@ import com.mycompany.buat_apk.domains.entities.categories.Category;
 import com.mycompany.buat_apk.domains.entities.products.CreateProduct;
 import com.mycompany.buat_apk.domains.entities.products.ProductWithStocks;
 import com.mycompany.buat_apk.domains.frames.ComboCategory;
+import com.mycompany.buat_apk.registry.AppContextRegistry;
 import com.mycompany.buat_apk.registry.ServiceRegistry;
 import com.mycompany.buat_apk.services.CategoryService;
 import com.mycompany.buat_apk.services.ProductService;
@@ -32,6 +33,8 @@ public class frame_produk extends javax.swing.JFrame {
     private Long price;
     private Long category_id;
 
+    private AppContextRegistry context;
+
     private final ProductService productService;
     private final CategoryService categoryService;
 
@@ -45,6 +48,9 @@ public class frame_produk extends javax.swing.JFrame {
 
         this.productService = serviceRegistry.productService;
         this.categoryService = serviceRegistry.categoryService;
+
+        AppContextRegistry context = AppContextRegistry.getInstance();
+        this.context = context;
         
         for (ProductWithStocks e : this.productService.getAllProductsWithStocks()) {
            System.out.println(e.getImageFile().getAbsolutePath()); 
@@ -348,7 +354,7 @@ public class frame_produk extends javax.swing.JFrame {
         System.out.print("photo: ");
         System.out.println(this.photo.getName());
 
-        this.productService.createProduct(1l, createProductData);
+        this.productService.createProduct(this.context.getActiveUser().getId(), createProductData);
 
 
         clearForm();

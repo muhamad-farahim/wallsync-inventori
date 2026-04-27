@@ -29,6 +29,7 @@ public class MainFrame extends JFrame {
 
         frame_produk fProduk = new frame_produk(this);
         frame_manProduk fMproduk = new frame_manProduk(this);
+        frame_login fLogin = new frame_login(this);
 
         this.add(this.mainContent);
 
@@ -37,11 +38,15 @@ public class MainFrame extends JFrame {
         //CRUD PRODUCT
         this.mainContent.add(fProduk.getContentPane(), "PRODUCT_CREATE");
         this.mainContent.add(fMproduk.getContentPane(), "PRODUCT_LIST");
+        
+
+        //AUTH
+        this.mainContent.add(fLogin.getContentPane(), "LOGIN");
     }
 
     public void start() {
         this.setVisible(true);
-        this.goTo("PRODUCT_LIST");
+        this.goTo("LOGIN");
     }
     
     protected void goTo(String name) {
