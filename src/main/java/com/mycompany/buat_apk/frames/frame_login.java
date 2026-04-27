@@ -44,27 +44,27 @@ public class frame_login extends javax.swing.JFrame {
 
         jTextField3.setToolTipText("Masukkan username");
         getContentPane().add(jTextField3);
-        jTextField3.setBounds(230, 156, 259, 33);
+        jTextField3.setBounds(660, 220, 259, 33);
 
         jLabel1.setFont(new java.awt.Font("Microsoft JhengHei UI", 1, 24)); // NOI18N
         jLabel1.setText("Selamat Datang");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(230, 43, 220, 29);
+        jLabel1.setBounds(660, 110, 220, 32);
 
         jLabel2.setFont(new java.awt.Font("Microsoft JhengHei UI", 0, 12)); // NOI18N
         jLabel2.setText("Masuk ke akun Anda untuk melanjutkan");
         getContentPane().add(jLabel2);
-        jLabel2.setBounds(230, 81, 240, 15);
+        jLabel2.setBounds(660, 140, 240, 17);
 
         jLabel3.setFont(new java.awt.Font("Microsoft JhengHei UI", 0, 12)); // NOI18N
         jLabel3.setText("Username");
         getContentPane().add(jLabel3);
-        jLabel3.setBounds(230, 133, 64, 15);
+        jLabel3.setBounds(660, 200, 57, 17);
 
         jLabel4.setFont(new java.awt.Font("Microsoft JhengHei UI", 0, 12)); // NOI18N
         jLabel4.setText("Password");
         getContentPane().add(jLabel4);
-        jLabel4.setBounds(230, 212, 60, 15);
+        jLabel4.setBounds(660, 270, 60, 17);
 
         jButton1.setBackground(new java.awt.Color(51, 153, 255));
         jButton1.setFont(new java.awt.Font("Microsoft JhengHei UI", 1, 12)); // NOI18N
@@ -72,15 +72,15 @@ public class frame_login extends javax.swing.JFrame {
         jButton1.setText("Masuk");
         jButton1.setToolTipText("");
         getContentPane().add(jButton1);
-        jButton1.setBounds(230, 286, 259, 33);
+        jButton1.setBounds(660, 350, 259, 33);
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/a.jpg"))); // NOI18N
         getContentPane().add(jLabel5);
-        jLabel5.setBounds(-340, 0, 560, 490);
+        jLabel5.setBounds(-340, 0, 970, 490);
 
         jPasswordField1.setToolTipText("masukkan passsword");
         getContentPane().add(jPasswordField1);
-        jPasswordField1.setBounds(230, 240, 260, 30);
+        jPasswordField1.setBounds(660, 300, 260, 30);
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/b.jpg"))); // NOI18N
         getContentPane().add(jLabel6);
