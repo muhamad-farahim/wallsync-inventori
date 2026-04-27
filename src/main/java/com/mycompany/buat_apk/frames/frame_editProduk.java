@@ -20,9 +20,9 @@ import com.mycompany.buat_apk.services.ProductService;
  *
  * @author najwa amanda
  */
-public class frame_produk extends javax.swing.JFrame {
+public class frame_editProduk extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(frame_produk.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(frame_editProduk.class.getName());
     private java.io.File photo = null;
 
     private MainFrame parent;
@@ -41,7 +41,7 @@ public class frame_produk extends javax.swing.JFrame {
     /**
      * Creates new form frame_produk
      */
-    public frame_produk(MainFrame parent) {
+    public frame_editProduk(MainFrame parent) {
         this.parent = parent;
 
         ServiceRegistry serviceRegistry = ServiceRegistry.getInstance();
@@ -73,27 +73,25 @@ public class frame_produk extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        nameField = new javax.swing.JTextField();
-        stockField = new javax.swing.JTextField();
-        priceField = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        descField = new javax.swing.JTextArea();
+        descFieldedit = new javax.swing.JTextArea();
         jLabel6 = new javax.swing.JLabel();
-        categoryField = new javax.swing.JComboBox<>();
-        saveButton = new javax.swing.JButton();
-        cancelButton = new javax.swing.JButton();
+        categoryFieldedit = new javax.swing.JComboBox<>();
         photoField = new javax.swing.JLabel();
-        uploadFileButton = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        backButton = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel1.setText("Tambah Produk Baru");
+        jLabel1.setText("Edit Produk");
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel2.setText("Nama Produk");
@@ -101,148 +99,121 @@ public class frame_produk extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel3.setText("Harga Satuan (Rp)");
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel4.setText("Jumlah");
-
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel5.setText("Deskripsi");
 
-        descField.setColumns(20);
-        descField.setRows(5);
-        jScrollPane1.setViewportView(descField);
+        descFieldedit.setColumns(20);
+        descFieldedit.setRows(5);
+        jScrollPane1.setViewportView(descFieldedit);
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel6.setText("Kategori");
 
-        saveButton.setBackground(new java.awt.Color(0, 0, 153));
-        saveButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        saveButton.setForeground(new java.awt.Color(255, 255, 255));
-        saveButton.setText("Simpan Produk");
-        saveButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        saveButton.addActionListener(this::saveButtonActionPerformed);
-
-        cancelButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        cancelButton.setForeground(new java.awt.Color(0, 0, 0));
-        cancelButton.setText("Batal");
-        cancelButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        cancelButton.addActionListener(this::cancelButtonActionPerformed);
-
         photoField.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        uploadFileButton.setText("Choose image");
-        uploadFileButton.addActionListener(this::uploadFileButtonActionPerformed);
-
-        jLabel7.setText("Isi informasi produk yang ingin ditambahkan");
+        jLabel7.setText("Perbarui informasi produk");
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel8.setText("Informasi Produk");
+        jLabel8.setText("Edit Informasi Produk");
 
-        backButton.setBackground(new java.awt.Color(246, 246, 246));
-        backButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        backButton.setText("<");
-        backButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        backButton.setBorderPainted(false);
-        backButton.addActionListener(this::backButtonActionPerformed);
+        jButton1.setBackground(new java.awt.Color(246, 246, 246));
+        jButton1.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
+        jButton1.setText("<");
+        jButton1.setBorderPainted(false);
+        jButton1.addActionListener(this::jButton1ActionPerformed);
+
+        jButton2.setText("Choose Image");
+
+        jButton3.setBackground(new java.awt.Color(0, 0, 255));
+        jButton3.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
+        jButton3.setForeground(new java.awt.Color(255, 255, 255));
+        jButton3.setText("Simpan Perubahan");
+        jButton3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        jButton4.setText("Batal");
+        jButton4.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(38, Short.MAX_VALUE)
-                .addComponent(backButton)
-                .addGap(28, 28, 28)
+                .addGap(30, 30, 30)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(photoField, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addComponent(uploadFileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(50, 50, 50))))
+                            .addComponent(photoField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(34, 34, 34)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(26, 26, 26)
-                                    .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(categoryField, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(nameField)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(32, 32, 32)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(priceField, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(stockField))
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 405, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(categoryFieldedit, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 405, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTextField1)
+                            .addComponent(jTextField2))))
                 .addGap(36, 36, 36))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(35, 35, 35)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(40, 40, 40)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel8))
+                .addGap(23, 23, 23)
+                .addComponent(jLabel2)
+                .addGap(9, 9, 9)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(backButton))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel8))
-                        .addGap(23, 23, 23)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(15, 15, 15)
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(categoryField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(categoryFieldedit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4))
+                        .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(priceField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(stockField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(photoField, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(uploadFileButton)))
-                .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton2)))
+                .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cancelButton)
-                    .addComponent(saveButton))
-                .addContainerGap(293, Short.MAX_VALUE))
+                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-        clearForm();
-    }//GEN-LAST:event_cancelButtonActionPerformed
-
 
     private void clearForm() {
-        nameField.setText("");
-        priceField.setText("");
+        nameFieldedit.setText("");
+        priceFieldedit.setText("");
         stockField.setText("");
-        descField.setText("");
+        descFieldedit.setText("");
 
         clearImage();
 
@@ -257,8 +228,8 @@ public class frame_produk extends javax.swing.JFrame {
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {
 
 //GEN-FIRST:event_saveButtonActionPerformed
-        String name = nameField.getText();
-        String desc = nameField.getText();
+        String name = nameFieldedit.getText();
+        String desc = nameFieldedit.getText();
 
         if (name.equals("") || desc.equals("")) {
             javax.swing.JOptionPane.showMessageDialog(this, 
@@ -272,7 +243,7 @@ public class frame_produk extends javax.swing.JFrame {
         this.name = name;
         this.description = desc;
 
-        ComboCategory selectedCategory = (ComboCategory) categoryField.getSelectedItem();
+        ComboCategory selectedCategory = (ComboCategory) categoryFieldedit.getSelectedItem();
 
         if(selectedCategory == null) {
             javax.swing.JOptionPane.showMessageDialog(this, 
@@ -286,7 +257,7 @@ public class frame_produk extends javax.swing.JFrame {
 
         try {
             String stockText = stockField.getText();
-            String priceText = priceField.getText();
+            String priceText = priceFieldedit.getText();
 
             int stock = Integer.parseInt(stockText);
             Long price = Long.parseLong(priceText);
@@ -362,26 +333,9 @@ public class frame_produk extends javax.swing.JFrame {
         clearForm();
     }//GEN-LAST:event_saveButtonActionPerformed
 
-    private void uploadFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uploadFileButtonActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        javax.swing.JFileChooser fileChooser = new javax.swing.JFileChooser();
-
-        if (fileChooser.showDialog(this, "This file!") != javax.swing.JFileChooser.APPROVE_OPTION) {
-            return;
-        }
-
-        this.photo = fileChooser.getSelectedFile();
-        displayImage(this.photo.getAbsolutePath());
-
-
-
-
-    }//GEN-LAST:event_uploadFileButtonActionPerformed
-
-    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
-        // TODO add your handling code here:
-        this.parent.goTo("PRODUCT_LIST");
-    }//GEN-LAST:event_backButtonActionPerformed
+    }//GEN-LAST:event_jButton1ActionPerformed
     
     private void displayImage(String path) {
         try {
@@ -440,7 +394,7 @@ public class frame_produk extends javax.swing.JFrame {
 
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new frame_produk(mf).setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new frame_editProduk(mf).setVisible(true));
     }
 
     public void loadCategories() {
@@ -455,7 +409,7 @@ public class frame_produk extends javax.swing.JFrame {
 
             ComboCategory[] comboCategoryArray = comboCategoryList.toArray(new ComboCategory[0]);
 
-            categoryField.setModel(new javax.swing.DefaultComboBoxModel<>(comboCategoryArray));
+            categoryFieldedit.setModel(new javax.swing.DefaultComboBoxModel<>(comboCategoryArray));
 
         } catch (Exception e) {
             // Standard error handling for Jakarta-based SWE projects
@@ -468,24 +422,22 @@ public class frame_produk extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton backButton;
-    private javax.swing.JButton cancelButton;
-    private javax.swing.JComboBox<ComboCategory> categoryField;
-    private javax.swing.JTextArea descField;
+    private javax.swing.JComboBox<ComboCategory> categoryFieldedit;
+    private javax.swing.JTextArea descFieldedit;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField nameField;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
     private javax.swing.JLabel photoField;
-    private javax.swing.JTextField priceField;
-    private javax.swing.JButton saveButton;
-    private javax.swing.JTextField stockField;
-    private javax.swing.JButton uploadFileButton;
     // End of variables declaration//GEN-END:variables
 }

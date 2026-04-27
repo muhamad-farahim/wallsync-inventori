@@ -288,6 +288,7 @@ public class frame_manProduk extends javax.swing.JFrame {
         jButton3.setFont(new java.awt.Font("Poppins Medium", 1, 12)); // NOI18N
         jButton3.setForeground(new java.awt.Color(255, 255, 255));
         jButton3.setText("+ Tambah Produk");
+        jButton3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButton3.addActionListener(this::jButton3ActionPerformed);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
