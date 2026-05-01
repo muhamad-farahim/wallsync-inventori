@@ -6,10 +6,14 @@ package com.mycompany.buat_apk.frames;
 
 import java.awt.List;
 
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 
 import com.mycompany.buat_apk.domains.entities.products.ProductWithStocks;
+import com.mycompany.buat_apk.domains.frames.ButtonEditor;
+import com.mycompany.buat_apk.domains.frames.ButtonRenderer;
+import com.mycompany.buat_apk.domains.frames.ProductTableModel;
 import com.mycompany.buat_apk.registry.ServiceRegistry;
 import com.mycompany.buat_apk.services.ProductService;
 
@@ -393,24 +397,22 @@ public class frame_manProduk extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     public void loadTableData() {
-        DefaultTableModel tableModel = (DefaultTableModel) this.jTable1.getModel();
-
-        tableModel.setRowCount(0);
-
         java.util.List<ProductWithStocks> productList = this.service.getAllProductsWithStocks();
 
-        for (ProductWithStocks p : productList) {
-            Object[] rowData = {
-                p.getName(),
-                p.getCategoryName(),
-                p.getPrice(),
-                p.getStocks(),
-                p.getStocks() < 1 ? "Out of Stock" : "In stock",
-                "View"
-            };
+        ProductTableModel model = new ProductTableModel(productList);
+        jTable1.setModel(model);
 
-            tableModel.addRow(rowData);
-        }
+        jTable1.getColumnModel().getColumn(5).setCellRenderer(new ButtonRenderer());
+        jTable1.getColumnModel().getColumn(5).setCellEditor(
+                new ButtonEditor(new JCheckBox(), this) // 'this' refers to your Frame
+                );
+
+        ((ButtonEditor)jTable1.getColumnModel().getColumn(5).getCellEditor()).setClickCountToStart(1);
+    }
+
+    public void openProductDetail(Long id) {
+        System.out.println("Navigating to ID: " + id);
+        // Add your CardLayout navigation or JDialog popup logic here
     }
 
     /**

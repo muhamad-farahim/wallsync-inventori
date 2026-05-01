@@ -1,9 +1,13 @@
+
 package com.mycompany.buat_apk.domains.entities.stocks;
 
 import java.sql.Date;
+import java.util.List;
 import java.util.Locale;
 
-public class Stock {
+import com.mycompany.buat_apk.domains.enums.StockStatus;
+
+public class StockDetailItem {
     private Long id;
     private Long productId;
     private Long customerId = null;
@@ -11,8 +15,12 @@ public class Stock {
     private int quantity;
     private Long price = null;
     private Date createdAt;
+    private String description;
+    private List<StockDetailItem> transactions;
 
-    public Stock(Long id, Long productId, Long customerId, int quantity, Long price, Date createdAt, Long userId) {
+    public StockDetailItem(
+            Long id, Long productId, Long customerId, int quantity, Long price, Date createdAt, Long userId
+            ) {
         this.id = id;
         this.userId = userId;
         this.productId = productId;
@@ -28,6 +36,26 @@ public class Stock {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public List<StockDetailItem> getTransactions() {
+        return this.transactions;
+    }
+
+    public void setTransactions(List<StockDetailItem> list) {
+        this.transactions = list;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    public void setDescription(String desc) {
+        this.description = desc;
+    }
+
+    public StockStatus getStatus() {
+        return this.quantity < 0 ? StockStatus.PENJUALAN : StockStatus.PEMBELIAN;
     }
 
     public Long getProductId() {

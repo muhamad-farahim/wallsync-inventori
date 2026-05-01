@@ -210,127 +210,127 @@ public class frame_editProduk extends javax.swing.JFrame {
 
 
     private void clearForm() {
-        nameFieldedit.setText("");
-        priceFieldedit.setText("");
-        stockField.setText("");
-        descFieldedit.setText("");
-
-        clearImage();
-
-        this.name = "";
-        this.description = "";
-        this.category_id = null;
-        this.photo = null;
-        this.price = null;
-        this.stock = 0;
+        // nameFieldedit.setText("");
+        // priceFieldedit.setText("");
+        // stockField.setText("");
+        // descFieldedit.setText("");
+        //
+        // clearImage();
+        //
+        // this.name = "";
+        // this.description = "";
+        // this.category_id = null;
+        // this.photo = null;
+        // this.price = null;
+        // this.stock = 0;
     }
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {
 
 //GEN-FIRST:event_saveButtonActionPerformed
-        String name = nameFieldedit.getText();
-        String desc = nameFieldedit.getText();
+        // String name = nameFieldedit.getText();
+        // String desc = nameFieldedit.getText();
 
-        if (name.equals("") || desc.equals("")) {
-            javax.swing.JOptionPane.showMessageDialog(this, 
-                    "Please enter the correct name and description.", 
-                    "Input Error", 
-                    javax.swing.JOptionPane.ERROR_MESSAGE);
+        // if (name.equals("") || desc.equals("")) {
+        //     javax.swing.JOptionPane.showMessageDialog(this, 
+        //             "Please enter the correct name and description.", 
+        //             "Input Error", 
+        //             javax.swing.JOptionPane.ERROR_MESSAGE);
+        //
+        //     return;
+        // }
 
-            return;
-        }
-
-        this.name = name;
-        this.description = desc;
-
-        ComboCategory selectedCategory = (ComboCategory) categoryFieldedit.getSelectedItem();
-
-        if(selectedCategory == null) {
-            javax.swing.JOptionPane.showMessageDialog(this, 
-                    "Please input the right category.", 
-                    "Input Error", 
-                    javax.swing.JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        this.category_id = selectedCategory.id;
-
-        try {
-            String stockText = stockField.getText();
-            String priceText = priceFieldedit.getText();
-
-            int stock = Integer.parseInt(stockText);
-            Long price = Long.parseLong(priceText);
-
-            if (stock < 0 || price < 0) {
-                throw new IllegalArgumentException("Values cannot be negative.");
-            }
-
-
-            this.stock = stock;
-            this.price = price;
-        } catch (NumberFormatException e) {
-            javax.swing.JOptionPane.showMessageDialog(this, 
-                    "Please enter valid numbers for Stock and Price.", 
-                    "Input Error", 
-                    javax.swing.JOptionPane.ERROR_MESSAGE);
-
-            return;
-
-        } catch (IllegalArgumentException e) {
-            javax.swing.JOptionPane.showMessageDialog(this, 
-                    e.getMessage(), 
-                    "Input Error", 
-                    javax.swing.JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        try {
-
-            if (this.photo != null) {
-                java.io.File targetDir = new java.io.File("storage/images");
-                if (!targetDir.exists()) targetDir.mkdirs();
-
-                java.io.File targetFile = new java.io.File(targetDir, this.photo.getName());
-
-                java.nio.file.Files.copy(
-                        this.photo.toPath(), 
-                        targetFile.toPath(), 
-                        java.nio.file.StandardCopyOption.REPLACE_EXISTING
-                        );
-
-                System.out.println("Image saved to: " + targetFile.getPath());
-            }
-
-
-        } catch (Exception e) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Error saving: " + e.getMessage());
-            return;
-        }
-
-        CreateProduct createProductData = new CreateProduct();
-        createProductData.setName(this.name);
-        createProductData.setImage(this.photo.getName());
-        createProductData.setQuantity(this.stock);
-        createProductData.setCategoryId(this.category_id);
-        createProductData.setDescription(this.description);
-        createProductData.setPrice(this.price);
-
-        System.out.println("name: " + this.name);
-        System.out.println("description: " + this.description);
-        System.out.print("stock: ");
-        System.out.println(this.stock);
-        System.out.print("price: ");
-        System.out.println(this.price);
-        System.out.print("category_id: ");
-        System.out.println(this.category_id);
-        System.out.print("photo: ");
-        System.out.println(this.photo.getName());
-
-        this.productService.createProduct(this.context.getActiveUser().getId(), createProductData);
-
-
-        clearForm();
+        // this.name = name;
+        // this.description = desc;
+        //
+        // ComboCategory selectedCategory = (ComboCategory) categoryFieldedit.getSelectedItem();
+        //
+        // if(selectedCategory == null) {
+        //     javax.swing.JOptionPane.showMessageDialog(this, 
+        //             "Please input the right category.", 
+        //             "Input Error", 
+        //             javax.swing.JOptionPane.ERROR_MESSAGE);
+        //     return;
+        // }
+        //
+        // this.category_id = selectedCategory.id;
+        //
+        // try {
+        //     String stockText = stockField.getText();
+        //     String priceText = priceFieldedit.getText();
+        //
+        //     int stock = Integer.parseInt(stockText);
+        //     Long price = Long.parseLong(priceText);
+        //
+        //     if (stock < 0 || price < 0) {
+        //         throw new IllegalArgumentException("Values cannot be negative.");
+        //     }
+        //
+        //
+        //     this.stock = stock;
+        //     this.price = price;
+        // } catch (NumberFormatException e) {
+        //     javax.swing.JOptionPane.showMessageDialog(this, 
+        //             "Please enter valid numbers for Stock and Price.", 
+        //             "Input Error", 
+        //             javax.swing.JOptionPane.ERROR_MESSAGE);
+        //
+        //     return;
+        //
+        // } catch (IllegalArgumentException e) {
+        //     javax.swing.JOptionPane.showMessageDialog(this, 
+        //             e.getMessage(), 
+        //             "Input Error", 
+        //             javax.swing.JOptionPane.WARNING_MESSAGE);
+        //     return;
+        // }
+        //
+        // try {
+        //
+        //     if (this.photo != null) {
+        //         java.io.File targetDir = new java.io.File("storage/images");
+        //         if (!targetDir.exists()) targetDir.mkdirs();
+        //
+        //         java.io.File targetFile = new java.io.File(targetDir, this.photo.getName());
+        //
+        //         java.nio.file.Files.copy(
+        //                 this.photo.toPath(), 
+        //                 targetFile.toPath(), 
+        //                 java.nio.file.StandardCopyOption.REPLACE_EXISTING
+        //                 );
+        //
+        //         System.out.println("Image saved to: " + targetFile.getPath());
+        //     }
+        //
+        //
+        // } catch (Exception e) {
+        //     javax.swing.JOptionPane.showMessageDialog(this, "Error saving: " + e.getMessage());
+        //     return;
+        // }
+        //
+        // CreateProduct createProductData = new CreateProduct();
+        // createProductData.setName(this.name);
+        // createProductData.setImage(this.photo.getName());
+        // createProductData.setQuantity(this.stock);
+        // createProductData.setCategoryId(this.category_id);
+        // createProductData.setDescription(this.description);
+        // createProductData.setPrice(this.price);
+        //
+        // System.out.println("name: " + this.name);
+        // System.out.println("description: " + this.description);
+        // System.out.print("stock: ");
+        // System.out.println(this.stock);
+        // System.out.print("price: ");
+        // System.out.println(this.price);
+        // System.out.print("category_id: ");
+        // System.out.println(this.category_id);
+        // System.out.print("photo: ");
+        // System.out.println(this.photo.getName());
+        //
+        // this.productService.createProduct(this.context.getActiveUser().getId(), createProductData);
+        //
+        //
+        // clearForm();
     }//GEN-LAST:event_saveButtonActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

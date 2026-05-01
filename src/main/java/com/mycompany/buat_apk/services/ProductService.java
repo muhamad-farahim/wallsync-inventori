@@ -4,7 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import com.mycompany.buat_apk.domains.entities.products.CreateProduct;
-import com.mycompany.buat_apk.domains.entities.products.Product;
+import com.mycompany.buat_apk.domains.entities.products.ProductDetails;
 import com.mycompany.buat_apk.domains.entities.products.ProductWithStocks;
 import com.mycompany.buat_apk.domains.entities.stocks.CreateStock;
 import com.mycompany.buat_apk.domains.repositories.ProductRepository;
@@ -53,6 +53,16 @@ public class ProductService {
         }catch(SQLException e) {
             System.err.println("Error when fetching all products with stocks");
             System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
+    public ProductDetails getProductDetailsWithId(Long id) {
+        try {
+            ProductDetails productDetails = this.repo.getProductDetailById(id);
+            return productDetails;
+        }catch(Exception e) {
+            System.err.println(e.getMessage());
             return null;
         }
     }
