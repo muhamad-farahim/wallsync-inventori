@@ -12,6 +12,7 @@ import com.mycompany.buat_apk.domains.entities.products.CreateProduct;
 import com.mycompany.buat_apk.domains.entities.products.Product;
 import com.mycompany.buat_apk.domains.entities.products.ProductDetails;
 import com.mycompany.buat_apk.domains.entities.products.ProductWithStocks;
+import com.mycompany.buat_apk.domains.entities.products.UpdateProduct;
 import com.mycompany.buat_apk.domains.entities.stocks.StockDetailItem;
 import com.mycompany.buat_apk.domains.repositories.ProductRepository;
 
@@ -120,74 +121,97 @@ public class ProductRepo implements ProductRepository {
 	}
 
     @Override
-public ProductDetails getProductDetailById(Long id) throws SQLException {
-    String productSql = """
-        SELECT 
+    public ProductDetails getProductDetailById(Long id) throws SQLException {
+        String productSql = """
+            SELECT 
             p.id, p.name, p.image, p.description, p.price, p.created_at,
             c.id AS category_id, c.name AS category_name,
             IFNULL(SUM(s.quantity), 0) AS total_stock
-        FROM products p
-        INNER JOIN categories c ON p.category_id = c.id
-        LEFT JOIN stocks s ON p.id = s.product_id
-        WHERE p.id = ?
-        GROUP BY p.id, c.id;
+                FROM products p
+                INNER JOIN categories c ON p.category_id = c.id
+                LEFT JOIN stocks s ON p.id = s.product_id
+                WHERE p.id = ?
+                GROUP BY p.id, c.id;
         """;
 
-    String transactionsSql = """
-        SELECT id, product_id, customer_id, quantity, price, created_at, user_id, description
-        FROM stocks 
-        WHERE product_id = ? 
-        ORDER BY created_at DESC;
+        String transactionsSql = """
+            SELECT id, product_id, customer_id, quantity, price, created_at, user_id, description
+            FROM stocks 
+            WHERE product_id = ? 
+            ORDER BY created_at DESC;
         """;
 
-    try (Connection conn = DbConnection.getConnection()) {
-        ProductDetails details = null;
+        try (Connection conn = DbConnection.getConnection()) {
+            ProductDetails details = null;
 
-        try (PreparedStatement stmt = conn.prepareStatement(productSql)) {
-            stmt.setLong(1, id);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    details = new ProductDetails();
-                    details.setId(rs.getLong("id"));
-                    details.setName(rs.getString("name"));
-                    details.setImage(rs.getString("image"));
-                    details.setDescription(rs.getString("description"));
-                    details.setPrice(rs.getLong("price"));
-                    details.setCreatedAt(rs.getTimestamp("created_at"));
-                    details.setCategoryId(rs.getLong("category_id"));
-                    details.setCategoryName(rs.getString("category_name"));
-                    
-                    details.setStocks(rs.getInt("total_stock")); 
-                }
-            }
-        }
-
-        if (details != null) {
-            List<StockDetailItem> history = new ArrayList<>();
-            try (PreparedStatement stmt = conn.prepareStatement(transactionsSql)) {
+            try (PreparedStatement stmt = conn.prepareStatement(productSql)) {
                 stmt.setLong(1, id);
                 try (ResultSet rs = stmt.executeQuery()) {
-                    while (rs.next()) {
-                        StockDetailItem item = new StockDetailItem(
-                            rs.getLong("id"),
-                            rs.getLong("product_id"),
-                            rs.getLong("customer_id"),
-                            rs.getInt("quantity"),
-                            rs.getLong("price"),
-                            rs.getDate("created_at"),
-                            rs.getLong("user_id")
-                        );
-                        item.setDescription(rs.getString("description"));
-                        history.add(item);
-                    }
+                    if (rs.next()) {
+                        details = new ProductDetails();
+                        details.setId(rs.getLong("id"));
+                        details.setName(rs.getString("name"));
+                        details.setImage(rs.getString("image"));
+                        details.setDescription(rs.getString("description"));
+                        details.setPrice(rs.getLong("price"));
+                        details.setCreatedAt(rs.getTimestamp("created_at"));
+                        details.setCategoryId(rs.getLong("category_id"));
+                        details.setCategoryName(rs.getString("category_name"));
 
-                    details.setTransactions(history);
+                        details.setStocks(rs.getInt("total_stock")); 
+                    }
                 }
             }
+
+            if (details != null) {
+                List<StockDetailItem> history = new ArrayList<>();
+                try (PreparedStatement stmt = conn.prepareStatement(transactionsSql)) {
+                    stmt.setLong(1, id);
+                    try (ResultSet rs = stmt.executeQuery()) {
+                        while (rs.next()) {
+                            StockDetailItem item = new StockDetailItem(
+                                    rs.getLong("id"),
+                                    rs.getLong("product_id"),
+                                    rs.getLong("customer_id"),
+                                    rs.getInt("quantity"),
+                                    rs.getLong("price"),
+                                    rs.getDate("created_at"),
+                                    rs.getLong("user_id")
+                                    );
+                            item.setDescription(rs.getString("description"));
+                            history.add(item);
+                        }
+
+                        details.setTransactions(history);
+                    }
+                }
+            }
+
+            return details;
         }
 
-        return details;
-    }
-}
 
+    }
+
+    @Override
+    public void updateProduct(Long id, UpdateProduct data) throws SQLException {
+        String sql = "UPDATE products SET name = ?, image = ?, description = ?, price = ?, category_id = ? WHERE id = ?";
+
+        try (Connection conn = DbConnection.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, data.getName());
+            pstmt.setString(2, data.getImage());
+            pstmt.setString(3, data.getDescription());
+            pstmt.setLong(4, data.getPrice());
+            pstmt.setLong(5, data.getCategoryId());
+            pstmt.setLong(6, id);
+
+            int rowsAffected = pstmt.executeUpdate();
+
+            if (rowsAffected == 0) {
+                throw new SQLException("Updating product failed, no rows affected.");
+            }
+        }
+    }
 }

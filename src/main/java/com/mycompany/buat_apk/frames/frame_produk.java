@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.mycompany.buat_apk.domains.entities.categories.Category;
+import com.mycompany.buat_apk.domains.entities.products.UpdateProduct;
 import com.mycompany.buat_apk.domains.entities.products.CreateProduct;
 import com.mycompany.buat_apk.domains.entities.products.ProductWithStocks;
 import com.mycompany.buat_apk.domains.frames.ComboCategory;

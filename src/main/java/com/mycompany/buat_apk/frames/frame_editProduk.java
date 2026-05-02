@@ -8,8 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.mycompany.buat_apk.domains.entities.categories.Category;
-import com.mycompany.buat_apk.domains.entities.products.CreateProduct;
+import com.mycompany.buat_apk.domains.entities.products.ProductDetails;
 import com.mycompany.buat_apk.domains.entities.products.ProductWithStocks;
+import com.mycompany.buat_apk.domains.entities.products.UpdateProduct;
 import com.mycompany.buat_apk.domains.frames.ComboCategory;
 import com.mycompany.buat_apk.registry.AppContextRegistry;
 import com.mycompany.buat_apk.registry.ServiceRegistry;
@@ -24,12 +25,13 @@ public class frame_editProduk extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(frame_editProduk.class.getName());
     private java.io.File photo = null;
+    private java.io.File oldPhoto = null;
 
     private MainFrame parent;
+    private Long productId;
 
     private String name;
     private String description;
-    private int stock;
     private Long price;
     private Long category_id;
 
@@ -75,18 +77,18 @@ public class frame_editProduk extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        descFieldedit = new javax.swing.JTextArea();
+        descField = new javax.swing.JTextArea();
         jLabel6 = new javax.swing.JLabel();
-        categoryFieldedit = new javax.swing.JComboBox<>();
+        categoryField = new javax.swing.JComboBox<>();
         photoField = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        backButton = new javax.swing.JButton();
+        uploadFileButton = new javax.swing.JButton();
+        saveButton = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        nameField = new javax.swing.JTextField();
+        priceField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -102,9 +104,9 @@ public class frame_editProduk extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel5.setText("Deskripsi");
 
-        descFieldedit.setColumns(20);
-        descFieldedit.setRows(5);
-        jScrollPane1.setViewportView(descFieldedit);
+        descField.setColumns(20);
+        descField.setRows(5);
+        jScrollPane1.setViewportView(descField);
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel6.setText("Kategori");
@@ -116,19 +118,21 @@ public class frame_editProduk extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel8.setText("Edit Informasi Produk");
 
-        jButton1.setBackground(new java.awt.Color(246, 246, 246));
-        jButton1.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
-        jButton1.setText("<");
-        jButton1.setBorderPainted(false);
-        jButton1.addActionListener(this::jButton1ActionPerformed);
+        backButton.setBackground(new java.awt.Color(246, 246, 246));
+        backButton.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
+        backButton.setText("<");
+        backButton.setBorderPainted(false);
+        backButton.addActionListener(this::backButtonActionPerformed);
 
-        jButton2.setText("Choose Image");
+        uploadFileButton.setText("Choose Image");
+        uploadFileButton.addActionListener(this::uploadFileButtonActionPerformed);
 
-        jButton3.setBackground(new java.awt.Color(0, 0, 255));
-        jButton3.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("Simpan Perubahan");
-        jButton3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        saveButton.setBackground(new java.awt.Color(0, 0, 255));
+        saveButton.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
+        saveButton.setForeground(new java.awt.Color(255, 255, 255));
+        saveButton.setText("Simpan Perubahan");
+        saveButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        saveButton.addActionListener(this::saveButtonActionPerformed);
 
         jButton4.setText("Batal");
         jButton4.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -139,7 +143,7 @@ public class frame_editProduk extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(30, 30, 30)
-                .addComponent(jButton1)
+                .addComponent(backButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -147,22 +151,22 @@ public class frame_editProduk extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(photoField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(uploadFileButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(34, 34, 34)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(categoryFieldedit, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(categoryField, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 405, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jTextField1)
-                            .addComponent(jTextField2))))
+                                .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(nameField)
+                            .addComponent(priceField))))
                 .addGap(36, 36, 36))
         );
         layout.setVerticalGroup(
@@ -171,7 +175,7 @@ public class frame_editProduk extends javax.swing.JFrame {
                 .addGap(40, 40, 40)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(backButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
@@ -181,15 +185,15 @@ public class frame_editProduk extends javax.swing.JFrame {
                 .addGap(9, 9, 9)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(15, 15, 15)
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(categoryFieldedit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(categoryField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(priceField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -197,10 +201,10 @@ public class frame_editProduk extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(photoField, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton2)))
+                        .addComponent(uploadFileButton)))
                 .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(39, Short.MAX_VALUE))
         );
@@ -210,132 +214,131 @@ public class frame_editProduk extends javax.swing.JFrame {
 
 
     private void clearForm() {
-        // nameFieldedit.setText("");
-        // priceFieldedit.setText("");
-        // stockField.setText("");
-        // descFieldedit.setText("");
-        //
-        // clearImage();
-        //
-        // this.name = "";
-        // this.description = "";
-        // this.category_id = null;
-        // this.photo = null;
-        // this.price = null;
-        // this.stock = 0;
+        nameField.setText("");
+        priceField.setText("");
+        descField.setText("");
+
+        clearImage();
+
+        this.name = "";
+        this.description = "";
+        this.category_id = null;
+        this.photo = null;
+        this.price = null;
     }
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {
 
 //GEN-FIRST:event_saveButtonActionPerformed
-        // String name = nameFieldedit.getText();
-        // String desc = nameFieldedit.getText();
+        String name = nameField.getText();
+        String desc = nameField.getText();
 
-        // if (name.equals("") || desc.equals("")) {
-        //     javax.swing.JOptionPane.showMessageDialog(this, 
-        //             "Please enter the correct name and description.", 
-        //             "Input Error", 
-        //             javax.swing.JOptionPane.ERROR_MESSAGE);
-        //
-        //     return;
-        // }
+        if (name.equals("") || desc.equals("")) {
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                    "Please enter the correct name and description.", 
+                    "Input Error", 
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
 
-        // this.name = name;
-        // this.description = desc;
-        //
-        // ComboCategory selectedCategory = (ComboCategory) categoryFieldedit.getSelectedItem();
-        //
-        // if(selectedCategory == null) {
-        //     javax.swing.JOptionPane.showMessageDialog(this, 
-        //             "Please input the right category.", 
-        //             "Input Error", 
-        //             javax.swing.JOptionPane.ERROR_MESSAGE);
-        //     return;
-        // }
-        //
-        // this.category_id = selectedCategory.id;
-        //
-        // try {
-        //     String stockText = stockField.getText();
-        //     String priceText = priceFieldedit.getText();
-        //
-        //     int stock = Integer.parseInt(stockText);
-        //     Long price = Long.parseLong(priceText);
-        //
-        //     if (stock < 0 || price < 0) {
-        //         throw new IllegalArgumentException("Values cannot be negative.");
-        //     }
-        //
-        //
-        //     this.stock = stock;
-        //     this.price = price;
-        // } catch (NumberFormatException e) {
-        //     javax.swing.JOptionPane.showMessageDialog(this, 
-        //             "Please enter valid numbers for Stock and Price.", 
-        //             "Input Error", 
-        //             javax.swing.JOptionPane.ERROR_MESSAGE);
-        //
-        //     return;
-        //
-        // } catch (IllegalArgumentException e) {
-        //     javax.swing.JOptionPane.showMessageDialog(this, 
-        //             e.getMessage(), 
-        //             "Input Error", 
-        //             javax.swing.JOptionPane.WARNING_MESSAGE);
-        //     return;
-        // }
-        //
-        // try {
-        //
-        //     if (this.photo != null) {
-        //         java.io.File targetDir = new java.io.File("storage/images");
-        //         if (!targetDir.exists()) targetDir.mkdirs();
-        //
-        //         java.io.File targetFile = new java.io.File(targetDir, this.photo.getName());
-        //
-        //         java.nio.file.Files.copy(
-        //                 this.photo.toPath(), 
-        //                 targetFile.toPath(), 
-        //                 java.nio.file.StandardCopyOption.REPLACE_EXISTING
-        //                 );
-        //
-        //         System.out.println("Image saved to: " + targetFile.getPath());
-        //     }
-        //
-        //
-        // } catch (Exception e) {
-        //     javax.swing.JOptionPane.showMessageDialog(this, "Error saving: " + e.getMessage());
-        //     return;
-        // }
-        //
-        // CreateProduct createProductData = new CreateProduct();
-        // createProductData.setName(this.name);
-        // createProductData.setImage(this.photo.getName());
-        // createProductData.setQuantity(this.stock);
-        // createProductData.setCategoryId(this.category_id);
-        // createProductData.setDescription(this.description);
-        // createProductData.setPrice(this.price);
-        //
-        // System.out.println("name: " + this.name);
-        // System.out.println("description: " + this.description);
-        // System.out.print("stock: ");
-        // System.out.println(this.stock);
-        // System.out.print("price: ");
-        // System.out.println(this.price);
-        // System.out.print("category_id: ");
-        // System.out.println(this.category_id);
-        // System.out.print("photo: ");
-        // System.out.println(this.photo.getName());
-        //
-        // this.productService.createProduct(this.context.getActiveUser().getId(), createProductData);
-        //
-        //
-        // clearForm();
+            return;
+        }
+
+        this.name = name;
+        this.description = desc;
+
+        ComboCategory selectedCategory = (ComboCategory) categoryField.getSelectedItem();
+
+        if(selectedCategory == null) {
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                    "Please input the right category.", 
+                    "Input Error", 
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        this.category_id = selectedCategory.id;
+
+        try {
+            String priceText = priceField.getText();
+
+            Long price = Long.parseLong(priceText);
+
+            this.price = price;
+        } catch (NumberFormatException e) {
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                    "Please enter valid numbers for Stock and Price.", 
+                    "Input Error", 
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
+
+            return;
+
+        } catch (IllegalArgumentException e) {
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                    e.getMessage(), 
+                    "Input Error", 
+                    javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        try {
+
+            if (this.photo != null) {
+                java.io.File targetDir = new java.io.File("storage/images");
+                if (!targetDir.exists()) targetDir.mkdirs();
+
+                java.io.File targetFile = new java.io.File(targetDir, this.photo.getName());
+
+                java.nio.file.Files.copy(
+                        this.photo.toPath(), 
+                        targetFile.toPath(), 
+                        java.nio.file.StandardCopyOption.REPLACE_EXISTING
+                        );
+
+                System.out.println("Image saved to: " + targetFile.getPath());
+            }
+
+
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Error saving: " + e.getMessage());
+            return;
+        }
+
+
+        UpdateProduct updateProductData = new UpdateProduct();
+        updateProductData.setName(this.name);
+        updateProductData.setImage(this.photo.getName());
+        updateProductData.setCategoryId(this.category_id);
+        updateProductData.setDescription(this.description);
+        updateProductData.setPrice(this.price);
+
+        System.out.println("name: " + this.name);
+        System.out.println("description: " + this.description);
+        System.out.print("price: ");
+        System.out.println(this.price);
+        System.out.print("category_id: ");
+        System.out.println(this.category_id);
+        System.out.print("photo: ");
+        System.out.println(this.photo.getName());
+
+        this.productService.updateProduct(this.productId, updateProductData);
+
+        this.oldPhoto.delete();
+        this.parent.goTo("PRODUCT_DETAIL", this.productId);
     }//GEN-LAST:event_saveButtonActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
+        this.parent.goTo("PRODUCT_DETAIL", this.productId);
+    }//GEN-LAST:event_backButtonActionPerformed
+
+    private void uploadFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uploadFileButtonActionPerformed
+        
+        javax.swing.JFileChooser fileChooser = new javax.swing.JFileChooser();
+        if (fileChooser.showDialog(this, "This file!") != javax.swing.JFileChooser.APPROVE_OPTION) {
+            return;
+        }
+        this.photo = fileChooser.getSelectedFile();
+        this.oldPhoto = fileChooser.getSelectedFile();
+        displayImage(this.photo.getAbsolutePath());
+    }//GEN-LAST:event_uploadFileButtonActionPerformed
     
     private void displayImage(String path) {
         try {
@@ -409,7 +412,7 @@ public class frame_editProduk extends javax.swing.JFrame {
 
             ComboCategory[] comboCategoryArray = comboCategoryList.toArray(new ComboCategory[0]);
 
-            categoryFieldedit.setModel(new javax.swing.DefaultComboBoxModel<>(comboCategoryArray));
+            categoryField.setModel(new javax.swing.DefaultComboBoxModel<>(comboCategoryArray));
 
         } catch (Exception e) {
             // Standard error handling for Jakarta-based SWE projects
@@ -421,12 +424,33 @@ public class frame_editProduk extends javax.swing.JFrame {
         }
     }
 
+    public void loadFormData(Long id) {
+        this.productId = id;
+    
+        ProductDetails details = productService.getProductDetailsWithId(id);
+        String imageAbsPath = details.getImageFile().getAbsolutePath();
+
+        nameField.setText(details.getName());
+        priceField.setText(String.valueOf((details.getPrice())));
+        descField.setText(details.getDescription());
+
+        for(int i = 0; i < categoryField.getItemCount(); i++) {
+            ComboCategory category = categoryField.getItemAt(i);
+
+            if (details.getCategoryId() == category.id) {
+                categoryField.setSelectedItem(category);
+                break;
+            }
+        }
+
+        this.photo = details.getImageFile();
+        displayImage(imageAbsPath);
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<ComboCategory> categoryFieldedit;
-    private javax.swing.JTextArea descFieldedit;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton backButton;
+    private javax.swing.JComboBox<ComboCategory> categoryField;
+    private javax.swing.JTextArea descField;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -436,8 +460,10 @@ public class frame_editProduk extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField nameField;
     private javax.swing.JLabel photoField;
+    private javax.swing.JTextField priceField;
+    private javax.swing.JButton saveButton;
+    private javax.swing.JButton uploadFileButton;
     // End of variables declaration//GEN-END:variables
 }

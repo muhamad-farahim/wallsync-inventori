@@ -7,6 +7,7 @@ import com.mycompany.buat_apk.domains.entities.products.CreateProduct;
 import com.mycompany.buat_apk.domains.entities.products.Product;
 import com.mycompany.buat_apk.domains.entities.products.ProductDetails;
 import com.mycompany.buat_apk.domains.entities.products.ProductWithStocks;
+import com.mycompany.buat_apk.domains.entities.products.UpdateProduct;
 
 public interface ProductRepository {
     public Long createProductReturnId(CreateProduct c) throws SQLException;
@@ -14,4 +15,5 @@ public interface ProductRepository {
     public List<ProductWithStocks> getAllProductsWithStocks() throws SQLException;
     public void deleteProductById(Long id) throws SQLException;
     public ProductDetails getProductDetailById(Long id) throws SQLException;
+    public void updateProduct(Long id, UpdateProduct data) throws SQLException;
 }

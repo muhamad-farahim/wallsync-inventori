@@ -6,6 +6,7 @@ import java.util.List;
 import com.mycompany.buat_apk.domains.entities.products.CreateProduct;
 import com.mycompany.buat_apk.domains.entities.products.ProductDetails;
 import com.mycompany.buat_apk.domains.entities.products.ProductWithStocks;
+import com.mycompany.buat_apk.domains.entities.products.UpdateProduct;
 import com.mycompany.buat_apk.domains.entities.stocks.CreateStock;
 import com.mycompany.buat_apk.domains.repositories.ProductRepository;
 import com.mycompany.buat_apk.domains.repositories.StockRepository;
@@ -41,8 +42,6 @@ public class ProductService {
             System.err.println(e.getStackTrace());
             return null;
         }
-
-        //create the stock
         
         return data;
     }
@@ -64,6 +63,15 @@ public class ProductService {
         }catch(Exception e) {
             System.err.println(e.getMessage());
             return null;
+        }
+    }
+
+    public void updateProduct(Long id, UpdateProduct data) {
+        try {
+            this.repo.updateProduct(id, data);
+        }catch(Exception e) {
+            System.err.println("Update product has failed.");
+            System.err.println(e.getMessage());
         }
     }
 }
