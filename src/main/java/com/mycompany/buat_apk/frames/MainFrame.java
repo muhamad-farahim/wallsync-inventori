@@ -15,6 +15,7 @@ public class MainFrame extends JFrame {
     private CardLayout cardLayout;
 
     private frame_manProduk frameProductList;
+    private frame_detail frameDetailProduct;
 
     public MainFrame() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -30,14 +31,17 @@ public class MainFrame extends JFrame {
         frame_produk fProduk = new frame_produk(this);
         frame_manProduk fMproduk = new frame_manProduk(this);
         frame_login fLogin = new frame_login(this);
+        frame_detail frDetailProduct = new frame_detail(this);
 
         this.add(this.mainContent);
 
         this.frameProductList = fMproduk;
+        this.frameDetailProduct = frDetailProduct;
 
         //CRUD PRODUCT
         this.mainContent.add(fProduk.getContentPane(), "PRODUCT_CREATE");
         this.mainContent.add(fMproduk.getContentPane(), "PRODUCT_LIST");
+        this.mainContent.add(frDetailProduct.getContentPane(), "PRODUCT_DETAIL");
         
 
         //AUTH
@@ -52,6 +56,13 @@ public class MainFrame extends JFrame {
     protected void goTo(String name) {
         if(name.equals("PRODUCT_LIST")){
             this.frameProductList.loadTableData();
+        }
+        this.cardLayout.show(this.mainContent, name);
+    }
+    
+    protected void goTo(String name, Long id) {
+        if(name.equals("PRODUCT_DETAIL")){
+            this.frameDetailProduct.loadData(id);;
         }
         this.cardLayout.show(this.mainContent, name);
     }

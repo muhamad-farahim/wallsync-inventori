@@ -2,6 +2,7 @@
 package com.mycompany.buat_apk.domains.entities.stocks;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
@@ -109,5 +110,16 @@ public class StockDetailItem {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
+    }
+
+
+    public String getFormattedCreatedDate() {
+
+        if (this.createdAt == null) return "-";
+
+        SimpleDateFormat formatter = new SimpleDateFormat("d MMMM yyyy", Locale.of("id", "ID"));
+
+        return formatter.format(this.createdAt);
+
     }
 }

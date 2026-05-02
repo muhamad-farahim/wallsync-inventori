@@ -1,7 +1,14 @@
 package com.mycompany.buat_apk.domains.entities.products;
 
 
+import java.io.File;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
+import com.mycompany.buat_apk.domains.entities.stocks.StockDetailItem;
 
 public class ProductDetails {
     private Long id;
@@ -13,6 +20,7 @@ public class ProductDetails {
     private Date created_at;
     private Long price;
     private int stocks;
+    private List<StockDetailItem> transactions;
 
     public ProductDetails(
             Long id, String name, String image, String description, Long category_id, Date created_at, Long price,
@@ -28,6 +36,14 @@ public class ProductDetails {
     }
 
     public ProductDetails() {
+    }
+
+    public List<StockDetailItem> getTransactions() {
+        return this.transactions;
+    }
+
+    public void setTransactions(List<StockDetailItem> transactions) {
+        this.transactions = transactions;
     }
 
     public String getStatus() {
@@ -66,6 +82,16 @@ public class ProductDetails {
         this.image = image;
     }
 
+    public File getImageFile() {
+        String rootDir = System.getProperty("user.dir");
+
+        return new File(rootDir + 
+                File.separator + "storage" +
+                File.separator + "images" +
+                File.separator + this.image
+            );
+    }
+
     public String getDescription() {
         return description;
     }
@@ -86,6 +112,10 @@ public class ProductDetails {
         return this.stocks;
     }
 
+    public String getStocksString() {
+        return String.valueOf(this.stocks);
+    }
+
     public void setStocks(int stocks) {
         this.stocks = stocks;
     }
@@ -94,15 +124,31 @@ public class ProductDetails {
         return price;
     }
 
+    public String getRPPrice() {
+        Locale localeID = Locale.of("id", "ID"); 
+        NumberFormat rupiahFormat = NumberFormat.getCurrencyInstance(localeID);
+        return rupiahFormat.format(price); 
+    }
+
     public void setPrice(Long price) {
         this.price = price;
     }
 
-    public Date getCreated_at() {
+    public Date getCreatedAt() {
         return created_at;
     }
 
-    public void setCreated_at(Date created_at) {
+    public String getFormattedCreatedDate() {
+
+        if (this.created_at == null) return "-";
+
+        SimpleDateFormat formatter = new SimpleDateFormat("d MMMM yyyy", Locale.of("id", "ID"));
+
+        return formatter.format(this.created_at);
+
+    }
+
+    public void setCreatedAt(Date created_at) {
         this.created_at = created_at;
     }
 }

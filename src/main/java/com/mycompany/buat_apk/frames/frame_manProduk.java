@@ -411,8 +411,7 @@ public class frame_manProduk extends javax.swing.JFrame {
     }
 
     public void openProductDetail(Long id) {
-        System.out.println("Navigating to ID: " + id);
-        // Add your CardLayout navigation or JDialog popup logic here
+        this.parent.goTo("PRODUCT_DETAIL", id);
     }
 
     /**

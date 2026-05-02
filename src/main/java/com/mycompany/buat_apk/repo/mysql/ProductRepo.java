@@ -153,7 +153,7 @@ public ProductDetails getProductDetailById(Long id) throws SQLException {
                     details.setImage(rs.getString("image"));
                     details.setDescription(rs.getString("description"));
                     details.setPrice(rs.getLong("price"));
-                    details.setCreated_at(rs.getTimestamp("created_at"));
+                    details.setCreatedAt(rs.getTimestamp("created_at"));
                     details.setCategoryId(rs.getLong("category_id"));
                     details.setCategoryName(rs.getString("category_name"));
                     
@@ -180,6 +180,8 @@ public ProductDetails getProductDetailById(Long id) throws SQLException {
                         item.setDescription(rs.getString("description"));
                         history.add(item);
                     }
+
+                    details.setTransactions(history);
                 }
             }
         }
