@@ -54,7 +54,7 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="editButton" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jButton4" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnDelete" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -100,7 +100,7 @@
                       <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jButton2" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="editButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jButton4" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnDelete" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Component id="jPanel7" min="-2" max="-2" attributes="0"/>
               </Group>
@@ -116,7 +116,7 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="jPanel1" max="32767" attributes="0"/>
-                          <Component id="jPanel2" max="32767" attributes="0"/>
+                          <Component id="jPanel2" pref="56" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -267,7 +267,7 @@
                       <Component id="jLabel4" alignment="0" max="32767" attributes="0"/>
                       <Component id="priceLabel" alignment="0" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="111" max="32767" attributes="0"/>
+                  <EmptySpace pref="121" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -452,7 +452,7 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="jButton4">
+    <Component class="javax.swing.JButton" name="btnDelete">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="cc" green="cc" red="ff" type="rgb"/>
@@ -465,6 +465,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Hapus"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDeleteActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="nameLabel">
       <Properties>
@@ -483,10 +486,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="backButton" min="-2" pref="35" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jLabel12" min="-2" pref="149" max="-2" attributes="0"/>
-                      <Component id="jLabel1" min="-2" pref="104" max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="jLabel12" min="-2" pref="149" max="-2" attributes="0"/>
                   <EmptySpace min="0" pref="57" max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -499,9 +499,7 @@
                       <Component id="jLabel12" min="-2" max="-2" attributes="0"/>
                       <Component id="backButton" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="0" pref="14" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="36" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -513,14 +511,6 @@
               <Font name="Segoe UI" size="18" style="1"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Detail Produk"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="jLabel1">
-          <Properties>
-            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="99" green="99" red="99" type="rgb"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="[Nama Produk]"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="backButton">

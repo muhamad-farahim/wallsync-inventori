@@ -232,7 +232,7 @@ public class frame_editProduk extends javax.swing.JFrame {
 
 //GEN-FIRST:event_saveButtonActionPerformed
         String name = nameField.getText();
-        String desc = nameField.getText();
+        String desc = descField.getText();
 
         if (name.equals("") || desc.equals("")) {
             javax.swing.JOptionPane.showMessageDialog(this, 
@@ -310,6 +310,17 @@ public class frame_editProduk extends javax.swing.JFrame {
         updateProductData.setCategoryId(this.category_id);
         updateProductData.setDescription(this.description);
         updateProductData.setPrice(this.price);
+        
+        int confirm = javax.swing.JOptionPane.showConfirmDialog(
+            this,
+            "Apakah ingin menyimpan perubahan produk?",
+            "Konfirmasi Simpan",
+            javax.swing.JOptionPane.YES_NO_OPTION
+        );
+        if(confirm != javax.swing.JOptionPane.YES_OPTION) {
+            return;
+        }
+
 
         System.out.println("name: " + this.name);
         System.out.println("description: " + this.description);
@@ -321,7 +332,11 @@ public class frame_editProduk extends javax.swing.JFrame {
         System.out.println(this.photo.getName());
 
         this.productService.updateProduct(this.productId, updateProductData);
-
+        
+        javax.swing.JOptionPane.showMessageDialog(
+            this,
+            "Perubahan produk berhasil disimpan"
+        );
         this.oldPhoto.delete();
         this.parent.goTo("PRODUCT_DETAIL", this.productId);
     }//GEN-LAST:event_saveButtonActionPerformed

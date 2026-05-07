@@ -108,6 +108,8 @@ public class frame_produk extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel5.setText("Deskripsi");
 
+        stockField.addActionListener(this::stockFieldActionPerformed);
+
         descField.setColumns(20);
         descField.setRows(5);
         jScrollPane1.setViewportView(descField);
@@ -116,7 +118,7 @@ public class frame_produk extends javax.swing.JFrame {
         jLabel6.setText("Kategori");
 
         saveButton.setBackground(new java.awt.Color(0, 0, 153));
-        saveButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        saveButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         saveButton.setForeground(new java.awt.Color(255, 255, 255));
         saveButton.setText("Simpan Produk");
         saveButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -124,7 +126,7 @@ public class frame_produk extends javax.swing.JFrame {
 
         cancelButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         cancelButton.setForeground(new java.awt.Color(0, 0, 0));
-        cancelButton.setText("Batal");
+        cancelButton.setText("Reset");
         cancelButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         cancelButton.addActionListener(this::cancelButtonActionPerformed);
 
@@ -259,7 +261,7 @@ public class frame_produk extends javax.swing.JFrame {
 
 //GEN-FIRST:event_saveButtonActionPerformed
         String name = nameField.getText();
-        String desc = nameField.getText();
+        String desc = descField.getText();
 
         if (name.equals("") || desc.equals("")) {
             javax.swing.JOptionPane.showMessageDialog(this, 
@@ -383,6 +385,10 @@ public class frame_produk extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.parent.goTo("PRODUCT_LIST");
     }//GEN-LAST:event_backButtonActionPerformed
+
+    private void stockFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stockFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_stockFieldActionPerformed
     
     private void displayImage(String path) {
         try {

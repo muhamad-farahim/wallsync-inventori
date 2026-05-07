@@ -74,4 +74,12 @@ public class ProductService {
             System.err.println(e.getMessage());
         }
     }
+    public void deleteProduct(Long id) {
+    try {
+        this.repo.deleteProductById(id);
+    } catch (Exception e) {
+        System.err.println("Delete product has failed.");
+        System.err.println(e.getMessage());
+    }
+}
 }

@@ -67,11 +67,10 @@ public class frame_detail extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         descriptionLabel = new javax.swing.JLabel();
-        jButton4 = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
         nameLabel = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
         backButton = new javax.swing.JButton();
         previewField = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -152,7 +151,7 @@ public class frame_detail extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(priceLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(111, Short.MAX_VALUE))
+                .addContainerGap(121, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -250,19 +249,17 @@ public class frame_detail extends javax.swing.JFrame {
                 .addContainerGap(34, Short.MAX_VALUE))
         );
 
-        jButton4.setBackground(new java.awt.Color(255, 204, 204));
-        jButton4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton4.setForeground(new java.awt.Color(255, 0, 51));
-        jButton4.setText("Hapus");
+        btnDelete.setBackground(new java.awt.Color(255, 204, 204));
+        btnDelete.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnDelete.setForeground(new java.awt.Color(255, 0, 51));
+        btnDelete.setText("Hapus");
+        btnDelete.addActionListener(this::btnDeleteActionPerformed);
 
         nameLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         nameLabel.setText("[Nama Produk]");
 
         jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel12.setText("Detail Produk");
-
-        jLabel1.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel1.setText("[Nama Produk]");
 
         backButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         backButton.setText("<");
@@ -277,9 +274,7 @@ public class frame_detail extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 57, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
@@ -289,9 +284,7 @@ public class frame_detail extends javax.swing.JFrame {
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel12)
                     .addComponent(backButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1)
-                .addGap(0, 14, Short.MAX_VALUE))
+                .addGap(0, 36, Short.MAX_VALUE))
         );
 
         previewField.setForeground(new java.awt.Color(153, 153, 153));
@@ -347,7 +340,7 @@ public class frame_detail extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(editButton)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton4))
+                                .addComponent(btnDelete))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(statusLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -379,7 +372,7 @@ public class frame_detail extends javax.swing.JFrame {
                         .addComponent(jButton1)
                         .addComponent(jButton2)
                         .addComponent(editButton)
-                        .addComponent(jButton4))
+                        .addComponent(btnDelete))
                     .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -392,7 +385,7 @@ public class frame_detail extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE))
                         .addGap(36, 36, 36)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -418,6 +411,37 @@ public class frame_detail extends javax.swing.JFrame {
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
         this.parent.goTo("PRODUCT_EDIT", this.productId);
     }//GEN-LAST:event_editButtonActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        int confirm = javax.swing.JOptionPane.showConfirmDialog(
+        this,
+        "Apakah yakin ingin menghapus produk ini?",
+        "Konfirmasi Hapus",
+        javax.swing.JOptionPane.YES_NO_OPTION
+    );
+
+    if (confirm == javax.swing.JOptionPane.YES_OPTION) {
+
+        try {
+
+            productService.deleteProduct(productId);
+
+            javax.swing.JOptionPane.showMessageDialog(
+                this,
+                "Produk berhasil dihapus"
+            );
+
+            this.parent.goTo("PRODUCT_LIST");
+
+        } catch (Exception e) {
+
+            javax.swing.JOptionPane.showMessageDialog(
+                this,
+                "Gagal menghapus produk"
+            );
+        }
+    }
+    }//GEN-LAST:event_btnDeleteActionPerformed
 
     public void loadData(Long id) {
         this.productId = id;
@@ -506,15 +530,14 @@ public class frame_detail extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backButton;
+    private javax.swing.JButton btnDelete;
     private javax.swing.JLabel categoryNameLabel;
     private javax.swing.JLabel dateLabel;
     private javax.swing.JLabel descriptionLabel;
     private javax.swing.JButton editButton;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton6;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel17;

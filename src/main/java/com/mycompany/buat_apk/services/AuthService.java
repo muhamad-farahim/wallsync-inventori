@@ -11,19 +11,25 @@ public class AuthService {
 	} 
 
     public User login(String username, String password) {
-        User user = null;
 
-        try{
-            user = this.userRepo.getUserByUsername(username);
-        }catch( Exception e) {
-            System.err.println("Error when getting user by username");
-            System.err.println(e.getMessage());
+    try {
+
+        User user = this.userRepo.getUserByUsername(username);
+
+        if(user == null) {
             return null;
         }
 
-        System.out.println(user.getPassword());
-        System.out.println(password);
+        if(!user.getPassword().equals(password)) {
+            return null;
+        }
 
         return user;
+
+    } catch(Exception e) {
+
+        System.err.println(e.getMessage());
+        return null;
     }
+}
 }

@@ -1,0 +1,18 @@
+biar lu ga bingung im gua update apaan aja
+
+1. button hapus di frame_detail
+2. rename frame_costumer jadi frame_customer (gregetan bacanya awkwkk)
+3. benerin deskripsi di detail (sebelumnya deskripsinya sama ama nama produk)
+4. nambahin button customer di frame_manProduk
+5. ubah label admin-administrator jadi button di frame_manProduk
+6. rapihin desain frame_customer
+
+di frame_login
+1. ngilangin JOptionPane yang untuk login gagal, itu gua ubah jadi notif pake label
+2. nambahin JOptionPane buat login berhasil
+3. sempet otak atik, soalnya pas login user pass random itu tetep masuk ke manajemen produk
+
+sisanya lupa, tadi sempet otak atik repo ama servicesAuth, tapi yg repo gua undo ke semula
+hehe
+
+maap nyak kalo ada yang error, harusnya ga ada sii
