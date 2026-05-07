@@ -53,6 +53,7 @@ public class frame_login extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         passwordField = new javax.swing.JPasswordField();
         jLabel6 = new javax.swing.JLabel();
+        clearButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(600, 500));
@@ -65,22 +66,22 @@ public class frame_login extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Microsoft JhengHei UI", 1, 24)); // NOI18N
         jLabel1.setText("Selamat Datang");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(660, 110, 220, 32);
+        jLabel1.setBounds(660, 110, 220, 29);
 
         jLabel2.setFont(new java.awt.Font("Microsoft JhengHei UI", 0, 12)); // NOI18N
         jLabel2.setText("Masuk ke akun Anda untuk melanjutkan");
         getContentPane().add(jLabel2);
-        jLabel2.setBounds(660, 140, 240, 17);
+        jLabel2.setBounds(660, 140, 240, 15);
 
         jLabel3.setFont(new java.awt.Font("Microsoft JhengHei UI", 0, 12)); // NOI18N
         jLabel3.setText("Username");
         getContentPane().add(jLabel3);
-        jLabel3.setBounds(660, 200, 57, 17);
+        jLabel3.setBounds(660, 200, 64, 15);
 
         jLabel4.setFont(new java.awt.Font("Microsoft JhengHei UI", 0, 12)); // NOI18N
         jLabel4.setText("Password");
         getContentPane().add(jLabel4);
-        jLabel4.setBounds(660, 270, 60, 17);
+        jLabel4.setBounds(660, 270, 60, 15);
 
         loginButton.setBackground(new java.awt.Color(51, 153, 255));
         loginButton.setFont(new java.awt.Font("Microsoft JhengHei UI", 1, 12)); // NOI18N
@@ -102,6 +103,11 @@ public class frame_login extends javax.swing.JFrame {
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/b.jpg"))); // NOI18N
         getContentPane().add(jLabel6);
         jLabel6.setBounds(220, 0, 340, 490);
+
+        clearButton.setText("clear");
+        clearButton.addActionListener(this::clearButtonActionPerformed);
+        getContentPane().add(clearButton);
+        clearButton.setBounds(660, 400, 260, 30);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -134,6 +140,12 @@ public class frame_login extends javax.swing.JFrame {
         passwordField.requestFocus();
 
     }//GEN-LAST:event_loginButtonActionPerformed
+
+    private void clearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButtonActionPerformed
+        // TODO add your handling code here:
+        usernameField.setText("");
+        passwordField.setText("");
+    }//GEN-LAST:event_clearButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -174,6 +186,7 @@ public class frame_login extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton clearButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

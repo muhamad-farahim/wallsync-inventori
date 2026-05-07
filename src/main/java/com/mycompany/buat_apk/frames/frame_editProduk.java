@@ -134,8 +134,9 @@ public class frame_editProduk extends javax.swing.JFrame {
         saveButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         saveButton.addActionListener(this::saveButtonActionPerformed);
 
-        jButton4.setText("Batal");
+        jButton4.setText("Reset");
         jButton4.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jButton4.addActionListener(this::jButton4ActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -339,6 +340,10 @@ public class frame_editProduk extends javax.swing.JFrame {
         this.oldPhoto = fileChooser.getSelectedFile();
         displayImage(this.photo.getAbsolutePath());
     }//GEN-LAST:event_uploadFileButtonActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        loadFormData(this.productId);
+    }//GEN-LAST:event_jButton4ActionPerformed
     
     private void displayImage(String path) {
         try {
