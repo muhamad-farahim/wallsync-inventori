@@ -14,6 +14,7 @@ import com.mycompany.buat_apk.domains.entities.products.ProductWithStocks;
 import com.mycompany.buat_apk.domains.frames.ComboCategory;
 import com.mycompany.buat_apk.registry.AppContextRegistry;
 import com.mycompany.buat_apk.registry.ServiceRegistry;
+import com.mycompany.buat_apk.registry.UtilRegistry;
 import com.mycompany.buat_apk.services.CategoryService;
 import com.mycompany.buat_apk.services.ProductService;
 
@@ -262,6 +263,7 @@ public class frame_produk extends javax.swing.JFrame {
 //GEN-FIRST:event_saveButtonActionPerformed
         String name = nameField.getText();
         String desc = descField.getText();
+        String photoFileName = "";
 
         if (name.equals("") || desc.equals("")) {
             javax.swing.JOptionPane.showMessageDialog(this, 
@@ -323,7 +325,9 @@ public class frame_produk extends javax.swing.JFrame {
                 java.io.File targetDir = new java.io.File("storage/images");
                 if (!targetDir.exists()) targetDir.mkdirs();
 
-                java.io.File targetFile = new java.io.File(targetDir, this.photo.getName());
+                photoFileName = UtilRegistry.generateImageName(this.photo);
+
+                java.io.File targetFile = new java.io.File(targetDir, photoFileName);
 
                 java.nio.file.Files.copy(
                         this.photo.toPath(), 
@@ -342,7 +346,7 @@ public class frame_produk extends javax.swing.JFrame {
 
         CreateProduct createProductData = new CreateProduct();
         createProductData.setName(this.name);
-        createProductData.setImage(this.photo.getName());
+        createProductData.setImage(photoFileName);
         createProductData.setQuantity(this.stock);
         createProductData.setCategoryId(this.category_id);
         createProductData.setDescription(this.description);
@@ -357,7 +361,7 @@ public class frame_produk extends javax.swing.JFrame {
         System.out.print("category_id: ");
         System.out.println(this.category_id);
         System.out.print("photo: ");
-        System.out.println(this.photo.getName());
+        System.out.println(photoFileName);
 
         this.productService.createProduct(this.context.getActiveUser().getId(), createProductData);
 

@@ -14,6 +14,7 @@ import com.mycompany.buat_apk.domains.entities.products.UpdateProduct;
 import com.mycompany.buat_apk.domains.frames.ComboCategory;
 import com.mycompany.buat_apk.registry.AppContextRegistry;
 import com.mycompany.buat_apk.registry.ServiceRegistry;
+import com.mycompany.buat_apk.registry.UtilRegistry;
 import com.mycompany.buat_apk.services.CategoryService;
 import com.mycompany.buat_apk.services.ProductService;
 
@@ -233,6 +234,7 @@ public class frame_editProduk extends javax.swing.JFrame {
 //GEN-FIRST:event_saveButtonActionPerformed
         String name = nameField.getText();
         String desc = descField.getText();
+        String photoFileName = "";
 
         if (name.equals("") || desc.equals("")) {
             javax.swing.JOptionPane.showMessageDialog(this, 
@@ -281,12 +283,13 @@ public class frame_editProduk extends javax.swing.JFrame {
         }
 
         try {
-
             if (this.photo != null) {
                 java.io.File targetDir = new java.io.File("storage/images");
                 if (!targetDir.exists()) targetDir.mkdirs();
 
-                java.io.File targetFile = new java.io.File(targetDir, this.photo.getName());
+                photoFileName = UtilRegistry.generateImageName(this.photo);
+
+                java.io.File targetFile = new java.io.File(targetDir, photoFileName);
 
                 java.nio.file.Files.copy(
                         this.photo.toPath(), 
@@ -295,8 +298,11 @@ public class frame_editProduk extends javax.swing.JFrame {
                         );
 
                 System.out.println("Image saved to: " + targetFile.getPath());
-            }
 
+                if (this.oldPhoto != null && this.oldPhoto.exists()) {
+                    this.oldPhoto.delete();
+                }
+            }
 
         } catch (Exception e) {
             javax.swing.JOptionPane.showMessageDialog(this, "Error saving: " + e.getMessage());
@@ -306,7 +312,7 @@ public class frame_editProduk extends javax.swing.JFrame {
 
         UpdateProduct updateProductData = new UpdateProduct();
         updateProductData.setName(this.name);
-        updateProductData.setImage(this.photo.getName());
+        updateProductData.setImage(photoFileName);
         updateProductData.setCategoryId(this.category_id);
         updateProductData.setDescription(this.description);
         updateProductData.setPrice(this.price);
@@ -329,7 +335,7 @@ public class frame_editProduk extends javax.swing.JFrame {
         System.out.print("category_id: ");
         System.out.println(this.category_id);
         System.out.print("photo: ");
-        System.out.println(this.photo.getName());
+        System.out.println(photoFileName);
 
         this.productService.updateProduct(this.productId, updateProductData);
         
@@ -337,7 +343,6 @@ public class frame_editProduk extends javax.swing.JFrame {
             this,
             "Perubahan produk berhasil disimpan"
         );
-        this.oldPhoto.delete();
         this.parent.goTo("PRODUCT_DETAIL", this.productId);
     }//GEN-LAST:event_saveButtonActionPerformed
 
@@ -464,6 +469,7 @@ public class frame_editProduk extends javax.swing.JFrame {
         }
 
         this.photo = details.getImageFile();
+        this.oldPhoto = details.getImageFile();
         displayImage(imageAbsPath);
     }
 
