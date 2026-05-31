@@ -86,7 +86,7 @@ public class frame_detail extends javax.swing.JFrame {
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Penjualan");
 
-        jButton2.setBackground(new java.awt.Color(255, 102, 51));
+        jButton2.setBackground(new java.awt.Color(255, 51, 51));
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Pembelian");
@@ -251,7 +251,7 @@ public class frame_detail extends javax.swing.JFrame {
 
         btnDelete.setBackground(new java.awt.Color(255, 204, 204));
         btnDelete.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnDelete.setForeground(new java.awt.Color(255, 0, 51));
+        btnDelete.setForeground(new java.awt.Color(255, 51, 51));
         btnDelete.setText("Hapus");
         btnDelete.addActionListener(this::btnDeleteActionPerformed);
 
