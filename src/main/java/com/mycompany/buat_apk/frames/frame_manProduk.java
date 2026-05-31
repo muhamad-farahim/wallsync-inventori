@@ -4,10 +4,12 @@
  */
 package com.mycompany.buat_apk.frames;
 
+import java.awt.CardLayout;
 import java.awt.List;
 
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 
 import com.mycompany.buat_apk.domains.entities.products.ProductWithStocks;
@@ -25,8 +27,16 @@ public class frame_manProduk extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(frame_manProduk.class.getName());
     private MainFrame parent;
+    private CardLayout innerCardLayout;
+    private JPanel innerContent;
 
     private ProductService service;
+
+    private frame_listCustomer frameListCustomer;
+    private frame_listUser frameListUser;
+    private frame_listCategory frameListCategory;
+    private frame_manTransaksi frameManTransaksi;
+
 
     /**
      * Creates new form frame_manProduk
@@ -38,7 +48,38 @@ public class frame_manProduk extends javax.swing.JFrame {
         ServiceRegistry serviceRegistry = ServiceRegistry.getInstance();
         this.service = serviceRegistry.productService;
 
+        this.innerCardLayout = new CardLayout();
+        this.innerContent = new JPanel(this.innerCardLayout);
+
+        this.frameListCustomer = new frame_listCustomer(parent);
+        this.frameListUser = new frame_listUser(parent);
+        this.frameListCategory = new frame_listCategory(parent);
+        this.frameManTransaksi = new frame_manTransaksi(parent);
+
+        this.innerContent.add(jDesktopPane1, "PRODUCT_LIST");
+        this.innerContent.add(this.frameListCustomer.getContentPane(), "CUSTOMER_LIST");
+        this.innerContent.add(this.frameListUser.getContentPane(), "USER_LIST");
+        this.innerContent.add(this.frameListCategory.getContentPane(), "CATEGORY_LIST");
+        this.innerContent.add(this.frameManTransaksi.getContentPane(), "TRANSAKSI_LIST");
+        // this.innerContent.add(new frame_transaksi(parent).getContentPane(), "TRANSAKSI");
+
+        // Ditch the GroupLayout entirely, replace with BorderLayout
+        getContentPane().removeAll();
+        getContentPane().setLayout(new java.awt.BorderLayout());
+        getContentPane().add(jPanel1, java.awt.BorderLayout.WEST);   // sidebar
+        getContentPane().add(innerContent, java.awt.BorderLayout.CENTER); // swappable area
+
+        this.innerCardLayout.show(innerContent, "PRODUCT_LIST");
         this.loadTableData();
+    }
+
+    public void goToInner(String name) {
+
+        if(name.equals("PRODUCT_LIST")){
+            this.loadTableData();
+        }
+
+        this.innerCardLayout.show(this.innerContent, name);
     }
 
 
@@ -52,12 +93,14 @@ public class frame_manProduk extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
+        productListNav = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         btnTransaksi = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         btnCustomer = new javax.swing.JButton();
         btnAdmin = new javax.swing.JButton();
+        btnCategoryNav = new javax.swing.JButton();
+        btnUserNav = new javax.swing.JButton();
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jPanel2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
@@ -82,12 +125,12 @@ public class frame_manProduk extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(15, 23, 42));
 
-        jButton2.setBackground(new java.awt.Color(0, 51, 255));
-        jButton2.setFont(new java.awt.Font("Poppins Medium", 1, 12)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Manajemen Produk");
-        jButton2.setBorderPainted(false);
-        jButton2.addActionListener(this::jButton2ActionPerformed);
+        productListNav.setBackground(new java.awt.Color(0, 51, 255));
+        productListNav.setFont(new java.awt.Font("Poppins Medium", 1, 12)); // NOI18N
+        productListNav.setForeground(new java.awt.Color(255, 255, 255));
+        productListNav.setText("Manajemen Produk");
+        productListNav.setBorderPainted(false);
+        productListNav.addActionListener(this::productListNavActionPerformed);
 
         jLabel2.setFont(new java.awt.Font("Poppins Medium", 1, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -124,6 +167,20 @@ public class frame_manProduk extends javax.swing.JFrame {
         btnAdmin.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         btnAdmin.addActionListener(this::btnAdminActionPerformed);
 
+        btnCategoryNav.setBackground(new java.awt.Color(0, 51, 255));
+        btnCategoryNav.setFont(new java.awt.Font("Poppins Medium", 1, 12)); // NOI18N
+        btnCategoryNav.setForeground(new java.awt.Color(255, 255, 255));
+        btnCategoryNav.setText("Category");
+        btnCategoryNav.setBorderPainted(false);
+        btnCategoryNav.addActionListener(this::btnCategoryNavActionPerformed);
+
+        btnUserNav.setBackground(new java.awt.Color(0, 51, 255));
+        btnUserNav.setFont(new java.awt.Font("Poppins Medium", 1, 12)); // NOI18N
+        btnUserNav.setForeground(new java.awt.Color(255, 255, 255));
+        btnUserNav.setText("User");
+        btnUserNav.setBorderPainted(false);
+        btnUserNav.addActionListener(this::btnUserNavActionPerformed);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -136,13 +193,15 @@ public class frame_manProduk extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(16, 16, 16)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(productListNav, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnTransaksi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnCustomer, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnAdmin)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(40, 40, 40)
-                                .addComponent(jButton4)))))
+                                .addComponent(jButton4))
+                            .addComponent(btnCategoryNav, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnUserNav, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -151,17 +210,23 @@ public class frame_manProduk extends javax.swing.JFrame {
                 .addGap(15, 15, 15)
                 .addComponent(jLabel2)
                 .addGap(43, 43, 43)
-                .addComponent(jButton2)
+                .addComponent(productListNav)
                 .addGap(18, 18, 18)
                 .addComponent(btnTransaksi)
                 .addGap(18, 18, 18)
                 .addComponent(btnCustomer)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 245, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(btnCategoryNav)
+                .addGap(18, 18, 18)
+                .addComponent(btnUserNav)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 167, Short.MAX_VALUE)
                 .addComponent(btnAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton4)
                 .addGap(23, 23, 23))
         );
+
+        jDesktopPane1.setRequestFocusEnabled(false);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -294,9 +359,9 @@ public class frame_manProduk extends javax.swing.JFrame {
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 171, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 127, Short.MAX_VALUE)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33))
+                .addGap(77, 77, 77))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -347,10 +412,11 @@ public class frame_manProduk extends javax.swing.JFrame {
                 .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jDesktopPane1Layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(64, 64, 64)
+                        .addGap(41, 41, 41)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(64, 64, 64)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(47, 47, 47)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(40, 40, 40))
                     .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)))
@@ -393,12 +459,15 @@ public class frame_manProduk extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void productListNavActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productListNavActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+        this.goToInner("PRODUCT_LIST");
+        
+    }//GEN-LAST:event_productListNavActionPerformed
 
     private void btnTransaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransaksiActionPerformed
         // TODO add your handling code here:
+        this.goToInner("TRANSAKSI_LIST");
     }//GEN-LAST:event_btnTransaksiActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -412,11 +481,23 @@ public class frame_manProduk extends javax.swing.JFrame {
 
     private void btnCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCustomerActionPerformed
         // TODO add your handling code here:
+        this.goToInner("CUSTOMER_LIST");
+        
     }//GEN-LAST:event_btnCustomerActionPerformed
 
     private void btnAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdminActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAdminActionPerformed
+
+    private void btnCategoryNavActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCategoryNavActionPerformed
+        // TODO add your handling code here:
+        this.goToInner("CATEGORY_LIST");
+    }//GEN-LAST:event_btnCategoryNavActionPerformed
+
+    private void btnUserNavActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUserNavActionPerformed
+        // TODO add your handling code here:
+        this.goToInner("USER_LIST");
+    }//GEN-LAST:event_btnUserNavActionPerformed
 
     public void loadTableData() {
         java.util.List<ProductWithStocks> productList = this.service.getAllProductsWithStocks();
@@ -464,9 +545,10 @@ public class frame_manProduk extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdmin;
+    private javax.swing.JButton btnCategoryNav;
     private javax.swing.JButton btnCustomer;
     private javax.swing.JButton btnTransaksi;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnUserNav;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JComboBox<String> jComboBox1;
@@ -489,5 +571,6 @@ public class frame_manProduk extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JButton productListNav;
     // End of variables declaration//GEN-END:variables
 }

@@ -24,7 +24,6 @@ public class Buat_apk {
 
     public static void main(String[] args) {
         // Set environment variables
-        
         MainFrame mf = new MainFrame();
         mf.start();
     }

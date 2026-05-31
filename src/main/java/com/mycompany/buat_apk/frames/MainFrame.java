@@ -61,6 +61,17 @@ public class MainFrame extends JFrame {
         if(name.equals("PRODUCT_LIST")){
             this.frameProductList.loadTableData();
         }
+
+        if(name.equals("USER_LIST") || 
+                name.equals("CATEGORY_LIST") || 
+                name.equals("CUSTOMER_LIST") || 
+                name.equals("TRANSAKSI_LIST")
+        ){
+            this.cardLayout.show(this.mainContent, "PRODUCT_LIST");
+            this.frameProductList.goToInner(name);
+            return;
+        }
+
         this.cardLayout.show(this.mainContent, name);
     }
     
