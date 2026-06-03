@@ -15,7 +15,8 @@ CREATE TABLE users (
 CREATE TABLE categories (
     id BIGINT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
-    code VARCHAR(50) NOT NULL UNIQUE
+    code VARCHAR(50) NOT NULL UNIQUE,
+    description VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE products (
@@ -33,10 +34,9 @@ CREATE TABLE customers (
     id BIGINT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     dob DATE NOT NULL,
-    province TEXT NOT NULL,
-    category_id BIGINT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY(category_id) REFERENCES categories(id) ON DELETE CASCADE
+    subdistrict VARCHAR(255) NOT NULL,
+    phone VARCHAR(255) NOT NULL UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE stocks (
@@ -56,6 +56,6 @@ CREATE TABLE stocks (
 INSERT INTO users (username, name, password) VALUES ("admin", "Farahim", "test");
 INSERT INTO users (username, name, password) VALUES ("admin2", "Dandy", "test");
 
-INSERT INTO categories (name, code) VALUES ('Wall panel', 'interior');
-INSERT INTO categories (name, code) VALUES ('Wallpaper', 'wallpaper');
-INSERT INTO categories (name, code) VALUES ('Kitchen Set', 'kitchen-set');
+INSERT INTO categories (name, code, description) VALUES ('Wall panel', 'interior', 'Great wallpanel');
+INSERT INTO categories (name, code, description) VALUES ('Wallpaper', 'wallpaper', 'Good-looking wallpaper');
+INSERT INTO categories (name, code, description) VALUES ('Kitchen Set', 'kitchen-set', "Elegant kitchen set");

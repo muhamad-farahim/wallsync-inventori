@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.mycompany.buat_apk.domains.entities.categories.Category;
+import com.mycompany.buat_apk.domains.entities.categories.CategoryWithProductCount;
 import com.mycompany.buat_apk.domains.entities.products.ProductDetails;
 import com.mycompany.buat_apk.domains.entities.products.ProductWithStocks;
 import com.mycompany.buat_apk.domains.entities.products.UpdateProduct;
@@ -427,11 +428,11 @@ public class frame_editProduk extends javax.swing.JFrame {
 
     public void loadCategories() {
         try {
-            List<Category> categoryList = this.categoryService.getAllCategories();
+            List<CategoryWithProductCount> categoryList = this.categoryService.getAllCategories();
 
             List<ComboCategory> comboCategoryList = new ArrayList<>();
 
-            for (Category c : categoryList) {
+            for (CategoryWithProductCount c : categoryList) {
                 comboCategoryList.add(new ComboCategory(c.getId(), c.getName())); 
             }
 

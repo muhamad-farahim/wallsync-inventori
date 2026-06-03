@@ -5,12 +5,9 @@
 package com.mycompany.buat_apk.frames;
 
 import java.awt.CardLayout;
-import java.awt.List;
 
 import javax.swing.JCheckBox;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.table.DefaultTableModel;
 
 import com.mycompany.buat_apk.domains.entities.products.ProductWithStocks;
 import com.mycompany.buat_apk.domains.frames.ButtonEditor;
@@ -77,6 +74,10 @@ public class frame_manProduk extends javax.swing.JFrame {
 
         if(name.equals("PRODUCT_LIST")){
             this.loadTableData();
+        }
+
+        if(name.equals("CATEGORY_LIST")){
+            this.frameListCategory.loadTableData();
         }
 
         this.innerCardLayout.show(this.innerContent, name);

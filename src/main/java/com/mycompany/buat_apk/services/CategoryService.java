@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import com.mycompany.buat_apk.domains.entities.categories.Category;
+import com.mycompany.buat_apk.domains.entities.categories.CategoryWithProductCount;
 import com.mycompany.buat_apk.domains.repositories.CategoryRepository;
 
 public class CategoryService {
@@ -14,7 +15,7 @@ public class CategoryService {
 	this.repo = repo;
    } 
 
-   public List<Category> getAllCategories() {
+   public List<CategoryWithProductCount> getAllCategories() {
        try {
            return this.repo.getAllCategories();
        }catch(SQLException e) {
@@ -23,4 +24,26 @@ public class CategoryService {
             return null;
        }
    }
+
+   public Long CreateCategoryReturnId(Category category) {
+    try {
+        if (category.getName() != null && !category.getName().trim().isEmpty()) {
+            
+            String name = category.getName().trim().toLowerCase();
+            
+            name = name.replaceAll("[^a-z0-9\\s-]", "");
+            
+            String kebabCaseCode = name.replaceAll("\\s+", "-");
+            
+            category.setCode(kebabCaseCode);
+        }
+
+        return this.repo.createProductReturnid(category);
+        
+    } catch(SQLException e) {
+        System.err.println("Error when creating category:");
+        System.err.println(e);
+        return 0L;
+    }
+}
 }

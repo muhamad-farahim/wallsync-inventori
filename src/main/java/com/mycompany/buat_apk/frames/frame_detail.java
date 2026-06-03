@@ -5,14 +5,12 @@
 package com.mycompany.buat_apk.frames;
 
 import java.awt.Image;
-import java.awt.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
 
 import com.mycompany.buat_apk.domains.entities.products.ProductDetails;
 import com.mycompany.buat_apk.domains.entities.stocks.StockDetailItem;
-import com.mycompany.buat_apk.domains.repositories.ProductRepository;
 import com.mycompany.buat_apk.registry.ServiceRegistry;
 import com.mycompany.buat_apk.services.ProductService;
 
