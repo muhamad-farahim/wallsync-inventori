@@ -18,6 +18,7 @@ public class frame_listCategory extends javax.swing.JFrame {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(frame_listCategory.class.getName());
     private MainFrame parent;
     private CategoryService categoryService;
+    private Long selectedId;
 
     /**
      * Creates new form frame_listCategory
@@ -29,6 +30,30 @@ public class frame_listCategory extends javax.swing.JFrame {
         ServiceRegistry serviceRegistry = ServiceRegistry.getInstance();
 
         this.categoryService = serviceRegistry.categoryService;
+
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                int selectedRow = jTable1.getSelectedRow();
+                if (selectedRow != -1) {
+                    Object idObj = jTable1.getValueAt(selectedRow, 0);
+                    if (idObj instanceof Number) {
+                        selectedId = ((Number) idObj).longValue();
+                    } else if (idObj != null) {
+                        selectedId = Long.parseLong(idObj.toString());
+                    }
+
+                    String name = jTable1.getValueAt(selectedRow, 1).toString();
+                    Object descObj = jTable1.getValueAt(selectedRow, 3);
+                    String description = (descObj != null) ? descObj.toString() : "";
+
+                    nameField.setText(name);
+                    descField.setText(description);
+                }
+            }
+        });
+
+        loadTableData();
     }
 
     /**
@@ -55,9 +80,9 @@ public class frame_listCategory extends javax.swing.JFrame {
         descField = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        editBtn = new javax.swing.JButton();
+        deleteBtn = new javax.swing.JButton();
+        clearBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(844, 219));
@@ -145,21 +170,21 @@ public class frame_listCategory extends javax.swing.JFrame {
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel3.setText("[num]");
 
-        jButton3.setBackground(new java.awt.Color(0, 51, 255));
-        jButton3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("Edit");
-        jButton3.addActionListener(this::jButton3ActionPerformed);
+        editBtn.setBackground(new java.awt.Color(0, 51, 255));
+        editBtn.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        editBtn.setForeground(new java.awt.Color(255, 255, 255));
+        editBtn.setText("Edit");
+        editBtn.addActionListener(this::editBtnActionPerformed);
 
-        jButton4.setBackground(new java.awt.Color(255, 204, 204));
-        jButton4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton4.setForeground(new java.awt.Color(255, 51, 51));
-        jButton4.setText("Delete");
-        jButton4.addActionListener(this::jButton4ActionPerformed);
+        deleteBtn.setBackground(new java.awt.Color(255, 204, 204));
+        deleteBtn.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        deleteBtn.setForeground(new java.awt.Color(255, 51, 51));
+        deleteBtn.setText("Delete");
+        deleteBtn.addActionListener(this::deleteBtnActionPerformed);
 
-        jButton5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton5.setText("Clear");
-        jButton5.addActionListener(this::jButton5ActionPerformed);
+        clearBtn.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        clearBtn.setText("Clear");
+        clearBtn.addActionListener(this::clearBtnActionPerformed);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -184,13 +209,13 @@ public class frame_listCategory extends javax.swing.JFrame {
                         .addComponent(descField, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jButton5)
+                        .addComponent(clearBtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(saveCategory)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton3)
+                        .addComponent(editBtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4)
+                        .addComponent(deleteBtn)
                         .addGap(15, 15, 15))))
         );
         jPanel2Layout.setVerticalGroup(
@@ -211,10 +236,10 @@ public class frame_listCategory extends javax.swing.JFrame {
                     .addComponent(descField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(clearBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(editBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(saveCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(14, 14, 14))
         );
@@ -284,8 +309,7 @@ public class frame_listCategory extends javax.swing.JFrame {
                     javax.swing.JOptionPane.INFORMATION_MESSAGE);
 
             // 5. Clear inputs for clean slate usability
-            nameField.setText("");
-            descField.setText("");
+            this.clearForm();
 
             // 6. Refresh the structural display table
             loadTableData();
@@ -298,6 +322,11 @@ public class frame_listCategory extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_saveCategoryActionPerformed
 
+    private void clearForm() {
+        nameField.setText("");
+        descField.setText("");
+    }
+
     private void nameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_nameFieldActionPerformed
@@ -306,17 +335,90 @@ public class frame_listCategory extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_descFieldActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+    private void editBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editBtnActionPerformed
+        if (selectedId == null) {
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                    "Please select a category row from the table to edit.", 
+                    "No Selection", 
+                    javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
+        String name = nameField.getText().trim();
+        String description = descField.getText().trim();
+
+        if (name.isEmpty() || description.isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                    "Category Name and Description cannot be empty!", 
+                    "Validation Error", 
+                    javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        com.mycompany.buat_apk.domains.entities.categories.Category category = 
+                new com.mycompany.buat_apk.domains.entities.categories.Category(selectedId, name, null, description);
+        
+        boolean isUpdated = this.categoryService.updateCategory(category);
+
+        if (isUpdated) {
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                    "Category updated successfully!", 
+                    "Success", 
+                    javax.swing.JOptionPane.INFORMATION_MESSAGE);
+            
+            this.clearForm();
+            selectedId = null;
+            jTable1.clearSelection();
+            loadTableData();
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                    "Failed to update category. Check logs for details.", 
+                    "Error", 
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_editBtnActionPerformed
+
+    private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
+        if (selectedId == null) {
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                    "Please select a category row from the table to delete.", 
+                    "No Selection", 
+                    javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        int confirm = javax.swing.JOptionPane.showConfirmDialog(this, 
+                "Are you sure you want to delete this category?", 
+                "Confirm Deletion", 
+                javax.swing.JOptionPane.YES_NO_OPTION, 
+                javax.swing.JOptionPane.QUESTION_MESSAGE);
+
+        if (confirm == javax.swing.JOptionPane.YES_OPTION) {
+            boolean isDeleted = this.categoryService.deleteCategory(selectedId);
+            
+            if (isDeleted) {
+                javax.swing.JOptionPane.showMessageDialog(this, 
+                        "Category deleted successfully!", 
+                        "Success", 
+                        javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                
+                this.clearForm();
+                selectedId = null;
+                jTable1.clearSelection();
+                loadTableData();
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(this, 
+                        "Failed to delete category. Check logs for details.", 
+                        "Error", 
+                        javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_deleteBtnActionPerformed
+
+    private void clearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearBtnActionPerformed
+        this.clearForm();
+    }//GEN-LAST:event_clearBtnActionPerformed
 
     public void loadTableData() {
     javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) jTable1.getModel();
@@ -373,11 +475,11 @@ public class frame_listCategory extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton clearBtn;
+    private javax.swing.JButton deleteBtn;
     private javax.swing.JTextField descField;
+    private javax.swing.JButton editBtn;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
