@@ -144,6 +144,7 @@ public class frame_listCategory extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTable1);
 
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         saveCategory.setBackground(new java.awt.Color(0, 51, 255));
