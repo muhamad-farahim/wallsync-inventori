@@ -71,7 +71,7 @@ public class ProductDetails {
     }
 
     public void setCategoryName(String category_name) {
-        this.category_name = name;
+        this.category_name = category_name;
     }
 
     public String getImage() {

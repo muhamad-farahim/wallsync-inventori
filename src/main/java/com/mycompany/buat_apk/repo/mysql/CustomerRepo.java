@@ -128,4 +128,39 @@ public class CustomerRepo implements CustomerRepository {
         }
         return null;
     }
+    @Override
+    public Customer getCustomerByPhone(String phone) {
+
+        String sql = """
+            SELECT id, name, dob, subdistrict, phone, created_at
+            FROM customers
+            WHERE phone = ?
+        """;
+
+        try (
+            Connection conn = DbConnection.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql)
+        ) {
+
+            pstmt.setString(1, phone);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return new Customer(
+                        rs.getLong("id"),
+                        rs.getString("name"),
+                        rs.getTimestamp("dob"),
+                        rs.getString("subdistrict"),
+                        rs.getString("phone"),
+                        rs.getTimestamp("created_at")
+                    );
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }

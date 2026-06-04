@@ -119,6 +119,8 @@ public class frame_produk extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel6.setText("Kategori");
 
+        categoryField.addActionListener(this::categoryFieldActionPerformed);
+
         saveButton.setBackground(new java.awt.Color(0, 0, 153));
         saveButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         saveButton.setForeground(new java.awt.Color(255, 255, 255));
@@ -389,11 +391,16 @@ public class frame_produk extends javax.swing.JFrame {
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         // TODO add your handling code here:
         this.parent.goTo("PRODUCT_LIST");
+        
     }//GEN-LAST:event_backButtonActionPerformed
 
     private void stockFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stockFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_stockFieldActionPerformed
+
+    private void categoryFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_categoryFieldActionPerformed
     
     private void displayImage(String path) {
         try {

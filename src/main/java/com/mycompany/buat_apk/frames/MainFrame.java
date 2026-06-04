@@ -13,10 +13,11 @@ public class MainFrame extends JFrame {
 
     private JPanel mainContent;
     private CardLayout cardLayout;
-
+    private frame_produk frameProductCreate;
     private frame_manProduk frameProductList;
     private frame_detail frameDetailProduct;
     private frame_editProduk frameEditProduk;
+    private Frame_sales frameSales; 
 
     public MainFrame() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -34,19 +35,21 @@ public class MainFrame extends JFrame {
         frame_login fLogin = new frame_login(this);
         frame_detail frDetailProduct = new frame_detail(this);
         frame_editProduk fEditProduk = new frame_editProduk(this);
+        Frame_sales fSales = new Frame_sales(this);
 
         this.add(this.mainContent);
-
+        this.frameProductCreate = fProduk;
         this.frameProductList = fMproduk;
         this.frameDetailProduct = frDetailProduct;
         this.frameEditProduk = fEditProduk;
+        this.frameSales = fSales;
 
         //CRUD PRODUCT
         this.mainContent.add(fProduk.getContentPane(), "PRODUCT_CREATE");
         this.mainContent.add(fMproduk.getContentPane(), "PRODUCT_LIST");
         this.mainContent.add(frDetailProduct.getContentPane(), "PRODUCT_DETAIL");
         this.mainContent.add(fEditProduk.getContentPane(), "PRODUCT_EDIT");
-        
+        this.mainContent.add(fSales.getContentPane(), "PRODUCT_SALES");
 
         //AUTH
         this.mainContent.add(fLogin.getContentPane(), "LOGIN");
@@ -58,6 +61,11 @@ public class MainFrame extends JFrame {
     }
     
     protected void goTo(String name) {
+        if(name.equals("PRODUCT_CREATE")){
+        this.frameProductCreate.loadCategories();
+        }
+
+        
         if(name.equals("PRODUCT_LIST")){
             this.frameProductList.loadTableData();
         }
@@ -82,6 +90,10 @@ public class MainFrame extends JFrame {
         
         if(name.equals("PRODUCT_EDIT")) {
             this.frameEditProduk.loadFormData(id);
+        }
+        
+        if(name.equals("PRODUCT_SALES")) {
+            this.frameSales.loadData(id);
         }
 
         this.cardLayout.show(this.mainContent, name);
