@@ -7,9 +7,7 @@ package com.mycompany.buat_apk.frames;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mycompany.buat_apk.domains.entities.categories.Category;
 import com.mycompany.buat_apk.domains.entities.categories.CategoryWithProductCount;
-import com.mycompany.buat_apk.domains.entities.products.UpdateProduct;
 import com.mycompany.buat_apk.domains.entities.products.CreateProduct;
 import com.mycompany.buat_apk.domains.entities.products.ProductWithStocks;
 import com.mycompany.buat_apk.domains.frames.ComboCategory;
@@ -370,6 +368,7 @@ public class frame_produk extends javax.swing.JFrame {
 
 
         clearForm();
+        this.parent.goTo("PRODUCT_LIST");
     }//GEN-LAST:event_saveButtonActionPerformed
 
     private void uploadFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uploadFileButtonActionPerformed

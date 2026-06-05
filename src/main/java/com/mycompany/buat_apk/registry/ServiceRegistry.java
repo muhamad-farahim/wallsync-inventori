@@ -3,21 +3,22 @@ package com.mycompany.buat_apk.registry;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import com.mycompany.buat_apk.config.AppConfig;
 import com.mycompany.buat_apk.db.DbConnection;
 import com.mycompany.buat_apk.domains.repositories.CategoryRepository;
+import com.mycompany.buat_apk.domains.repositories.CustomerRepository;
 import com.mycompany.buat_apk.domains.repositories.ProductRepository;
 import com.mycompany.buat_apk.domains.repositories.StockRepository;
 import com.mycompany.buat_apk.domains.repositories.UserRepository;
 import com.mycompany.buat_apk.repo.mysql.CategoryRepo;
+import com.mycompany.buat_apk.repo.mysql.CustomerRepo;
 import com.mycompany.buat_apk.repo.mysql.ProductRepo;
 import com.mycompany.buat_apk.repo.mysql.StockRepo;
 import com.mycompany.buat_apk.repo.mysql.UserRepo;
 import com.mycompany.buat_apk.services.AuthService;
 import com.mycompany.buat_apk.services.CategoryService;
+import com.mycompany.buat_apk.services.CustomerService;
 import com.mycompany.buat_apk.services.ProductService;
 
-import io.github.cdimascio.dotenv.Dotenv;
 
 public class ServiceRegistry {
 
@@ -27,6 +28,7 @@ public class ServiceRegistry {
     public ProductService productService;
     public CategoryService categoryService;
     public AuthService authService;
+    public CustomerService customerService;
 
 
     private ServiceRegistry() {
@@ -46,10 +48,13 @@ public class ServiceRegistry {
         StockRepository stockRepository = new StockRepo(conn);
         CategoryRepository categoryRepository = new CategoryRepo(conn);
         UserRepository userRepository = new UserRepo(conn);
+        CustomerRepository customerRepository = new CustomerRepo();
 
         this.productService = new ProductService(productRepository, stockRepository);
         this.categoryService = new CategoryService(categoryRepository);
         this.authService = new AuthService(userRepository);
+        this.customerService = new CustomerService(customerRepository);
+
     }
 
     public static ServiceRegistry getInstance() {

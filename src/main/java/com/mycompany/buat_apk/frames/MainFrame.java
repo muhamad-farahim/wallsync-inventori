@@ -36,6 +36,7 @@ public class MainFrame extends JFrame {
         frame_detail frDetailProduct = new frame_detail(this);
         frame_editProduk fEditProduk = new frame_editProduk(this);
         Frame_sales fSales = new Frame_sales(this);
+        frame_customer fCustomer = new frame_customer(this);
 
         this.add(this.mainContent);
         this.frameProductCreate = fProduk;
@@ -50,6 +51,7 @@ public class MainFrame extends JFrame {
         this.mainContent.add(frDetailProduct.getContentPane(), "PRODUCT_DETAIL");
         this.mainContent.add(fEditProduk.getContentPane(), "PRODUCT_EDIT");
         this.mainContent.add(fSales.getContentPane(), "PRODUCT_SALES");
+        this.mainContent.add(fCustomer.getContentPane(), "CUSTOMER_CREATE");
 
         //AUTH
         this.mainContent.add(fLogin.getContentPane(), "LOGIN");
