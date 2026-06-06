@@ -18,6 +18,7 @@ import com.mycompany.buat_apk.services.AuthService;
 import com.mycompany.buat_apk.services.CategoryService;
 import com.mycompany.buat_apk.services.CustomerService;
 import com.mycompany.buat_apk.services.ProductService;
+import com.mycompany.buat_apk.services.UserService;
 
 
 public class ServiceRegistry {
@@ -29,6 +30,7 @@ public class ServiceRegistry {
     public CategoryService categoryService;
     public AuthService authService;
     public CustomerService customerService;
+    public UserService userService;
 
 
     private ServiceRegistry() {
@@ -54,6 +56,7 @@ public class ServiceRegistry {
         this.categoryService = new CategoryService(categoryRepository);
         this.authService = new AuthService(userRepository);
         this.customerService = new CustomerService(customerRepository);
+        this.userService = new UserService(userRepository);
 
     }
 

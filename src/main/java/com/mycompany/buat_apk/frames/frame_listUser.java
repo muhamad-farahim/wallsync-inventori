@@ -4,6 +4,14 @@
  */
 package com.mycompany.buat_apk.frames;
 
+import java.util.List;
+
+import com.mycompany.buat_apk.domains.entities.users.CreateUser;
+import com.mycompany.buat_apk.domains.entities.users.UpdateUser;
+import com.mycompany.buat_apk.domains.entities.users.User;
+import com.mycompany.buat_apk.registry.ServiceRegistry;
+import com.mycompany.buat_apk.services.UserService;
+
 /**
  *
  * @author rahim
@@ -13,6 +21,8 @@ public class frame_listUser extends javax.swing.JFrame {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(frame_listUser.class.getName());
 
     private MainFrame parent;
+    private Long selectedId;
+    private UserService service;
 
     /**
      * Creates new form frame_listUser
@@ -20,6 +30,79 @@ public class frame_listUser extends javax.swing.JFrame {
     public frame_listUser(MainFrame parent) {
         initComponents();
         this.parent = parent;
+
+        ServiceRegistry serviceRegistry = ServiceRegistry.getInstance();
+        this.service = serviceRegistry.userService;
+
+        initTableSelectionListener();
+    }
+
+    public void loadTableData() {
+        List<User> userList = this.service.getAllUsers();
+        displayTable(userList);
+    }
+
+    public void loadTableData(List<User> userList) {
+        displayTable(userList);
+    }
+
+    public void displayTable(List<User> userList) {
+        String[] columns = {"ID User", "Name", "Username", "Created At"};
+
+        javax.swing.table.DefaultTableModel model = new javax.swing.table.DefaultTableModel(columns, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; 
+            }
+        };
+
+        java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+
+        for (com.mycompany.buat_apk.domains.entities.users.User user : userList) {
+            String formattedDate = user.getCreatedAt() != null ? user.getCreatedAt().format(formatter) : "-";
+
+            Object[] rowData = {
+                user.getId(),
+                user.getName(),
+                user.getUsername(),
+                formattedDate
+            };
+            model.addRow(rowData);
+        }
+
+        jTable1.setModel(model);
+    }
+
+    private void initTableSelectionListener() {
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                int selectedRow = jTable1.getSelectedRow();
+                
+                // Ensure a valid row index was selected
+                if (selectedRow != -1) {
+                    // Extract data based on the indices of your displayTable columns:
+                    // 0 = ID User, 1 = Name, 2 = Username, 3 = Created At
+                    Object idValue = jTable1.getValueAt(selectedRow, 0);
+                    Object nameValue = jTable1.getValueAt(selectedRow, 1);
+                    Object usernameValue = jTable1.getValueAt(selectedRow, 2);
+
+                    // 1. Assign the extracted ID to the global internal tracking state variable
+                    if (idValue != null) {
+                        selectedId = Long.valueOf(idValue.toString());
+                        idField.setText(idValue.toString());
+                    }
+
+                    // 2. Map structural strings to the respective text field controls
+                    nameField.setText(nameValue != null ? nameValue.toString() : "");
+                    usernameField.setText(usernameValue != null ? usernameValue.toString() : "");
+
+                    // 3. Clear password inputs deliberately for security compliance
+                    passwordField.setText("");
+                    confirmPasswordField.setText("");
+                }
+            }
+        });
     }
 
     /**
@@ -32,18 +115,21 @@ public class frame_listUser extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jPasswordField1 = new javax.swing.JPasswordField();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        passwordField = new javax.swing.JPasswordField();
+        idField = new javax.swing.JTextField();
+        usernameField = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jButton4 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
+        editBtn = new javax.swing.JButton();
+        clearBtn = new javax.swing.JButton();
+        saveBtn = new javax.swing.JButton();
+        deleteBtn = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        confirmPasswordField = new javax.swing.JPasswordField();
+        jLabel6 = new javax.swing.JLabel();
+        nameField = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jTextField3 = new javax.swing.JTextField();
         jButton6 = new javax.swing.JButton();
@@ -57,25 +143,38 @@ public class frame_listUser extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setText("ID User                          :");
+        passwordField.addActionListener(this::passwordFieldActionPerformed);
 
-        jLabel3.setText("Username                     :");
+        idField.setEditable(false);
+        idField.addActionListener(this::idFieldActionPerformed);
 
-        jLabel4.setText("Password                      :");
+        jLabel1.setText("ID User                 :");
 
-        jButton4.setForeground(new java.awt.Color(0, 51, 255));
-        jButton4.setText("Edit");
+        jLabel3.setText("Username            :");
 
-        jButton2.setText("Clear");
+        jLabel4.setText("Password              :");
 
-        jButton3.setBackground(new java.awt.Color(51, 51, 255));
-        jButton3.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("+Add User");
+        editBtn.setForeground(new java.awt.Color(0, 51, 255));
+        editBtn.setText("Edit");
+        editBtn.addActionListener(this::editBtnActionPerformed);
 
-        jButton7.setBackground(new java.awt.Color(255, 51, 51));
-        jButton7.setForeground(new java.awt.Color(255, 255, 255));
-        jButton7.setText("Delete");
+        clearBtn.setText("Clear");
+        clearBtn.addActionListener(this::clearBtnActionPerformed);
+
+        saveBtn.setBackground(new java.awt.Color(51, 51, 255));
+        saveBtn.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        saveBtn.setForeground(new java.awt.Color(255, 255, 255));
+        saveBtn.setText("+Add User");
+        saveBtn.addActionListener(this::saveBtnActionPerformed);
+
+        deleteBtn.setBackground(new java.awt.Color(255, 51, 51));
+        deleteBtn.setForeground(new java.awt.Color(255, 255, 255));
+        deleteBtn.setText("Delete");
+        deleteBtn.addActionListener(this::deleteBtnActionPerformed);
+
+        jLabel5.setText("Confirm Password :");
+
+        jLabel6.setText("name                    :  ");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -87,58 +186,67 @@ public class frame_listUser extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField2)
-                            .addComponent(jPasswordField1)))
+                            .addComponent(usernameField)
+                            .addComponent(passwordField)
+                            .addComponent(confirmPasswordField)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(deleteBtn)
+                        .addGap(18, 18, 18)
+                        .addComponent(editBtn)
+                        .addGap(18, 18, 18)
+                        .addComponent(clearBtn)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(saveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(23, 23, 23))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(idField, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addGap(18, 18, 18)
+                        .addComponent(nameField)))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton4)
-                .addGap(66, 66, 66)
-                .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(36, Short.MAX_VALUE)
+                .addGap(29, 29, 29)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(idField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6)
+                    .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(usernameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton4)
-                    .addComponent(jButton7)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(15, 15, 15))
+                    .addComponent(confirmPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(editBtn)
+                    .addComponent(deleteBtn)
+                    .addComponent(clearBtn)
+                    .addComponent(saveBtn))
+                .addGap(25, 25, 25))
         );
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel2.setText("USER");
-
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jButton1.setText("<");
-        jButton1.addActionListener(this::jButton1ActionPerformed);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -157,7 +265,7 @@ public class frame_listUser extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton6)
                 .addGap(18, 18, 18)
-                .addComponent(jComboBox1, 0, 103, Short.MAX_VALUE)
+                .addComponent(jComboBox1, 0, 178, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -179,7 +287,7 @@ public class frame_listUser extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "ID User", "Username", "Created At", "Action"
+                "ID User", "Name", "Username", "Created At"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -189,40 +297,197 @@ public class frame_listUser extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(64, 64, 64)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(88, 88, 88))
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(88, 88, 88))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(28, 28, 28)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
+                .addGap(12, 12, 12)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void idFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_idFieldActionPerformed
+
+    private void passwordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_passwordFieldActionPerformed
+
+    private void saveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtnActionPerformed
+        String name = nameField.getText().trim();
+        String username = usernameField.getText().trim();
+        String password = new String(passwordField.getPassword());
+        String confirmPassword = new String(confirmPasswordField.getPassword());
+
+        // 2. Structural Form Validation
+        if (name.isEmpty() || username.isEmpty() || password.isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                    "All fields (Name, Username, and Password) are required!", 
+                    "Validation Error", 
+                    javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        if (!password.equals(confirmPassword)) {
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                    "Passwords do not match!", 
+                    "Validation Error", 
+                    javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // 3. Construct the exact DTO expected by your UserService
+        CreateUser createUserData = new CreateUser(name, username, password);
+
+        // 4. Call service layer and evaluate return token
+        Long resultId = this.service.createUser(createUserData);
+
+        if (resultId != null && resultId > 0L) {
+            // Success execution branch
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                    "User created successfully with ID: " + resultId, 
+                    "Success", 
+                    javax.swing.JOptionPane.INFORMATION_MESSAGE);
+
+            loadTableData(); // Refresh table view grid
+            clearForm();     // Flush out inputs
+        } else {
+            // Service layer returned 0L due to internal validation or SQLException
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                    "Failed to create user. Please check console logs or verify if username is unique.", 
+                    "Execution Failure", 
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_saveBtnActionPerformed
+
+    private void clearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearBtnActionPerformed
+        clearForm();
+    }//GEN-LAST:event_clearBtnActionPerformed
+
+    private void editBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editBtnActionPerformed
+                                                                         // 1. Verify a selection has been made via the grid
+        if (this.selectedId == null) {
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                    "Please select a user from the table first to edit.", 
+                    "No Selection", 
+                    javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        String name = nameField.getText().trim();
+        String username = usernameField.getText().trim();
+        String password = new String(passwordField.getPassword());
+        String confirmPassword = new String(confirmPasswordField.getPassword());
+
+        if (name.isEmpty() || username.isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                    "Name and Username cannot be empty!", 
+                    "Validation Error", 
+                    javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        if (!password.isEmpty() && !password.equals(confirmPassword)) {
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                    "Passwords do not match!", 
+                    "Validation Error", 
+                    javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        UpdateUser updateUserData = new UpdateUser();
+        updateUserData.setId(this.selectedId);
+        updateUserData.setName(name);
+        updateUserData.setUsername(username);
+        updateUserData.setPassword(password.isEmpty() ? null : password); 
+
+        boolean isUpdated = this.service.updateUser(updateUserData);
+
+        if (isUpdated) {
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                    "User updated successfully!", 
+                    "Success", 
+                    javax.swing.JOptionPane.INFORMATION_MESSAGE);
+
+            loadTableData(); 
+            clearForm();
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                    "Failed to update user. Check console errors for internal validation or SQL issues.", 
+                    "Update Error", 
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_editBtnActionPerformed
+
+    private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
+                                                                           // 1. Check if a valid ID state tracks to an active grid selection
+        if (this.selectedId == null) {
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                    "Please select a user from the table first to delete.", 
+                    "No Selection", 
+                    javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // 2. Present an intentional confirmation prompt to prevent accidental removals
+        int confirmOption = javax.swing.JOptionPane.showConfirmDialog(this, 
+                "Are you sure you want to delete this user?", 
+                "Confirm Deletion", 
+                javax.swing.JOptionPane.YES_NO_OPTION, 
+                javax.swing.JOptionPane.QUESTION_MESSAGE);
+
+        if (confirmOption == javax.swing.JOptionPane.YES_OPTION) {
+            // 3. Fire deletion command downstream to service layer
+            boolean isDeleted = this.service.deleteUserById(this.selectedId);
+
+            if (isDeleted) {
+                javax.swing.JOptionPane.showMessageDialog(this, 
+                        "User deleted successfully!", 
+                        "Success", 
+                        javax.swing.JOptionPane.INFORMATION_MESSAGE);
+
+                loadTableData(); // Re-fetch operational state variables 
+                clearForm();     // Empty the components out
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(this, 
+                        "Failed to delete user. The ID might be invalid or a database conflict occurred.", 
+                        "Delete Error", 
+                        javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_deleteBtnActionPerformed
+
+    private void clearForm() {
+        idField.setText("");
+        nameField.setText("");
+        usernameField.setText("");
+        passwordField.setText("");
+        confirmPasswordField.setText("");
+
+        this.selectedId = null;
+        jTable1.clearSelection();
+    }
 
     /**
      * @param args the command line arguments
@@ -251,24 +516,27 @@ public class frame_listUser extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton clearBtn;
+    private javax.swing.JPasswordField confirmPasswordField;
+    private javax.swing.JButton deleteBtn;
+    private javax.swing.JButton editBtn;
+    private javax.swing.JTextField idField;
     private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField nameField;
+    private javax.swing.JPasswordField passwordField;
+    private javax.swing.JButton saveBtn;
+    private javax.swing.JTextField usernameField;
     // End of variables declaration//GEN-END:variables
 }

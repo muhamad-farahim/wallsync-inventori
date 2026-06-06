@@ -84,6 +84,10 @@ public class frame_manProduk extends javax.swing.JFrame {
             this.frameListCustomer.loadTableData();
         }
 
+        if(name.equals("USER_LIST")) {
+            this.frameListUser.loadTableData();
+        }
+
         this.innerCardLayout.show(this.innerContent, name);
     }
 
