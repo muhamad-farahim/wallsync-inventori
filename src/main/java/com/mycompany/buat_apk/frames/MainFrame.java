@@ -62,7 +62,7 @@ public class MainFrame extends JFrame {
         this.goTo("LOGIN");
     }
     
-    protected void goTo(String name) {
+    public void goTo(String name) {
         if(name.equals("PRODUCT_CREATE")){
         this.frameProductCreate.loadCategories();
         }

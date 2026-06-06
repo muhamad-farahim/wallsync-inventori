@@ -4,22 +4,82 @@
  */
 package com.mycompany.buat_apk.frames;
 
+import java.util.List;
+
+import com.mycompany.buat_apk.domains.entities.customers.Customer;
+import com.mycompany.buat_apk.registry.ServiceRegistry;
+import com.mycompany.buat_apk.services.CustomerService;
+import com.mycompany.buat_apk.domains.frames.CustomerListButtonEditor;
+import com.mycompany.buat_apk.domains.frames.CustomerListButtonRenderer;
+
 /**
  *
  * @author rahim
  */
 public class frame_listCustomer extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(frame_listCustomer.class.getName());
 
     private MainFrame parent;
+    private CustomerService service;
     /**
      * Creates new form frame_listCustomer
      */
     public frame_listCustomer(MainFrame parent) {
         initComponents();
         this.parent = parent;
+
+        ServiceRegistry serviceRegistry = ServiceRegistry.getInstance();
+        this.service = serviceRegistry.customerService;
+
+        loadTableData();
     }
+
+    public void loadTableData() {
+        // 1. Fetch data from service
+        List<Customer> customers = this.service.getAllCustomers();
+        displayTableData(customers);
+    }
+
+    public void loadTableData(List<Customer> customers) {
+        displayTableData(customers);
+    }
+
+    private void displayTableData(List<Customer> tableData) {
+        // Update metric indicators
+        jLabel3.setText(String.valueOf(tableData.size()));
+
+        // 2. Setup structural model
+        String[] columns = {"CUSTOMER ID", "CUSTOMER NAME", "DOMICILE", "DATE", "ACTION"};
+        javax.swing.table.DefaultTableModel model = new javax.swing.table.DefaultTableModel(columns, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return column == 4; // Only action column is interactive
+            }
+        };
+
+        java.text.SimpleDateFormat df = new java.text.SimpleDateFormat("dd-MM-yyyy");
+
+        // 3. Hydrate table dataset
+        for (Customer c : tableData) {
+            String dateStr = (c.getDob() != null) ? df.format(c.getDob()) : "-";
+            model.addRow(new Object[]{
+                c.getId(),
+                    c.getName(),
+                    c.getSubdistrict(),
+                    dateStr,
+                    "View" 
+            });
+        }
+
+        jTable1.setModel(model);
+        jTable1.setRowHeight(32);
+
+        jTable1.getColumnModel().getColumn(4).setCellRenderer(new CustomerListButtonRenderer());
+        jTable1.getColumnModel().getColumn(4).setCellEditor(new CustomerListButtonEditor(jTable1, this.parent));
+    }
+
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -254,6 +314,8 @@ public class frame_listCustomer extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
