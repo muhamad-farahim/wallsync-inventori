@@ -4,6 +4,8 @@
  */
 package com.mycompany.buat_apk.frames;
 
+import com.mycompany.buat_apk.domains.entities.customers.Customer;
+import com.mycompany.buat_apk.domains.entities.customers.UpdateCustomer;
 import com.mycompany.buat_apk.registry.ServiceRegistry;
 import com.mycompany.buat_apk.services.CustomerService;
 
@@ -11,21 +13,59 @@ import com.mycompany.buat_apk.services.CustomerService;
  *
  * @author najwa amanda
  */
-public class frame_customer extends javax.swing.JFrame {
+public class frame_customerDetail extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(frame_customer.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(frame_customerDetail.class.getName());
     private MainFrame parent;
     private CustomerService service;
+    private Long selectedId;
 
     /**
      * Creates new form Frame_costumer
      */
-    public frame_customer(MainFrame parent) {
+    public frame_customerDetail(MainFrame parent) {
         initComponents();
         this.parent=parent;
 
         ServiceRegistry serviceRegistry = ServiceRegistry.getInstance();
         this.service = serviceRegistry.customerService;
+    }
+
+    public void loadFormData(Long id) {
+        this.selectedId = id;
+        if (this.selectedId == null) {
+            return;
+        }
+
+        try {
+            com.mycompany.buat_apk.domains.entities.customers.Customer customer = this.service.getCustomerById(id);
+
+            if (customer != null) {
+                jLabel1.setText("CUSTOMER DETAILS (ID: " + customer.getId() + ")");
+
+                nameField.setText(customer.getName());
+                phoneField.setText(customer.getPhone());
+                domisiliField.setText(customer.getSubdistrict());
+
+                if (customer.getDob() != null) {
+                    java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("dd-MM-yyyy");
+                    dobField.setText(dateFormat.format(customer.getDob()));
+                } else {
+                    dobField.setText("");
+                }
+
+                // Optional: If you want to list context data in the underlying table:
+
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(this, 
+                        "Data pelanggan tidak ditemukan.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                this.parent.goTo("CUSTOMER_LIST");
+            }
+        } catch (Exception ex) {
+            logger.log(java.util.logging.Level.SEVERE, "Gagal memuat form data pelanggan", ex);
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                    "Terjadi kesalahan saat memuat data: " + ex.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
@@ -56,11 +96,12 @@ public class frame_customer extends javax.swing.JFrame {
         domisiliField = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         dobField = new javax.swing.JFormattedTextField();
+        deleteBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
-        jLabel1.setText("ADD CUSTOMERS");
+        jLabel1.setText("DETAIL CUSTOMER");
 
         backBtn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         backBtn.setText("<");
@@ -131,7 +172,7 @@ public class frame_customer extends javax.swing.JFrame {
                                 .addComponent(phoneField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 453, Short.MAX_VALUE)
                                 .addComponent(nameField, javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addComponent(domisiliField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 453, Short.MAX_VALUE))
-                            .addComponent(dobField, javax.swing.GroupLayout.DEFAULT_SIZE, 453, Short.MAX_VALUE)))
+                            .addComponent(dobField)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(resetBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -165,6 +206,12 @@ public class frame_customer extends javax.swing.JFrame {
                 .addContainerGap(9, Short.MAX_VALUE))
         );
 
+        deleteBtn.setBackground(new java.awt.Color(255, 0, 0));
+        deleteBtn.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
+        deleteBtn.setForeground(new java.awt.Color(242, 242, 242));
+        deleteBtn.setText("Delete");
+        deleteBtn.addActionListener(this::deleteBtnActionPerformed);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -179,15 +226,16 @@ public class frame_customer extends javax.swing.JFrame {
                         .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(164, 164, 164))
                     .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(backBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 611, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(41, 41, 41))
         );
         layout.setVerticalGroup(
@@ -196,7 +244,8 @@ public class frame_customer extends javax.swing.JFrame {
                 .addGap(17, 17, 17)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(backBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -214,6 +263,15 @@ public class frame_customer extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void saveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtnActionPerformed
+        if (this.selectedId == null) {
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                    "Aksi tidak valid: Tidak ada data pelanggan yang dipilih untuk diperbarui.", 
+                    "Kesalahan Konten", 
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
+            this.parent.goTo("CUSTOMER_LIST");
+            return;
+        }
+
         String name = nameField.getText().trim();
         String phone = phoneField.getText().trim();
         String subdistrict = domisiliField.getText().trim();
@@ -241,26 +299,26 @@ public class frame_customer extends javax.swing.JFrame {
             return;
         }
 
-        com.mycompany.buat_apk.domains.entities.customers.CreateCustomer customerData = 
-                new com.mycompany.buat_apk.domains.entities.customers.CreateCustomer(
-                        name, 
-                        dobDate, 
-                        subdistrict, 
-                        phone
-                );
+        UpdateCustomer updateData = new UpdateCustomer(
+            this.selectedId,
+            name,
+            dobDate,
+            subdistrict,
+            phone
+        );
 
-        Long generatedId = this.service.createCustomer(customerData);
+        boolean success = this.service.updateCustomer(updateData);
 
-        if (generatedId > 0) {
+        if (success) {
             javax.swing.JOptionPane.showMessageDialog(this, 
-                    "Data pelanggan berhasil disimpan!", 
+                    "Data pelanggan berhasil diperbarui!", 
                     "Sukses", 
                     javax.swing.JOptionPane.INFORMATION_MESSAGE);
             
-            this.clearForm();
+            this.parent.goTo("CUSTOMER_LIST");
         } else {
             javax.swing.JOptionPane.showMessageDialog(this, 
-                    "Gagal menyimpan data pelanggan. Periksa log konsol untuk detail kesalahan.", 
+                    "Gagal memperbarui data pelanggan. Pastikan ID valid di database.", 
                     "Kesalahan Sistem", 
                     javax.swing.JOptionPane.ERROR_MESSAGE);
         }
@@ -278,12 +336,50 @@ public class frame_customer extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_dobFieldActionPerformed
 
+    private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
+                                                                           // 1. Guard clause: Ensure there is actually a customer record loaded
+        if (this.selectedId == null) {
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                    "Aksi tidak valid: Tidak ada data pelanggan yang dipilih untuk dihapus.", 
+                    "Kesalahan Konten", 
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // 2. Safety Confirmation Dialog
+        int confirm = javax.swing.JOptionPane.showConfirmDialog(
+                this, 
+                "Apakah Anda yakin ingin menghapus pelanggan ini secara permanen?", 
+                "Konfirmasi Hapus", 
+                javax.swing.JOptionPane.YES_NO_OPTION,
+                javax.swing.JOptionPane.WARNING_MESSAGE
+                );
+
+        // 3. Process deletion if confirmed
+        if (confirm == javax.swing.JOptionPane.YES_OPTION) {
+            boolean success = this.service.deleteCustomerById(this.selectedId);
+
+            if (success) {
+                javax.swing.JOptionPane.showMessageDialog(this, 
+                        "Data pelanggan berhasil dihapus.", 
+                        "Sukses", 
+                        javax.swing.JOptionPane.INFORMATION_MESSAGE);
+
+                // Clear state and force view back to the updated listing grid
+                this.selectedId = null;
+                this.clearForm();
+                this.parent.goTo("CUSTOMER_LIST");
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(this, 
+                        "Gagal menghapus data pelanggan. Silakan periksa log sistem.", 
+                        "Kesalahan Sistem", 
+                        javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_deleteBtnActionPerformed
+
     private void clearForm() {
-        nameField.setText("");
-        phoneField.setText("");
-        domisiliField.setText("");
-        dobField.setText("");
-        jTable1.clearSelection();
+        loadFormData(selectedId);
     }
     /**
      * @param args the command line arguments
@@ -308,11 +404,12 @@ public class frame_customer extends javax.swing.JFrame {
 
         /* Create and display the form */
         MainFrame mf = new MainFrame();
-        java.awt.EventQueue.invokeLater(() -> new frame_customer(mf).setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new frame_customerDetail(mf).setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backBtn;
+    private javax.swing.JButton deleteBtn;
     private javax.swing.JFormattedTextField dobField;
     private javax.swing.JTextField domisiliField;
     private javax.swing.JButton jButton5;

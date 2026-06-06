@@ -18,6 +18,7 @@ public class MainFrame extends JFrame {
     private frame_detail frameDetailProduct;
     private frame_editProduk frameEditProduk;
     private Frame_sales frameSales; 
+    private frame_customerDetail frameCustomerDetail;
 
     public MainFrame() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -37,6 +38,7 @@ public class MainFrame extends JFrame {
         frame_editProduk fEditProduk = new frame_editProduk(this);
         Frame_sales fSales = new Frame_sales(this);
         frame_customer fCustomer = new frame_customer(this);
+        frame_customerDetail fCustomerDetail = new frame_customerDetail(this);
 
         this.add(this.mainContent);
         this.frameProductCreate = fProduk;
@@ -44,6 +46,7 @@ public class MainFrame extends JFrame {
         this.frameDetailProduct = frDetailProduct;
         this.frameEditProduk = fEditProduk;
         this.frameSales = fSales;
+        this.frameCustomerDetail = fCustomerDetail;
 
         //CRUD PRODUCT
         this.mainContent.add(fProduk.getContentPane(), "PRODUCT_CREATE");
@@ -52,6 +55,7 @@ public class MainFrame extends JFrame {
         this.mainContent.add(fEditProduk.getContentPane(), "PRODUCT_EDIT");
         this.mainContent.add(fSales.getContentPane(), "PRODUCT_SALES");
         this.mainContent.add(fCustomer.getContentPane(), "CUSTOMER_CREATE");
+        this.mainContent.add(frameCustomerDetail.getContentPane(), "CUSTOMER_DETAIL");
 
         //AUTH
         this.mainContent.add(fLogin.getContentPane(), "LOGIN");
@@ -85,7 +89,7 @@ public class MainFrame extends JFrame {
         this.cardLayout.show(this.mainContent, name);
     }
     
-    protected void goTo(String name, Long id) {
+    public void goTo(String name, Long id) {
         if(name.equals("PRODUCT_DETAIL")){
             this.frameDetailProduct.loadData(id);;
         }
@@ -96,6 +100,10 @@ public class MainFrame extends JFrame {
         
         if(name.equals("PRODUCT_SALES")) {
             this.frameSales.loadData(id);
+        }
+
+        if(name.equals("CUSTOMER_DETAIL")){
+            this.frameCustomerDetail.loadFormData(id);
         }
 
         this.cardLayout.show(this.mainContent, name);

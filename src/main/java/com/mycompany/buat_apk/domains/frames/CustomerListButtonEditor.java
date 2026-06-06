@@ -21,7 +21,7 @@ public class CustomerListButtonEditor extends javax.swing.DefaultCellEditor {
             if (currentId != null) {
                 fireEditingStopped(); 
 
-                this.mainFrameParent.goTo("CUSTOMER_CREATE");
+                this.mainFrameParent.goTo("CUSTOMER_DETAIL", currentId);
             }
         });
     }

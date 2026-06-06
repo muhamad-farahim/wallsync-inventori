@@ -80,6 +80,10 @@ public class frame_manProduk extends javax.swing.JFrame {
             this.frameListCategory.loadTableData();
         }
 
+        if(name.equals("CUSTOMER_LIST")) {
+            this.frameListCustomer.loadTableData();
+        }
+
         this.innerCardLayout.show(this.innerContent, name);
     }
 
