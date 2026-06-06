@@ -6,6 +6,7 @@
     private Long customerId = null;
     private int quantity;
     private Long price = null;
+    private String description;
 
     public CreateStock(Long user_id, Long productId, int quantity) {
         this.user_id = user_id;
@@ -54,5 +55,13 @@
 
     public void setPrice(Long price) {
         this.price = price;
+    }
+    
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

@@ -35,8 +35,8 @@ public class StockRepo implements StockRepository {
         }
         else if (cusId != null && price != null) {
 
-            query = "INSERT INTO stocks (user_id, product_id, quantity, price, customer_id)" +
-                " VALUES (?, ?, ?, ?, ?)";
+            query = "INSERT INTO stocks (user_id, product_id, quantity, price, customer_id, description)" +
+                " VALUES (?, ?, ?, ?, ?, ?)";
 
             stmt = this.makePreperaredStatement(query);
 
@@ -45,6 +45,7 @@ public class StockRepo implements StockRepository {
             stmt.setLong(3, s.getQuantity());
             stmt.setLong(4, s.getPrice());
             stmt.setLong(5, s.getCustomerId());
+            stmt.setString(6, s.getDescription());
 
         }else {
             throw new IllegalArgumentException("Both customer id have to be either empty of filled.");

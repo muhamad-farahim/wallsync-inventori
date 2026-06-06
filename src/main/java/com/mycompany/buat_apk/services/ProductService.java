@@ -78,8 +78,39 @@ public class ProductService {
     try {
         this.repo.deleteProductById(id);
     } catch (Exception e) {
-        System.err.println("Delete product has failed.");
-        System.err.println(e.getMessage());
+            System.err.println("Delete product has failed.");
+            System.err.println(e.getMessage());
+        }
     }
-}
+    /**
+     *
+     * @param productId
+     * @param customerId
+     * @param qty
+     * @param price
+     * @param description
+     * @throws SQLException
+     */
+    public void createSales (
+        Long productId,
+        Long customerId,
+        int qty,
+        Long price,
+        String description
+    ) 
+    throws SQLException {
+
+        CreateStock stock = new CreateStock();
+
+        stock.setUserId(1L);
+        stock.setProductId(productId);
+        stock.setCustomerId(customerId);
+
+        stock.setQuantity(-qty);
+
+        stock.setPrice(price);
+        stock.setDescription(description);
+
+        this.stockRepo.createStocks(stock);
+    }
 }

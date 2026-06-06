@@ -17,7 +17,7 @@ public class MainFrame extends JFrame {
     private frame_manProduk frameProductList;
     private frame_detail frameDetailProduct;
     private frame_editProduk frameEditProduk;
-    private Frame_sales frameSales; 
+    private frame_sales frameSales; 
     private frame_customerDetail frameCustomerDetail;
 
     public MainFrame() {
@@ -36,7 +36,7 @@ public class MainFrame extends JFrame {
         frame_login fLogin = new frame_login(this);
         frame_detail frDetailProduct = new frame_detail(this);
         frame_editProduk fEditProduk = new frame_editProduk(this);
-        Frame_sales fSales = new Frame_sales(this);
+        frame_sales fSales = new frame_sales(this);
         frame_customer fCustomer = new frame_customer(this);
         frame_customerDetail fCustomerDetail = new frame_customerDetail(this);
 
