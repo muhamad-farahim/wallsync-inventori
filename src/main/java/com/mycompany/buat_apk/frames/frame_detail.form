@@ -170,6 +170,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Purchases"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPurchasesActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="editButton">
       <Properties>

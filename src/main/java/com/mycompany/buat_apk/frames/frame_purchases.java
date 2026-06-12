@@ -13,12 +13,11 @@ import com.mycompany.buat_apk.domains.entities.products.ProductDetails;
 import com.mycompany.buat_apk.domains.entities.stocks.StockDetailItem;
 import com.mycompany.buat_apk.registry.ServiceRegistry;
 import com.mycompany.buat_apk.services.ProductService;
-import com.mycompany.buat_apk.services.CustomerService;
-import com.mycompany.buat_apk.domains.entities.customers.Customer;
+import java.sql.SQLException;
 
-public class frame_sales extends javax.swing.JFrame {
+public class frame_purchases extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(frame_sales.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(frame_purchases.class.getName());
 
     /**
      * Creates new form frame_pembelian
@@ -26,17 +25,14 @@ public class frame_sales extends javax.swing.JFrame {
     private MainFrame parent;
     private ProductService productService;
     private Long productId;
-    private CustomerService customerService;
-    private Customer selectedCustomer;
     private Long unitPrice;
 
-    public frame_sales(MainFrame parent) {
+    public frame_purchases(MainFrame parent) {
         this.parent = parent;
         initComponents();
         
         ServiceRegistry services = ServiceRegistry.getInstance();
         this.productService = services.productService;
-        this.customerService = services.customerService;
     }
     
     public void loadData(Long id) {
@@ -52,65 +48,7 @@ public class frame_sales extends javax.swing.JFrame {
         nameLabel.setText(details.getName());
         stockLabel.setText(details.getStocksString());
     }
-    
-    private void searchCustomer() {
-
-        String phone = phoneNumField.getText().trim();
-
-        if (phone.isEmpty()) {
-            javax.swing.JOptionPane.showMessageDialog(
-                this,
-                "Input the phone number"
-            );
-            return;
-        }
-
-        Customer customer = customerService.getCustomerByPhone(phone);
-
-        if (customer == null) {
-
-            javax.swing.JOptionPane.showMessageDialog(
-                this,
-                "Customer not found"
-            );
-
-            return;
-        }
-
-        int confirm = javax.swing.JOptionPane.showConfirmDialog(
-            this,
-            "ID : " + customer.getId()
-            + "\nName : " + customer.getName()
-            + "\nPhone : " + customer.getPhone()
-            + "\nDomicile : " + customer.getSubdistrict()
-            + "\n\nConfirm This Customer?",
-            "Confirm Customer",
-            javax.swing.JOptionPane.YES_NO_OPTION
-        );
-
-        if (confirm == javax.swing.JOptionPane.YES_OPTION) {
-
-            selectedCustomer = customer;
-
-            displaySelectedCustomer(customer);
-        }
-    }
-    
-    private void displaySelectedCustomer(Customer customer) {
-
-        javax.swing.table.DefaultTableModel model =
-            (javax.swing.table.DefaultTableModel) custSalesTable.getModel();
-
-        model.setRowCount(0);
-
-        model.addRow(new Object[]{
-            customer.getId(),
-            customer.getName(),
-            customer.getPhone(),
-            customer.getSubdistrict()
-        });
-    }
-    
+   
     private void updatePrice() {
         try {
             int qty = Integer.parseInt(qtyField.getText());
@@ -122,7 +60,7 @@ public class frame_sales extends javax.swing.JFrame {
         } catch (NumberFormatException e) {
         
         }
-    }
+    }    
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -147,14 +85,6 @@ public class frame_sales extends javax.swing.JFrame {
         btnConfirm = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         stockLabel = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        phoneNumField = new javax.swing.JTextField();
-        jLabel9 = new javax.swing.JLabel();
-        btnSearch = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        custSalesTable = new javax.swing.JTable();
-        btnClearCust = new javax.swing.JButton();
         nameLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -164,7 +94,7 @@ public class frame_sales extends javax.swing.JFrame {
         btnBack.addActionListener(this::btnBackActionPerformed);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel1.setText("Sales");
+        jLabel1.setText("Purchases");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -174,17 +104,21 @@ public class frame_sales extends javax.swing.JFrame {
 
         jLabel6.setText("Description  :");
 
+        qtyField.addActionListener(this::qtyFieldActionPerformed);
         qtyField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 qtyFieldKeyReleased(evt);
             }
         });
 
+        priceField.addActionListener(this::priceFieldActionPerformed);
+
         descField.setColumns(20);
         descField.setRows(5);
         jScrollPane1.setViewportView(descField);
 
         btnClear.setText("Clear");
+        btnClear.addActionListener(this::btnClearActionPerformed);
 
         btnConfirm.setText("Confirm");
         btnConfirm.addActionListener(this::btnConfirmActionPerformed);
@@ -247,72 +181,6 @@ public class frame_sales extends javax.swing.JFrame {
         stockLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         stockLabel.setText("[num stock]");
 
-        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel3.setText("Selected Customer");
-
-        phoneNumField.addActionListener(this::phoneNumFieldActionPerformed);
-
-        jLabel9.setText("Phone Number:");
-
-        btnSearch.setText("Search");
-        btnSearch.addActionListener(this::btnSearchActionPerformed);
-
-        custSalesTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "CUSTOMER ID", "NAME", "PHONE NUMBER", "DOMICILE"
-            }
-        ));
-        jScrollPane2.setViewportView(custSalesTable);
-
-        btnClearCust.setText("Clear");
-        btnClearCust.addActionListener(this::btnClearCustActionPerformed);
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(btnClearCust)
-                        .addGroup(jPanel3Layout.createSequentialGroup()
-                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 426, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                    .addComponent(phoneNumField)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(btnSearch))))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap(14, Short.MAX_VALUE)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(phoneNumField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSearch))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnClearCust)
-                .addGap(17, 17, 17))
-        );
-
         nameLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         nameLabel.setText("[product name]");
 
@@ -330,7 +198,6 @@ public class frame_sales extends javax.swing.JFrame {
                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -351,11 +218,9 @@ public class frame_sales extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(stockLabel)
                     .addComponent(nameLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(38, 38, 38)
+                .addGap(31, 31, 31)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addContainerGap(270, Short.MAX_VALUE))
         );
 
         pack();
@@ -366,80 +231,60 @@ public class frame_sales extends javax.swing.JFrame {
         this.parent.goTo("PRODUCT_DETAIL", this.productId);
     }//GEN-LAST:event_btnBackActionPerformed
 
-    private void phoneNumFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phoneNumFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_phoneNumFieldActionPerformed
-
-    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-        // TODO add your handling code here
-         searchCustomer();
-    }//GEN-LAST:event_btnSearchActionPerformed
-
-    private void btnClearCustActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearCustActionPerformed
-        // TODO add your handling code here:
-            javax.swing.table.DefaultTableModel model =
-            (javax.swing.table.DefaultTableModel) custSalesTable.getModel();
-
-            model.setRowCount(0);
-            selectedCustomer = null;
-            phoneNumField.setText("");
-    }//GEN-LAST:event_btnClearCustActionPerformed
-
     private void btnConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmActionPerformed
         // TODO add your handling code here:
-        
+                
+        if(qtyField.getText().isEmpty() || priceField.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(
+                this,
+                "Quantity and Price are required."
+            );
+            return;
+        }
         try {
-
             int qty = Integer.parseInt(qtyField.getText());
             Long price = Long.parseLong(priceField.getText());
-
             String description = descField.getText();
-
-            if(selectedCustomer == null){
-                JOptionPane.showMessageDialog(
-                    this,
-                    "Select the customer"
-                );
-                return;
-            }
             
-            ProductDetails details =
-                productService.getProductDetailsWithId(productId);
-
-            int currentStock = details.getStocks();
-            
-            if(qty > currentStock){
-                JOptionPane.showMessageDialog(
-                    this,
-                    "Insufficient stock. Current stock: " + currentStock
-                );
-                return;
-            }
-            
-            productService.createSales(
+            productService.createPurchase(
                 productId,
-                selectedCustomer.getId(),
                 qty,
                 price,
                 description
             );
 
             JOptionPane.showMessageDialog(
-                this,
-                "Transaction completed!"
+                 this,
+                 "Purchase Successful!"
             );
             
             qtyField.setText("");
             priceField.setText("");
-            descField.setText("");            
+            descField.setText("");
 
-        } catch(Exception e){
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
             JOptionPane.showMessageDialog(
                 this,
-                e.getMessage()
-            );
+                e.getMessage());
         }
     }//GEN-LAST:event_btnConfirmActionPerformed
+    
+    private void qtyFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_qtyFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_qtyFieldActionPerformed
+
+    private void priceFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_priceFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_priceFieldActionPerformed
+
+    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
+        // TODO add your handling code here:
+        qtyField.setText("");
+        priceField.setText("");
+        descField.setText("");
+    }//GEN-LAST:event_btnClearActionPerformed
 
     private void qtyFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_qtyFieldKeyReleased
         // TODO add your handling code here:
@@ -452,24 +297,16 @@ public class frame_sales extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnClear;
-    private javax.swing.JButton btnClearCust;
     private javax.swing.JButton btnConfirm;
-    private javax.swing.JButton btnSearch;
-    private javax.swing.JTable custSalesTable;
     private javax.swing.JTextArea descField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel nameLabel;
-    private javax.swing.JTextField phoneNumField;
     private javax.swing.JTextField priceField;
     private javax.swing.JTextField qtyField;
     private javax.swing.JLabel stockLabel;

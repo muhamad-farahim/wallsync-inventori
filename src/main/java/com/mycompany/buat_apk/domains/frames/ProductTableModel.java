@@ -31,7 +31,7 @@ public class ProductTableModel extends AbstractTableModel {
             case 1 -> p.getCategoryName();
             case 2 -> p.getPrice();
             case 3 -> p.getStocks();
-            case 4 -> p.getStocks() < 1 ? "Out of Stock" : "In stock";
+            case 4 -> p.getStocks() < 5 ? "Low Stock" : "In stock";
             case 5 -> "View";
             default -> null;
         };

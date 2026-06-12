@@ -8,16 +8,31 @@ package com.mycompany.buat_apk.frames;
  *
  * @author rahim
  */
+import java.sql.SQLException;
+import java.util.*;
+
+import com.mycompany.buat_apk.domains.entities.stocks.TransactionItem;
+import com.mycompany.buat_apk.domains.frames.TransactionTableModel;
+import com.mycompany.buat_apk.registry.ServiceRegistry;
+import com.mycompany.buat_apk.services.StockService;
+
+
 public class frame_manTransaksi extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(frame_manTransaksi.class.getName());
     private MainFrame parent;
+    private StockService stockService;
     /**
      * Creates new form frame_manTransaksi
      */
     public frame_manTransaksi(MainFrame parent) {
         initComponents();
         this.parent = parent;
+        
+        ServiceRegistry services = ServiceRegistry.getInstance();
+        this.stockService = services.stockService;
+        
+        loadTableData();
     }
 
     /**
@@ -49,7 +64,7 @@ public class frame_manTransaksi extends javax.swing.JFrame {
         jComboBox1 = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tableTransaction = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(844, 219));
@@ -218,18 +233,18 @@ public class frame_manTransaksi extends javax.swing.JFrame {
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tableTransaction.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "TIPE", "PRODUK", "QTY", "HARGA/UNIT", "TOTAL", "TANGGAL", "KETERANGAN"
+                "TYPE", "ID", "PRODUCT", "QTY", "PRICE", "CUSTOMER", "DATE", "KETERANGAN"
             }
         ));
-        jScrollPane1.setViewportView(jTable2);
+        jScrollPane1.setViewportView(tableTransaction);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -245,9 +260,9 @@ public class frame_manTransaksi extends javax.swing.JFrame {
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -284,7 +299,16 @@ public class frame_manTransaksi extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
+    public void loadTableData() {
 
+        List<TransactionItem> data =
+            stockService.getAllTransactions();
+
+        TransactionTableModel model =
+            new TransactionTableModel(data);
+
+        tableTransaction.setModel(model);
+    }
     /**
      * @param args the command line arguments
      */
@@ -331,7 +355,7 @@ public class frame_manTransaksi extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTable tableTransaction;
     // End of variables declaration//GEN-END:variables
 }

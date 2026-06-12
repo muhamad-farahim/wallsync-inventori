@@ -89,6 +89,7 @@ public class frame_detail extends javax.swing.JFrame {
         btnPurchases.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnPurchases.setForeground(new java.awt.Color(255, 255, 255));
         btnPurchases.setText("Purchases");
+        btnPurchases.addActionListener(this::btnPurchasesActionPerformed);
 
         editButton.setBackground(new java.awt.Color(51, 51, 255));
         editButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -419,8 +420,8 @@ public class frame_detail extends javax.swing.JFrame {
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         int confirm = javax.swing.JOptionPane.showConfirmDialog(
         this,
-        "Apakah yakin ingin menghapus produk ini?",
-        "Konfirmasi Hapus",
+        "Delete this product?",
+        "Confirm delete",
         javax.swing.JOptionPane.YES_NO_OPTION
     );
 
@@ -432,7 +433,7 @@ public class frame_detail extends javax.swing.JFrame {
 
             javax.swing.JOptionPane.showMessageDialog(
                 this,
-                "Produk berhasil dihapus"
+                "Product Deleted"
             );
 
             this.parent.goTo("PRODUCT_LIST");
@@ -441,7 +442,7 @@ public class frame_detail extends javax.swing.JFrame {
 
             javax.swing.JOptionPane.showMessageDialog(
                 this,
-                "Gagal menghapus produk"
+                "Failed to delete the product"
             );
         }
     }
@@ -454,6 +455,11 @@ public class frame_detail extends javax.swing.JFrame {
     private void btnSalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalesActionPerformed
         this.parent.goTo("PRODUCT_SALES", this.productId);
     }//GEN-LAST:event_btnSalesActionPerformed
+
+    private void btnPurchasesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPurchasesActionPerformed
+        // TODO add your handling code here:
+        this.parent.goTo("PRODUCT_PURCHASES", this.productId);
+    }//GEN-LAST:event_btnPurchasesActionPerformed
 
     public void loadData(Long id) {
         this.productId = id;

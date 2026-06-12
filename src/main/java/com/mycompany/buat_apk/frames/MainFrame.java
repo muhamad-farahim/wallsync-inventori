@@ -18,6 +18,7 @@ public class MainFrame extends JFrame {
     private frame_detail frameDetailProduct;
     private frame_editProduk frameEditProduk;
     private frame_sales frameSales; 
+    private frame_purchases framePurchases; 
     private frame_customerDetail frameCustomerDetail;
 
     public MainFrame() {
@@ -37,6 +38,7 @@ public class MainFrame extends JFrame {
         frame_detail frDetailProduct = new frame_detail(this);
         frame_editProduk fEditProduk = new frame_editProduk(this);
         frame_sales fSales = new frame_sales(this);
+        frame_purchases fPurchases = new frame_purchases(this);
         frame_customer fCustomer = new frame_customer(this);
         frame_customerDetail fCustomerDetail = new frame_customerDetail(this);
 
@@ -46,6 +48,7 @@ public class MainFrame extends JFrame {
         this.frameDetailProduct = frDetailProduct;
         this.frameEditProduk = fEditProduk;
         this.frameSales = fSales;
+        this.framePurchases = fPurchases;
         this.frameCustomerDetail = fCustomerDetail;
 
         //CRUD PRODUCT
@@ -54,6 +57,7 @@ public class MainFrame extends JFrame {
         this.mainContent.add(frDetailProduct.getContentPane(), "PRODUCT_DETAIL");
         this.mainContent.add(fEditProduk.getContentPane(), "PRODUCT_EDIT");
         this.mainContent.add(fSales.getContentPane(), "PRODUCT_SALES");
+        this.mainContent.add(fPurchases.getContentPane(), "PRODUCT_PURCHASES");
         this.mainContent.add(fCustomer.getContentPane(), "CUSTOMER_CREATE");
         this.mainContent.add(frameCustomerDetail.getContentPane(), "CUSTOMER_DETAIL");
 
@@ -104,6 +108,10 @@ public class MainFrame extends JFrame {
 
         if(name.equals("CUSTOMER_DETAIL")){
             this.frameCustomerDetail.loadFormData(id);
+        }
+        
+        if(name.equals("PRODUCT_PURCHASES")){
+            this.framePurchases.loadData(id);
         }
 
         this.cardLayout.show(this.mainContent, name);

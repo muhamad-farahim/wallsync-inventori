@@ -87,6 +87,10 @@ public class frame_manProduk extends javax.swing.JFrame {
         if(name.equals("USER_LIST")) {
             this.frameListUser.loadTableData();
         }
+        
+        if(name.equals("TRANSAKSI_LIST")){
+            this.frameManTransaksi.loadTableData();
+        }
 
         this.innerCardLayout.show(this.innerContent, name);
     }
@@ -224,9 +228,9 @@ public class frame_manProduk extends javax.swing.JFrame {
                 .addGap(19, 19, 19)
                 .addComponent(jLabel2)
                 .addGap(30, 30, 30)
-                .addComponent(productListNav)
-                .addGap(18, 18, 18)
                 .addComponent(btnTransaksi)
+                .addGap(18, 18, 18)
+                .addComponent(productListNav)
                 .addGap(18, 18, 18)
                 .addComponent(btnCategoryNav)
                 .addGap(18, 18, 18)

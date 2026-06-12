@@ -113,4 +113,22 @@ public class ProductService {
 
         this.stockRepo.createStocks(stock);
     }
+    
+    public void createPurchase(
+        Long productId,
+        int qty,
+        Long price,
+        String description
+    ) throws SQLException {
+
+        CreateStock stock = new CreateStock();
+
+        stock.setUserId(1L);
+        stock.setProductId(productId);
+        stock.setQuantity(qty);
+        stock.setPrice(price);
+        stock.setDescription(description);
+
+        stockRepo.createStocks(stock);
+    }
 }
