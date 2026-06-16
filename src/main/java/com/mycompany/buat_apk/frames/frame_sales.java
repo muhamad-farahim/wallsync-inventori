@@ -11,6 +11,7 @@ package com.mycompany.buat_apk.frames;
 import javax.swing.JOptionPane;
 import com.mycompany.buat_apk.domains.entities.products.ProductDetails;
 import com.mycompany.buat_apk.domains.entities.stocks.StockDetailItem;
+import com.mycompany.buat_apk.registry.AppContextRegistry;
 import com.mycompany.buat_apk.registry.ServiceRegistry;
 import com.mycompany.buat_apk.services.ProductService;
 import com.mycompany.buat_apk.services.CustomerService;
@@ -29,6 +30,7 @@ public class frame_sales extends javax.swing.JFrame {
     private CustomerService customerService;
     private Customer selectedCustomer;
     private Long unitPrice;
+    private AppContextRegistry context;
 
     public frame_sales(MainFrame parent) {
         this.parent = parent;
@@ -37,6 +39,7 @@ public class frame_sales extends javax.swing.JFrame {
         ServiceRegistry services = ServiceRegistry.getInstance();
         this.productService = services.productService;
         this.customerService = services.customerService;
+        this.context = AppContextRegistry.getInstance();
     }
     
     public void loadData(Long id) {
@@ -421,7 +424,8 @@ public class frame_sales extends javax.swing.JFrame {
                 selectedCustomer.getId(),
                 qty,
                 price,
-                description
+                description,
+                this.context.getActiveUser().getId()
             );
 
             JOptionPane.showMessageDialog(

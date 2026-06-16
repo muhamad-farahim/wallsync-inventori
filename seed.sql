@@ -1,0 +1,45 @@
+INSERT INTO products (name, image, description, price, category_id) VALUES
+('Modern Wall Panel A', 'panel_a.jpg', 'Modern wall panel with smooth finish', 1500000, 1),
+('Modern Wall Panel B', 'panel_b.jpg', 'Modern wall panel with wood grain texture', 1800000, 1),
+('Classic Wall Panel', 'panel_classic.jpg', 'Classic wall panel design', 1200000, 1),
+('Floral Wallpaper', 'wallpaper_floral.jpg', 'Floral pattern wallpaper', 250000, 2),
+('Geometric Wallpaper', 'wallpaper_geo.jpg', 'Geometric pattern wallpaper', 300000, 2),
+('Vinyl Wallpaper', 'wallpaper_vinyl.jpg', 'Durable vinyl wallpaper', 400000, 2),
+('Modern Kitchen Set', 'kitchen_modern.jpg', 'Modern minimalist kitchen set', 15000000, 3),
+('Compact Kitchen Set', 'kitchen_compact.jpg', 'Compact kitchen set for small spaces', 8000000, 3);
+
+INSERT INTO customers (name, dob, subdistrict, phone) VALUES
+('Budi Santoso', '1985-03-15', 'Menteng', '081234567001'),
+('Siti Aminah', '1990-07-22', 'Kemang', '081234567002'),
+('Agus Prabowo', '1978-11-03', 'Pondok Indah', '081234567003'),
+('Dewi Lestari', '1995-05-18', 'Kelapa Gading', '081234567004'),
+('Hendro Wijaya', '1982-09-30', 'Senopati', '081234567005'),
+('Ratna Sari', '1988-12-12', 'Bintaro', '081234567006'),
+('Fajar Nugroho', '1992-04-25', 'Tebet', '081234567007'),
+('Lina Marlina', '1987-08-08', 'Cilandak', '081234567008');
+
+INSERT INTO stocks (user_id, product_id, customer_id, quantity, price, description, created_at) VALUES
+(1, 1, NULL,  10, 1500000,  'Restock Modern Wall Panel A',        '2026-04-02 09:30:00'),
+(1, 1, 1,     -3, 1500000,  'Sale to Budi Santoso',                '2026-04-05 11:00:00'),
+(1, 4, 2,     -5,  250000,  'Sale to Siti Aminah',                 '2026-04-10 14:15:00'),
+(1, 5, NULL,  20,  300000,  'Restock Geometric Wallpaper',         '2026-04-15 10:00:00'),
+(1, 7, 3,     -1, 15000000, 'Sale to Agus Prabowo',                '2026-04-20 13:30:00'),
+(1, 2, NULL,   5, 1800000,  'Restock Modern Wall Panel B',         '2026-04-20 16:00:00'),
+(1, 4, 4,     -2,  250000,  'Sale to Dewi Lestari',                '2026-04-25 15:45:00'),
+(2, 2, NULL,   8, 1800000,  'Restock Modern Wall Panel B',         '2026-05-03 08:30:00'),
+(2, 2, 5,     -2, 1800000,  'Sale to Hendro Wijaya',               '2026-05-05 11:30:00'),
+(2, 6, 6,     -4,  400000,  'Sale to Ratna Sari',                  '2026-05-08 14:00:00'),
+(2, 3, NULL,  12, 1200000,  'Restock Classic Wall Panel',          '2026-05-12 09:00:00'),
+(2, 3, 7,     -3, 1200000,  'Sale to Fajar Nugroho',               '2026-05-14 13:15:00'),
+(2, 8, 8,     -1, 8000000,  'Sale to Lina Marlina',                '2026-05-18 16:00:00'),
+(2, 6, NULL,  15,  400000,  'Restock Vinyl Wallpaper',             '2026-05-22 10:30:00'),
+(2, 5, 1,     -3,  300000,  'Repeat sale to Budi Santoso',         '2026-05-28 12:00:00'),
+(1, 1, NULL,   5, 1500000,  'Restock Modern Wall Panel A',         '2026-06-01 09:00:00'),
+(1, 1, 2,     -2, 1500000,  'Sale to Siti Aminah',                 '2026-06-05 11:30:00'),
+(1, 4, 3,    -10,  250000,  'Bulk sale to Agus Prabowo',            '2026-06-08 14:30:00'),
+(1, 7, NULL,   2, 15000000, 'Restock Modern Kitchen Set',          '2026-06-12 10:00:00'),
+(1, 7, 4,     -1, 15000000, 'Sale to Dewi Lestari',                '2026-06-15 15:00:00'),
+(1, 5, 5,     -5,  300000,  'Sale to Hendro Wijaya',               '2026-06-18 12:30:00'),
+(1, 2, NULL,   6, 1800000,  'Restock Modern Wall Panel B',         '2026-06-22 09:30:00'),
+(1, 2, 6,     -1, 1800000,  'Sale to Ratna Sari',                  '2026-06-25 14:00:00'),
+(1, 6, 7,     -3,  400000,  'Sale to Fajar Nugroho',               '2026-06-28 11:00:00');

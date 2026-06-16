@@ -108,13 +108,14 @@ public class ProductService {
         Long customerId,
         int qty,
         Long price,
-        String description
+        String description,
+        Long userId
     ) 
     throws SQLException {
 
         CreateStock stock = new CreateStock();
 
-        stock.setUserId(1L);
+        stock.setUserId(userId);
         stock.setProductId(productId);
         stock.setCustomerId(customerId);
 
@@ -130,12 +131,13 @@ public class ProductService {
         Long productId,
         int qty,
         Long price,
-        String description
+        String description,
+        Long userId
     ) throws SQLException {
 
         CreateStock stock = new CreateStock();
 
-        stock.setUserId(1L);
+        stock.setUserId(userId);
         stock.setProductId(productId);
         stock.setQuantity(qty);
         stock.setPrice(price);

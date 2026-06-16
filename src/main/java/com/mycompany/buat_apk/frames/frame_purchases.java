@@ -11,6 +11,7 @@ package com.mycompany.buat_apk.frames;
 import javax.swing.JOptionPane;
 import com.mycompany.buat_apk.domains.entities.products.ProductDetails;
 import com.mycompany.buat_apk.domains.entities.stocks.StockDetailItem;
+import com.mycompany.buat_apk.registry.AppContextRegistry;
 import com.mycompany.buat_apk.registry.ServiceRegistry;
 import com.mycompany.buat_apk.services.ProductService;
 import java.sql.SQLException;
@@ -26,6 +27,7 @@ public class frame_purchases extends javax.swing.JFrame {
     private ProductService productService;
     private Long productId;
     private Long unitPrice;
+    private AppContextRegistry context;
 
     public frame_purchases(MainFrame parent) {
         this.parent = parent;
@@ -33,6 +35,7 @@ public class frame_purchases extends javax.swing.JFrame {
         
         ServiceRegistry services = ServiceRegistry.getInstance();
         this.productService = services.productService;
+        this.context = AppContextRegistry.getInstance();
     }
     
     public void loadData(Long id) {
@@ -250,7 +253,8 @@ public class frame_purchases extends javax.swing.JFrame {
                 productId,
                 qty,
                 price,
-                description
+                description,
+                this.context.getActiveUser().getId()
             );
 
             JOptionPane.showMessageDialog(

@@ -4,11 +4,15 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.*;
 
 import com.mycompany.buat_apk.domains.entities.stocks.CreateStock;
 import com.mycompany.buat_apk.domains.repositories.StockRepository;
 import com.mysql.cj.xdevapi.PreparableStatement;
+import com.mycompany.buat_apk.domains.entities.stocks.DailyTransactionSummary;
 import com.mycompany.buat_apk.domains.entities.stocks.TransactionItem;
 
 public class StockRepo implements StockRepository {
@@ -99,7 +103,52 @@ public class StockRepo implements StockRepository {
 
     private PreparedStatement makePreperaredStatement(String sql) throws SQLException {
         return conn.prepareStatement(sql);
-    } 
+    }
+
+    @Override
+    public List<DailyTransactionSummary> getDailySummaryByMonth(YearMonth month) throws SQLException {
+        String sql =
+            "SELECT s.quantity, s.price, s.created_at " +
+            "FROM stocks s " +
+            "WHERE s.created_at >= ? AND s.created_at < ? " +
+            "ORDER BY s.created_at ASC";
+
+        Timestamp start = Timestamp.valueOf(month.atDay(1).atStartOfDay());
+        Timestamp end = Timestamp.valueOf(month.plusMonths(1).atDay(1).atStartOfDay());
+
+        PreparedStatement stmt = this.makePreperaredStatement(sql);
+        stmt.setTimestamp(1, start);
+        stmt.setTimestamp(2, end);
+
+        ResultSet rs = stmt.executeQuery();
+
+        Map<LocalDate, long[]> buckets = new TreeMap<>();
+        while (rs.next()) {
+            int qty = rs.getInt("quantity");
+            long price = rs.getLong("price");
+            if (rs.wasNull()) price = 0L;
+            LocalDate day = rs.getTimestamp("created_at").toLocalDateTime().toLocalDate();
+            long amount = price * Math.abs(qty);
+            long[] totals = buckets.computeIfAbsent(day, k -> new long[2]);
+            if (qty < 0) {
+                totals[0] += amount;
+            } else {
+                totals[1] += amount;
+            }
+        }
+
+        List<DailyTransactionSummary> result = new ArrayList<>();
+        LocalDate cursor = month.atDay(1);
+        LocalDate lastDay = month.atEndOfMonth();
+        while (!cursor.isAfter(lastDay)) {
+            long[] totals = buckets.get(cursor);
+            long moneyIn = totals != null ? totals[0] : 0L;
+            long moneyOut = totals != null ? totals[1] : 0L;
+            result.add(new DailyTransactionSummary(cursor, moneyIn, moneyOut));
+            cursor = cursor.plusDays(1);
+        }
+        return result;
+    }
     
     @Override
     public List<TransactionItem> getAllTransactions()

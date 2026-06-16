@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="laporan_transaksi_bulanan"
+              pageWidth="595"
+              pageHeight="842"
+              columnWidth="535"
+              leftMargin="30"
+              rightMargin="30"
+              topMargin="30"
+              bottomMargin="30"
+              orientation="Portrait"
+              whenNoDataType="AllSectionsNoDetail">
+
+    <parameter name="periode" class="java.lang.String"/>
+
+    <field name="dayLabel" class="java.lang.String"/>
+    <field name="moneyIn" class="java.lang.Long"/>
+    <field name="moneyOut" class="java.lang.Long"/>
+
+    <variable name="totalIn" class="java.lang.Long" calculation="Sum">
+        <variableExpression><![CDATA[$F{moneyIn}]]></variableExpression>
+    </variable>
+    <variable name="totalOut" class="java.lang.Long" calculation="Sum">
+        <variableExpression><![CDATA[$F{moneyOut}]]></variableExpression>
+    </variable>
+    <variable name="totalNet" class="java.lang.Long" calculation="Sum">
+        <variableExpression><![CDATA[$F{moneyIn} - $F{moneyOut}]]></variableExpression>
+    </variable>
+
+    <title>
+        <band height="80" splitType="Stretch">
+            <staticText>
+                <reportElement x="0" y="10" width="535" height="30"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="18" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Laporan Transaksi Bulanan]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="0" y="45" width="535" height="20"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="12"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Periode: " + $P{periode}]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+
+    <columnHeader>
+        <band height="25">
+            <staticText>
+                <reportElement x="0" y="0" width="120" height="25"/>
+                <box>
+                    <topPen lineWidth="1.0"/>
+                    <bottomPen lineWidth="1.0"/>
+                </box>
+                <textElement verticalAlignment="Middle">
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[Tanggal]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="120" y="0" width="135" height="25"/>
+                <box>
+                    <topPen lineWidth="1.0"/>
+                    <bottomPen lineWidth="1.0"/>
+                </box>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[Uang Masuk]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="255" y="0" width="135" height="25"/>
+                <box>
+                    <topPen lineWidth="1.0"/>
+                    <bottomPen lineWidth="1.0"/>
+                </box>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[Uang Keluar]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="390" y="0" width="135" height="25"/>
+                <box>
+                    <topPen lineWidth="1.0"/>
+                    <bottomPen lineWidth="1.0"/>
+                </box>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[Saldo]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+
+    <detail>
+        <band height="20">
+            <textField>
+                <reportElement x="0" y="0" width="120" height="20"/>
+                <textElement verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$F{dayLabel}]]></textFieldExpression>
+            </textField>
+            <textField pattern="Rp #,##0">
+                <reportElement x="120" y="0" width="135" height="20"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$F{moneyIn}]]></textFieldExpression>
+            </textField>
+            <textField pattern="Rp #,##0">
+                <reportElement x="255" y="0" width="135" height="20"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$F{moneyOut}]]></textFieldExpression>
+            </textField>
+            <textField pattern="Rp #,##0">
+                <reportElement x="390" y="0" width="135" height="20"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$F{moneyIn} - $F{moneyOut}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+
+    <pageFooter>
+        <band height="25">
+            <textField pattern="dd/MM/yyyy HH:mm">
+                <reportElement x="0" y="0" width="267" height="25"/>
+                <textElement textAlignment="Left" verticalAlignment="Middle">
+                    <font size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Dicetak pada: " + new java.util.Date()]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="267" y="0" width="201" height="25"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Halaman " + $V{PAGE_NUMBER} + " dari "]]></textFieldExpression>
+            </textField>
+            <textField evaluationTime="Report">
+                <reportElement x="468" y="0" width="67" height="25"/>
+                <textElement textAlignment="Left" verticalAlignment="Middle">
+                    <font size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+            </textField>
+        </band>
+    </pageFooter>
+
+    <summary>
+        <band height="25">
+            <staticText>
+                <reportElement x="0" y="0" width="120" height="25"/>
+                <box>
+                    <topPen lineWidth="1.0"/>
+                </box>
+                <textElement verticalAlignment="Middle">
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[Total]]></text>
+            </staticText>
+            <textField pattern="Rp #,##0">
+                <reportElement x="120" y="0" width="135" height="25"/>
+                <box>
+                    <topPen lineWidth="1.0"/>
+                </box>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$V{totalIn}]]></textFieldExpression>
+            </textField>
+            <textField pattern="Rp #,##0">
+                <reportElement x="255" y="0" width="135" height="25"/>
+                <box>
+                    <topPen lineWidth="1.0"/>
+                </box>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$V{totalOut}]]></textFieldExpression>
+            </textField>
+            <textField pattern="Rp #,##0">
+                <reportElement x="390" y="0" width="135" height="25"/>
+                <box>
+                    <topPen lineWidth="1.0"/>
+                </box>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$V{totalNet}]]></textFieldExpression>
+            </textField>
+        </band>
+    </summary>
+
+</jasperReport>

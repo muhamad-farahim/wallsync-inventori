@@ -2,8 +2,11 @@
 .env
 .project
 .settings
+AGENTS.md
+WORK_LOG.md
 notes.txt
 
 target/
 storage/images/*
 test.sql
+*.pdf
