@@ -16,4 +16,5 @@ public interface ProductRepository {
     public void deleteProductById(Long id) throws SQLException;
     public ProductDetails getProductDetailById(Long id) throws SQLException;
     public void updateProduct(Long id, UpdateProduct data) throws SQLException;
+    public List<ProductWithStocks> searchProducts(String keyword) throws SQLException;
 }

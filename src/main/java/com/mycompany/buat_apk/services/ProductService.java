@@ -1,7 +1,7 @@
 package com.mycompany.buat_apk.services;
 
 import java.sql.SQLException;
-import java.util.List;
+import java.util.*;
 
 import com.mycompany.buat_apk.domains.entities.products.CreateProduct;
 import com.mycompany.buat_apk.domains.entities.products.ProductDetails;
@@ -80,6 +80,18 @@ public class ProductService {
     } catch (Exception e) {
             System.err.println("Delete product has failed.");
             System.err.println(e.getMessage());
+        }
+    }
+    
+    public List<ProductWithStocks> searchProducts(
+            String keyword
+    ) {
+
+        try {
+            return repo.searchProducts(keyword);
+        } catch(SQLException e) {
+            e.printStackTrace();
+            return new ArrayList<>();
         }
     }
     /**

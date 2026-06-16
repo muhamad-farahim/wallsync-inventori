@@ -214,4 +214,77 @@ public class ProductRepo implements ProductRepository {
             }
         }
     }
+    
+    @Override
+    public List<ProductWithStocks> searchProducts(
+            String keyword
+    ) throws SQLException {
+
+        String sql =
+            "SELECT " +
+            "p.*, " +
+            "c.name AS category_name, " +
+            "COALESCE(SUM(s.quantity),0) AS stocks " +
+            "FROM products p " +
+            "LEFT JOIN categories c ON c.id = p.category_id " +
+            "LEFT JOIN stocks s ON s.product_id = p.id " +
+            "WHERE p.name LIKE ? " +
+            "GROUP BY p.id";
+
+        PreparedStatement stmt =
+            conn.prepareStatement(sql);
+
+        stmt.setString(1, "%" + keyword + "%");
+
+        ResultSet rs = stmt.executeQuery();
+
+        List<ProductWithStocks> result =
+            new ArrayList<>();
+
+        while(rs.next()) {
+
+            ProductWithStocks product =
+                new ProductWithStocks();
+
+            product.setId(
+                rs.getLong("id")
+            );
+
+            product.setName(
+                rs.getString("name")
+            );
+
+            product.setImage(
+                rs.getString("image")
+            );
+
+            product.setDescription(
+                rs.getString("description")
+            );
+
+            product.setCategoryId(
+                rs.getLong("category_id")
+            );
+
+            product.setPrice(
+                rs.getLong("price")
+            );
+
+            product.setCreated_at(
+                rs.getTimestamp("created_at")
+            );
+
+            product.setStocks(
+                rs.getInt("stocks")
+            );
+
+            product.setCategoryName(
+                rs.getString("category_name")
+            );
+
+            result.add(product);
+        }
+
+        return result;
+    }
 }

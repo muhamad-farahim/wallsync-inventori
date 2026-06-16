@@ -8,6 +8,9 @@ import java.awt.CardLayout;
 
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import java.util.*;
 
 import com.mycompany.buat_apk.domains.entities.products.ProductWithStocks;
 import com.mycompany.buat_apk.domains.frames.ButtonEditor;
@@ -128,10 +131,10 @@ public class frame_manProduk extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
+        txtSearch = new javax.swing.JTextField();
         jComboBox1 = new javax.swing.JComboBox<>();
         jButton3 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btnSearch = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
@@ -360,8 +363,8 @@ public class frame_manProduk extends javax.swing.JFrame {
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
         jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jTextField1.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        jTextField1.setText("Cari Nama Produk");
+        txtSearch.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        txtSearch.addActionListener(this::txtSearchActionPerformed);
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sort By", "Wallpaper", "Wall Panel", "Wood Panel", "Marble Panel" }));
 
@@ -372,7 +375,8 @@ public class frame_manProduk extends javax.swing.JFrame {
         jButton3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButton3.addActionListener(this::jButton3ActionPerformed);
 
-        jButton1.setText("Search");
+        btnSearch.setText("Search");
+        btnSearch.addActionListener(this::btnSearchActionPerformed);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -380,9 +384,9 @@ public class frame_manProduk extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(btnSearch)
                 .addGap(18, 18, 18)
                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -394,10 +398,10 @@ public class frame_manProduk extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(btnSearch))
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
@@ -536,6 +540,16 @@ public class frame_manProduk extends javax.swing.JFrame {
         this.goToInner("USER_LIST");
     }//GEN-LAST:event_btnUserNavActionPerformed
 
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        // TODO add your handling code here:
+        searchProducts();
+    }//GEN-LAST:event_btnSearchActionPerformed
+
+    private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
+        // TODO add your handling code here:
+        searchProducts();
+    }//GEN-LAST:event_txtSearchActionPerformed
+
     public void loadTableData() {
         java.util.List<ProductWithStocks> productList = this.service.getAllProductsWithStocks();
 
@@ -552,6 +566,45 @@ public class frame_manProduk extends javax.swing.JFrame {
 
     public void openProductDetail(Long id) {
         this.parent.goTo("PRODUCT_DETAIL", id);
+    }
+    
+    private void searchProducts() {
+
+        String keyword =
+            txtSearch.getText().trim();
+
+        List<ProductWithStocks> productList;
+
+        if(keyword.isEmpty()) {
+
+            productList =
+                service.getAllProductsWithStocks();
+
+        } else {
+
+            productList =
+                service.searchProducts(keyword);
+        }
+
+        ProductTableModel model =
+            new ProductTableModel(productList);
+
+        jTable1.setModel(model);
+
+        jTable1.getColumnModel()
+               .getColumn(5)
+               .setCellRenderer(
+                   new ButtonRenderer()
+               );
+
+        jTable1.getColumnModel()
+               .getColumn(5)
+               .setCellEditor(
+                   new ButtonEditor(
+                       new JCheckBox(),
+                       this
+                   )
+               );
     }
 
     /**
@@ -584,9 +637,9 @@ public class frame_manProduk extends javax.swing.JFrame {
     private javax.swing.JButton btnAdmin;
     private javax.swing.JButton btnCategoryNav;
     private javax.swing.JButton btnCustomer;
+    private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnTransaksi;
     private javax.swing.JButton btnUserNav;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JComboBox<String> jComboBox1;
@@ -609,7 +662,7 @@ public class frame_manProduk extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JButton productListNav;
+    private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 }
