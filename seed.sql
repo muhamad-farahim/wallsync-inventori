@@ -19,6 +19,10 @@ INSERT INTO customers (name, dob, subdistrict, phone) VALUES
 ('Lina Marlina', '1987-08-08', 'Cilandak', '081234567008');
 
 INSERT INTO stocks (user_id, product_id, customer_id, quantity, price, description, created_at) VALUES
+(1, 4, NULL,  20,  250000,  'Initial stock Floral Wallpaper',     '2026-03-30 08:00:00'),
+(2, 6, NULL,  10,  400000,  'Initial stock Vinyl Wallpaper',       '2026-03-30 08:30:00'),
+(1, 7, NULL,   2, 15000000, 'Initial stock Modern Kitchen Set',    '2026-03-30 09:00:00'),
+(2, 8, NULL,   1,  8000000, 'Initial stock Compact Kitchen Set',   '2026-03-30 09:30:00'),
 (1, 1, NULL,  10, 1500000,  'Restock Modern Wall Panel A',        '2026-04-02 09:30:00'),
 (1, 1, 1,     -3, 1500000,  'Sale to Budi Santoso',                '2026-04-05 11:00:00'),
 (1, 4, 2,     -5,  250000,  'Sale to Siti Aminah',                 '2026-04-10 14:15:00'),

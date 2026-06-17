@@ -13,6 +13,7 @@ import com.mycompany.buat_apk.domains.entities.stocks.CreateStock;
 import com.mycompany.buat_apk.domains.repositories.StockRepository;
 import com.mysql.cj.xdevapi.PreparableStatement;
 import com.mycompany.buat_apk.domains.entities.stocks.DailyTransactionSummary;
+import com.mycompany.buat_apk.domains.entities.stocks.ProductTransactionSummary;
 import com.mycompany.buat_apk.domains.entities.stocks.TransactionItem;
 
 public class StockRepo implements StockRepository {
@@ -149,7 +150,46 @@ public class StockRepo implements StockRepository {
         }
         return result;
     }
-    
+
+    @Override
+    public List<ProductTransactionSummary> getProductSummaryByMonth(YearMonth month) throws SQLException {
+        String sql =
+            "SELECT p.id AS product_id, " +
+            "p.name AS product_name, " +
+            "COALESCE(SUM(s.quantity), 0) AS current_stock, " +
+            "COALESCE(SUM(CASE WHEN s.created_at >= ? AND s.created_at < ? AND s.quantity < 0 " +
+            "  THEN COALESCE(s.price, 0) * ABS(s.quantity) ELSE 0 END), 0) AS money_in, " +
+            "COALESCE(SUM(CASE WHEN s.created_at >= ? AND s.created_at < ? AND s.quantity >= 0 " +
+            "  THEN COALESCE(s.price, 0) * ABS(s.quantity) ELSE 0 END), 0) AS money_out " +
+            "FROM products p " +
+            "LEFT JOIN stocks s ON p.id = s.product_id " +
+            "GROUP BY p.id, p.name " +
+            "ORDER BY p.name ASC";
+
+        Timestamp start = Timestamp.valueOf(month.atDay(1).atStartOfDay());
+        Timestamp end = Timestamp.valueOf(month.plusMonths(1).atDay(1).atStartOfDay());
+
+        PreparedStatement stmt = this.makePreperaredStatement(sql);
+        stmt.setTimestamp(1, start);
+        stmt.setTimestamp(2, end);
+        stmt.setTimestamp(3, start);
+        stmt.setTimestamp(4, end);
+
+        ResultSet rs = stmt.executeQuery();
+
+        List<ProductTransactionSummary> result = new ArrayList<>();
+        while (rs.next()) {
+            result.add(new ProductTransactionSummary(
+                rs.getLong("product_id"),
+                rs.getString("product_name"),
+                rs.getInt("current_stock"),
+                rs.getLong("money_in"),
+                rs.getLong("money_out")
+            ));
+        }
+        return result;
+    }
+
     @Override
     public List<TransactionItem> getAllTransactions()
     throws SQLException {

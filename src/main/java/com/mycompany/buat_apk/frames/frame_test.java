@@ -17,8 +17,11 @@ import java.util.Map;
 import javax.swing.JOptionPane;
 
 import com.mycompany.buat_apk.config.AppConfig;
+import com.mycompany.buat_apk.domains.entities.products.ProductWithStocks;
 import com.mycompany.buat_apk.domains.entities.stocks.DailyTransactionSummary;
+import com.mycompany.buat_apk.domains.entities.stocks.ProductTransactionSummary;
 import com.mycompany.buat_apk.registry.ServiceRegistry;
+import com.mycompany.buat_apk.services.ProductService;
 import com.mycompany.buat_apk.services.StockService;
 
 import io.github.cdimascio.dotenv.Dotenv;
@@ -38,6 +41,7 @@ public class frame_test extends javax.swing.JFrame {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(frame_test.class.getName());
 
     private StockService stockService;
+    private ProductService productService;
 
     private static final String[] MONTHS = {
         "Januari", "Februari", "Maret", "April", "Mei", "Juni",
@@ -50,6 +54,7 @@ public class frame_test extends javax.swing.JFrame {
 
         ServiceRegistry services = ServiceRegistry.getInstance();
         this.stockService = services.stockService;
+        this.productService = services.productService;
         initComponents();
         populateYearCombo();
     }
@@ -78,6 +83,8 @@ public class frame_test extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         yearCombo = new javax.swing.JComboBox<>();
         printButton = new javax.swing.JButton();
+        productPrintButton = new javax.swing.JButton();
+        stockPrintButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Cetak Laporan Transaksi");
@@ -116,7 +123,27 @@ public class frame_test extends javax.swing.JFrame {
         getContentPane().add(printButton);
         printButton.setBounds(150, 120, 100, 35);
 
-        setSize(new java.awt.Dimension(400, 200));
+        productPrintButton.setFont(new java.awt.Font("Segoe UI", 1, 14));
+        productPrintButton.setText("Cetak Per Produk");
+        productPrintButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                productPrintButtonActionPerformed(evt);
+            }
+        });
+        getContentPane().add(productPrintButton);
+        productPrintButton.setBounds(130, 165, 140, 35);
+
+        stockPrintButton.setFont(new java.awt.Font("Segoe UI", 1, 14));
+        stockPrintButton.setText("Cetak Stok");
+        stockPrintButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                stockPrintButtonActionPerformed(evt);
+            }
+        });
+        getContentPane().add(stockPrintButton);
+        stockPrintButton.setBounds(130, 210, 140, 35);
+
+        setSize(new java.awt.Dimension(400, 270));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -156,6 +183,74 @@ public class frame_test extends javax.swing.JFrame {
         }
     }
 
+    private void productPrintButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        try {
+            int month = monthCombo.getSelectedIndex() + 1;
+            int year = (int) yearCombo.getSelectedItem();
+            YearMonth ym = YearMonth.of(year, month);
+
+            List<ProductTransactionSummary> data = stockService.getProductSummaryByMonth(ym);
+
+            Map<String, Object> params = new HashMap<>();
+            params.put("periode",
+                DateTimeFormatter.ofPattern("MMMM yyyy", Locale.of("id", "ID"))
+                    .format(LocalDate.of(year, month, 1)));
+
+            InputStream jrxml = getClass().getResourceAsStream("/reports/laporan_transaksi_produk.jrxml");
+            if (jrxml == null) {
+                JOptionPane.showMessageDialog(this,
+                    "Template JRXML tidak ditemukan di classpath (/reports/laporan_transaksi_produk.jrxml)");
+                return;
+            }
+
+            JasperReport report = JasperCompileManager.compileReport(jrxml);
+            JasperPrint print = JasperFillManager.fillReport(report, params,
+                new JRBeanCollectionDataSource(data));
+
+            String fileName = String.format("laporan_transaksi_produk_%d_%02d.pdf", year, month);
+            String outPath = System.getProperty("user.dir") + File.separator + fileName;
+            JasperExportManager.exportReportToPdfFile(print, outPath);
+
+            JOptionPane.showMessageDialog(this, "PDF tersimpan di:\n" + outPath);
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this,
+                "Gagal export PDF: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void stockPrintButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        try {
+            List<ProductWithStocks> data = productService.getAllProductsWithStocks();
+
+            Map<String, Object> params = new HashMap<>();
+            params.put("tanggalCetak",
+                DateTimeFormatter.ofPattern("d MMMM yyyy", Locale.of("id", "ID"))
+                    .format(LocalDate.now()));
+
+            InputStream jrxml = getClass().getResourceAsStream("/reports/laporan_stok.jrxml");
+            if (jrxml == null) {
+                JOptionPane.showMessageDialog(this,
+                    "Template JRXML tidak ditemukan di classpath (/reports/laporan_stok.jrxml)");
+                return;
+            }
+
+            JasperReport report = JasperCompileManager.compileReport(jrxml);
+            JasperPrint print = JasperFillManager.fillReport(report, params,
+                new JRBeanCollectionDataSource(data));
+
+            String fileName = "laporan_stok.pdf";
+            String outPath = System.getProperty("user.dir") + File.separator + fileName;
+            JasperExportManager.exportReportToPdfFile(print, outPath);
+
+            JOptionPane.showMessageDialog(this, "PDF tersimpan di:\n" + outPath);
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this,
+                "Gagal export PDF: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -181,5 +276,7 @@ public class frame_test extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> monthCombo;
     private javax.swing.JComboBox<Integer> yearCombo;
     private javax.swing.JButton printButton;
+    private javax.swing.JButton productPrintButton;
+    private javax.swing.JButton stockPrintButton;
     // End of variables declaration//GEN-END:variables
 }

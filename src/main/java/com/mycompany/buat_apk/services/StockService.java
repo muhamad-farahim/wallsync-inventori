@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.time.YearMonth;
 
 import com.mycompany.buat_apk.domains.entities.stocks.DailyTransactionSummary;
+import com.mycompany.buat_apk.domains.entities.stocks.ProductTransactionSummary;
 import com.mycompany.buat_apk.domains.entities.stocks.TransactionItem;
 import com.mycompany.buat_apk.repo.mysql.StockRepo;
 import com.mycompany.buat_apk.services.StockService;
@@ -40,6 +41,17 @@ public class StockService {
 
         try {
             return stockRepo.getDailySummaryByMonth(month);
+        }
+        catch(SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<ProductTransactionSummary> getProductSummaryByMonth(YearMonth month) {
+
+        try {
+            return stockRepo.getProductSummaryByMonth(month);
         }
         catch(SQLException e) {
             e.printStackTrace();
