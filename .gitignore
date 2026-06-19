@@ -8,5 +8,6 @@ notes.txt
 
 target/
 storage/images/*
+reports/*
 test.sql
 *.pdf

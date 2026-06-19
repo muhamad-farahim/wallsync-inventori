@@ -83,7 +83,8 @@ public class MainFrame extends JFrame {
         if(name.equals("USER_LIST") || 
                 name.equals("CATEGORY_LIST") || 
                 name.equals("CUSTOMER_LIST") || 
-                name.equals("TRANSAKSI_LIST")
+                name.equals("TRANSAKSI_LIST") ||
+                name.equals("PRINT")
         ){
             this.cardLayout.show(this.mainContent, "PRODUCT_LIST");
             this.frameProductList.goToInner(name);

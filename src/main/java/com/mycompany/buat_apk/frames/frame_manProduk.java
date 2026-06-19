@@ -36,6 +36,7 @@ public class frame_manProduk extends javax.swing.JFrame {
     private frame_listUser frameListUser;
     private frame_listCategory frameListCategory;
     private frame_manTransaksi frameManTransaksi;
+    private frame_print framePrint;
 
 
     /**
@@ -55,12 +56,14 @@ public class frame_manProduk extends javax.swing.JFrame {
         this.frameListUser = new frame_listUser(parent);
         this.frameListCategory = new frame_listCategory(parent);
         this.frameManTransaksi = new frame_manTransaksi(parent);
+        this.framePrint = new frame_print(parent);
 
         this.innerContent.add(jDesktopPane1, "PRODUCT_LIST");
         this.innerContent.add(this.frameListCustomer.getContentPane(), "CUSTOMER_LIST");
         this.innerContent.add(this.frameListUser.getContentPane(), "USER_LIST");
         this.innerContent.add(this.frameListCategory.getContentPane(), "CATEGORY_LIST");
         this.innerContent.add(this.frameManTransaksi.getContentPane(), "TRANSAKSI_LIST");
+        this.innerContent.add(this.framePrint.getContentPane(), "PRINT");
         // this.innerContent.add(new frame_transaksi(parent).getContentPane(), "TRANSAKSI");
 
         // Ditch the GroupLayout entirely, replace with BorderLayout
@@ -117,6 +120,7 @@ public class frame_manProduk extends javax.swing.JFrame {
         btnAdmin = new javax.swing.JButton();
         btnCategoryNav = new javax.swing.JButton();
         btnUserNav = new javax.swing.JButton();
+        btnLaporanNav = new javax.swing.JButton();
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jPanel2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
@@ -204,6 +208,14 @@ public class frame_manProduk extends javax.swing.JFrame {
         btnUserNav.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnUserNav.addActionListener(this::btnUserNavActionPerformed);
 
+        btnLaporanNav.setBackground(new java.awt.Color(0, 51, 255));
+        btnLaporanNav.setFont(new java.awt.Font("Poppins Medium", 1, 12)); // NOI18N
+        btnLaporanNav.setForeground(new java.awt.Color(255, 255, 255));
+        btnLaporanNav.setText("Laporan");
+        btnLaporanNav.setBorderPainted(false);
+        btnLaporanNav.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnLaporanNav.addActionListener(this::btnLaporanNavActionPerformed);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -222,7 +234,8 @@ public class frame_manProduk extends javax.swing.JFrame {
                             .addComponent(btnCustomer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnUserNav, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnAdmin)
-                            .addComponent(jButton4))))
+                            .addComponent(jButton4)
+                            .addComponent(btnLaporanNav, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(31, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -240,6 +253,8 @@ public class frame_manProduk extends javax.swing.JFrame {
                 .addComponent(btnCustomer)
                 .addGap(18, 18, 18)
                 .addComponent(btnUserNav)
+                .addGap(18, 18, 18)
+                .addComponent(btnLaporanNav)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -550,6 +565,11 @@ public class frame_manProduk extends javax.swing.JFrame {
         searchProducts();
     }//GEN-LAST:event_txtSearchActionPerformed
 
+    private void btnLaporanNavActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLaporanNavActionPerformed
+        // TODO add your handling code here:
+        this.goToInner("PRINT");
+    }//GEN-LAST:event_btnLaporanNavActionPerformed
+
     public void loadTableData() {
         java.util.List<ProductWithStocks> productList = this.service.getAllProductsWithStocks();
 
@@ -637,6 +657,7 @@ public class frame_manProduk extends javax.swing.JFrame {
     private javax.swing.JButton btnAdmin;
     private javax.swing.JButton btnCategoryNav;
     private javax.swing.JButton btnCustomer;
+    private javax.swing.JButton btnLaporanNav;
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnTransaksi;
     private javax.swing.JButton btnUserNav;

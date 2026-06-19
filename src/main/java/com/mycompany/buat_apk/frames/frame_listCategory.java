@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.mycompany.buat_apk.frames;
+import java.util.Comparator;
 import java.util.List;
 
 import com.mycompany.buat_apk.domains.entities.categories.CategoryWithProductCount;
@@ -53,6 +54,8 @@ public class frame_listCategory extends javax.swing.JFrame {
             }
         });
 
+        searchBtn.addActionListener(this::searchBtnActionPerformed);
+
         loadTableData();
     }
 
@@ -67,9 +70,9 @@ public class frame_listCategory extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jButton2 = new javax.swing.JButton();
+        searchField = new javax.swing.JTextField();
+        sortSelection = new javax.swing.JComboBox<>();
+        searchBtn = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
@@ -92,11 +95,12 @@ public class frame_listCategory extends javax.swing.JFrame {
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jTextField1.addActionListener(this::jTextField1ActionPerformed);
+        searchField.addActionListener(this::searchFieldActionPerformed);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sort By", "Wallpaper", "Wall Panel", "Wood Panel", "Marble Panel" }));
+        sortSelection.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sort By", "A-Z", "Id" }));
+        sortSelection.addActionListener(this::sortSelectionActionPerformed);
 
-        jButton2.setText("Search");
+        searchBtn.setText("Search");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -104,11 +108,11 @@ public class frame_listCategory extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
-                .addComponent(jTextField1)
+                .addComponent(searchField)
                 .addGap(18, 18, 18)
-                .addComponent(jButton2)
+                .addComponent(searchBtn)
                 .addGap(18, 18, 18)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(sortSelection, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(17, 17, 17))
         );
         jPanel4Layout.setVerticalGroup(
@@ -116,9 +120,9 @@ public class frame_listCategory extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2))
+                    .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(sortSelection, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(searchBtn))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
@@ -275,9 +279,13 @@ public class frame_listCategory extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    private void searchFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchFieldActionPerformed
+        loadTableData();
+    }//GEN-LAST:event_searchFieldActionPerformed
+
+    private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {
+        loadTableData();
+    }
 
     private void saveCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveCategoryActionPerformed
         // 1. Retrieve and trim values from UI text fields
@@ -421,13 +429,36 @@ public class frame_listCategory extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_descFieldActionPerformed
 
+    private void sortSelectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sortSelectionActionPerformed
+        loadTableData();
+    }//GEN-LAST:event_sortSelectionActionPerformed
+
     public void loadTableData() {
     javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) jTable1.getModel();
-    
+
     model.setRowCount(0);
 
 
-    List<CategoryWithProductCount> categories = this.categoryService.getAllCategories();  
+    List<CategoryWithProductCount> categories = this.categoryService.getAllCategories();
+
+    String query = searchField.getText().trim();
+    if (!query.isEmpty()) {
+        String q = query.toLowerCase();
+        java.util.List<CategoryWithProductCount> filtered = new java.util.ArrayList<>();
+        for (CategoryWithProductCount c : categories) {
+            if (c.getName().toLowerCase().contains(q)) {
+                filtered.add(c);
+            }
+        }
+        categories = filtered;
+    }
+
+    String sortKey = (String) sortSelection.getSelectedItem();
+    if ("A-Z".equals(sortKey)) {
+        categories.sort(Comparator.comparing(CategoryWithProductCount::getName, String.CASE_INSENSITIVE_ORDER));
+    } else if ("Id".equals(sortKey)) {
+        categories.sort(Comparator.comparing(CategoryWithProductCount::getId));
+    }
 
     try {
         for (CategoryWithProductCount cat : categories) {
@@ -480,8 +511,6 @@ public class frame_listCategory extends javax.swing.JFrame {
     private javax.swing.JButton deleteBtn;
     private javax.swing.JTextField descField;
     private javax.swing.JButton editBtn;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -491,8 +520,10 @@ public class frame_listCategory extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField nameField;
     private javax.swing.JButton saveCategory;
+    private javax.swing.JButton searchBtn;
+    private javax.swing.JTextField searchField;
+    private javax.swing.JComboBox<String> sortSelection;
     // End of variables declaration//GEN-END:variables
 }
