@@ -106,6 +106,40 @@ public class ProductRepo implements ProductRepository {
         return products;
     }
 
+    @Override
+    public List<ProductWithStocks> getProductsByCategory(Long categoryId) throws SQLException {
+        List<ProductWithStocks> products = new ArrayList<>();
+
+        String sql = "SELECT p.id, p.name, p.image, p.description, p.category_id, p.created_at, p.price, c.name AS cname, " +
+            "COALESCE(SUM(s.quantity), 0) AS total_stock " +
+            "FROM products p " +
+            "LEFT JOIN stocks s ON p.id = s.product_id INNER JOIN categories c ON p.category_id = c.id " +
+            "WHERE p.category_id = ? " +
+            "GROUP BY p.id, p.name, p.image, p.description, p.category_id, p.created_at, p.price, c.name";
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setLong(1, categoryId);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    ProductWithStocks product = new ProductWithStocks(
+                            rs.getLong("id"),
+                            rs.getString("name"),
+                            rs.getString("image"),
+                            rs.getString("description"),
+                            rs.getLong("category_id"),
+                            rs.getTimestamp("created_at"),
+                            rs.getLong("price"),
+                            rs.getInt("total_stock"),
+                            rs.getString("cname")
+                            );
+                    products.add(product);
+                }
+            }
+        }
+        return products;
+    }
+
 	@Override
 	public void deleteProductById(Long id) throws SQLException {
         String query = "DELETE FROM products WHERE id=?";

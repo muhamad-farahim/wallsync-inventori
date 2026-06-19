@@ -11,6 +11,7 @@ import java.util.List;
 import com.mycompany.buat_apk.domains.entities.users.CreateUser;
 import com.mycompany.buat_apk.domains.entities.users.UpdateUser;
 import com.mycompany.buat_apk.domains.entities.users.User;
+import com.mycompany.buat_apk.domains.enums.SortBy;
 import com.mycompany.buat_apk.domains.repositories.UserRepository;
 
 public class UserRepo implements UserRepository {
@@ -144,5 +145,64 @@ public class UserRepo implements UserRepository {
 
             stmt.executeUpdate();
         }
+    }
+
+    @Override
+    public List<User> searchUsers(String query) throws SQLException {
+        List<User> users = new ArrayList<>();
+        boolean hasFilter = query != null && !query.trim().isEmpty();
+        String sql = "SELECT id, name, username, password, created_at FROM users"
+                + (hasFilter ? " WHERE name LIKE ? OR username LIKE ?" : "")
+                + " ORDER BY id ASC;";
+
+        try (PreparedStatement stmt = this.conn.prepareStatement(sql)) {
+            if (hasFilter) {
+                String wildcard = "%" + query.trim() + "%";
+                stmt.setString(1, wildcard);
+                stmt.setString(2, wildcard);
+            }
+
+            try (ResultSet res = stmt.executeQuery()) {
+                while (res.next()) {
+                    User user = new User();
+                    user.setId(res.getLong("id"));
+                    user.setUsername(res.getString("username"));
+                    user.setName(res.getString("name"));
+                    user.setPassword(res.getString("password"));
+                    user.setCreatedAt(res.getTimestamp("created_at").toLocalDateTime());
+                    users.add(user);
+                }
+            }
+        }
+        return users;
+    }
+
+    @Override
+    public List<User> getAllUsersSorted(SortBy sortBy) throws SQLException {
+        List<User> users = new ArrayList<>();
+
+        String orderBy = switch (sortBy) {
+            case ID -> "id ASC";
+            case NAME_ASC -> "name ASC";
+            case USERNAME_ASC -> "username ASC";
+            case CREATED_AT_DESC -> "created_at DESC";
+        };
+
+        String sql = "SELECT id, name, username, password, created_at FROM users ORDER BY " + orderBy + ";";
+
+        try (PreparedStatement stmt = this.conn.prepareStatement(sql);
+             ResultSet res = stmt.executeQuery()) {
+
+            while (res.next()) {
+                User user = new User();
+                user.setId(res.getLong("id"));
+                user.setUsername(res.getString("username"));
+                user.setName(res.getString("name"));
+                user.setPassword(res.getString("password"));
+                user.setCreatedAt(res.getTimestamp("created_at").toLocalDateTime());
+                users.add(user);
+            }
+        }
+        return users;
     }
 }

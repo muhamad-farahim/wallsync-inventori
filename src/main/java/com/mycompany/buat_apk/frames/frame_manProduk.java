@@ -17,6 +17,7 @@ import com.mycompany.buat_apk.domains.frames.ButtonEditor;
 import com.mycompany.buat_apk.domains.frames.ButtonRenderer;
 import com.mycompany.buat_apk.domains.frames.ProductTableModel;
 import com.mycompany.buat_apk.registry.ServiceRegistry;
+import com.mycompany.buat_apk.services.CategoryService;
 import com.mycompany.buat_apk.services.ProductService;
 
 /**
@@ -31,6 +32,8 @@ public class frame_manProduk extends javax.swing.JFrame {
     private JPanel innerContent;
 
     private ProductService service;
+    private CategoryService categoryService;
+    private java.util.List<Long> categoryIds;
 
     private frame_listCustomer frameListCustomer;
     private frame_listUser frameListUser;
@@ -48,6 +51,9 @@ public class frame_manProduk extends javax.swing.JFrame {
 
         ServiceRegistry serviceRegistry = ServiceRegistry.getInstance();
         this.service = serviceRegistry.productService;
+        this.categoryService = serviceRegistry.categoryService;
+        this.categoryIds = new java.util.ArrayList<>();
+        populateCategorySortCombo();
 
         this.innerCardLayout = new CardLayout();
         this.innerContent = new JPanel(this.innerCardLayout);
@@ -136,7 +142,7 @@ public class frame_manProduk extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         txtSearch = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        categorySort = new javax.swing.JComboBox<>();
         jButton3 = new javax.swing.JButton();
         btnSearch = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -381,7 +387,8 @@ public class frame_manProduk extends javax.swing.JFrame {
         txtSearch.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         txtSearch.addActionListener(this::txtSearchActionPerformed);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sort By", "Wallpaper", "Wall Panel", "Wood Panel", "Marble Panel" }));
+        categorySort.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "FIlter By", "Wallpaper", "Wall Panel", "Wood Panel", "Marble Panel" }));
+        categorySort.addActionListener(this::categorySortActionPerformed);
 
         jButton3.setBackground(new java.awt.Color(0, 51, 255));
         jButton3.setFont(new java.awt.Font("Poppins Medium", 1, 12)); // NOI18N
@@ -403,7 +410,7 @@ public class frame_manProduk extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnSearch)
                 .addGap(18, 18, 18)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(categorySort, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23))
@@ -414,7 +421,7 @@ public class frame_manProduk extends javax.swing.JFrame {
                 .addGap(14, 14, 14)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(categorySort, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSearch))
                 .addContainerGap(14, Short.MAX_VALUE))
@@ -570,18 +577,12 @@ public class frame_manProduk extends javax.swing.JFrame {
         this.goToInner("PRINT");
     }//GEN-LAST:event_btnLaporanNavActionPerformed
 
+    private void categorySortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categorySortActionPerformed
+        applyFilters();
+    }//GEN-LAST:event_categorySortActionPerformed
+
     public void loadTableData() {
-        java.util.List<ProductWithStocks> productList = this.service.getAllProductsWithStocks();
-
-        ProductTableModel model = new ProductTableModel(productList);
-        jTable1.setModel(model);
-
-        jTable1.getColumnModel().getColumn(5).setCellRenderer(new ButtonRenderer());
-        jTable1.getColumnModel().getColumn(5).setCellEditor(
-                new ButtonEditor(new JCheckBox(), this) // 'this' refers to your Frame
-                );
-
-        ((ButtonEditor)jTable1.getColumnModel().getColumn(5).getCellEditor()).setClickCountToStart(1);
+        applyFilters();
     }
 
     public void openProductDetail(Long id) {
@@ -589,42 +590,55 @@ public class frame_manProduk extends javax.swing.JFrame {
     }
     
     private void searchProducts() {
+        applyFilters();
+    }
 
-        String keyword =
-            txtSearch.getText().trim();
+    private void applyFilters() {
+        String keyword = txtSearch.getText().trim();
+        Long categoryId = categoryIds.get(categorySort.getSelectedIndex());
 
-        List<ProductWithStocks> productList;
-
-        if(keyword.isEmpty()) {
-
-            productList =
-                service.getAllProductsWithStocks();
-
+        List<ProductWithStocks> products;
+        if (keyword.isEmpty() && categoryId == null) {
+            products = service.getAllProductsWithStocks();
+        } else if (categoryId == null) {
+            products = service.searchProducts(keyword);
+        } else if (keyword.isEmpty()) {
+            products = service.getProductsByCategory(categoryId);
         } else {
-
-            productList =
-                service.searchProducts(keyword);
+            List<ProductWithStocks> matched = service.searchProducts(keyword);
+            List<ProductWithStocks> filtered = new ArrayList<>();
+            for (ProductWithStocks p : matched) {
+                if (categoryId.equals(p.getCategoryId())) {
+                    filtered.add(p);
+                }
+            }
+            products = filtered;
         }
 
-        ProductTableModel model =
-            new ProductTableModel(productList);
+        renderTable(products);
+    }
 
+    private void renderTable(List<ProductWithStocks> products) {
+        ProductTableModel model = new ProductTableModel(products);
         jTable1.setModel(model);
 
-        jTable1.getColumnModel()
-               .getColumn(5)
-               .setCellRenderer(
-                   new ButtonRenderer()
-               );
+        jTable1.getColumnModel().getColumn(5).setCellRenderer(new ButtonRenderer());
+        jTable1.getColumnModel().getColumn(5).setCellEditor(
+                new ButtonEditor(new JCheckBox(), this)
+        );
 
-        jTable1.getColumnModel()
-               .getColumn(5)
-               .setCellEditor(
-                   new ButtonEditor(
-                       new JCheckBox(),
-                       this
-                   )
-               );
+        ((ButtonEditor) jTable1.getColumnModel().getColumn(5).getCellEditor()).setClickCountToStart(1);
+    }
+
+    private void populateCategorySortCombo() {
+        javax.swing.DefaultComboBoxModel<String> model = new javax.swing.DefaultComboBoxModel<>();
+        model.addElement("All Categories");
+        this.categoryIds.add(null);
+        for (com.mycompany.buat_apk.domains.entities.categories.CategoryWithProductCount c : this.categoryService.getAllCategories()) {
+            model.addElement(c.getName());
+            this.categoryIds.add(c.getId());
+        }
+        categorySort.setModel(model);
     }
 
     /**
@@ -661,9 +675,9 @@ public class frame_manProduk extends javax.swing.JFrame {
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnTransaksi;
     private javax.swing.JButton btnUserNav;
+    private javax.swing.JComboBox<String> categorySort;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

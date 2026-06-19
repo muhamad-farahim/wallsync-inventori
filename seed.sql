@@ -1,3 +1,17 @@
+INSERT INTO categories (name, code, description) VALUES
+('Wood Flooring', 'wood-flooring', 'Premium wood flooring planks'),
+('Marble Tile', 'marble-tile', 'Natural and engineered marble tiles'),
+('Ceiling Panel', 'ceiling-panel', 'Ceiling panels for interior finishing'),
+('Door', 'door', 'Interior and exterior doors'),
+('Window Frame', 'window-frame', 'Aluminum and UPVC window frames'),
+('Lighting', 'lighting', 'Indoor lighting fixtures'),
+('Curtain', 'curtain', 'Decorative and functional curtains'),
+('Rug', 'rug', 'Area rugs and floor coverings'),
+('Furniture', 'furniture', 'Indoor furniture pieces'),
+('Bathroom Fixture', 'bathroom-fixture', 'Bathroom fittings and fixtures'),
+('Mirror', 'mirror', 'Wall and vanity mirrors'),
+('Paint', 'paint', 'Interior and exterior paints');
+
 INSERT INTO products (name, image, description, price, category_id) VALUES
 ('Modern Wall Panel A', 'panel_a.jpg', 'Modern wall panel with smooth finish', 1500000, 1),
 ('Modern Wall Panel B', 'panel_b.jpg', 'Modern wall panel with wood grain texture', 1800000, 1),
@@ -7,6 +21,32 @@ INSERT INTO products (name, image, description, price, category_id) VALUES
 ('Vinyl Wallpaper', 'wallpaper_vinyl.jpg', 'Durable vinyl wallpaper', 400000, 2),
 ('Modern Kitchen Set', 'kitchen_modern.jpg', 'Modern minimalist kitchen set', 15000000, 3),
 ('Compact Kitchen Set', 'kitchen_compact.jpg', 'Compact kitchen set for small spaces', 8000000, 3);
+
+INSERT INTO products (name, image, description, price, category_id) VALUES
+('Oak Wood Flooring', 'oak_floor.jpg', 'Premium oak wood flooring planks', 850000, 4),
+('Teak Wood Flooring', 'teak_floor.jpg', 'Durable teak wood flooring', 950000, 4),
+('Carrara Marble Tile', 'marble_carrara.jpg', 'Italian Carrara marble tile', 1500000, 5),
+('Calacatta Marble Tile', 'marble_calacatta.jpg', 'Calacatta gold marble tile', 1800000, 5),
+('Gypsum Ceiling Panel', 'ceiling_gypsum.jpg', 'Standard gypsum ceiling panel', 150000, 6),
+('PVC Ceiling Panel', 'ceiling_pvc.jpg', 'Waterproof PVC ceiling panel', 200000, 6),
+('Wooden Panel Door', 'door_wood.jpg', 'Solid wood panel door', 2500000, 7),
+('Glass Door', 'door_glass.jpg', 'Frameless glass door', 3200000, 7),
+('Aluminum Window Frame', 'window_alum.jpg', 'Anodized aluminum window frame', 850000, 8),
+('UPVC Window Frame', 'window_upvc.jpg', 'UPVC double-glazed window frame', 1200000, 8),
+('Pendant Light', 'light_pendant.jpg', 'Modern pendant light fixture', 750000, 9),
+('LED Downlight', 'light_downlight.jpg', 'Energy-efficient LED downlight', 180000, 9),
+('Blackout Curtain', 'curtain_blackout.jpg', 'Room-darkening blackout curtain', 450000, 10),
+('Sheer Curtain', 'curtain_sheer.jpg', 'Light-filtering sheer curtain', 280000, 10),
+('Persian Rug', 'rug_persian.jpg', 'Hand-woven Persian rug 200x300', 3500000, 11),
+('Modern Area Rug', 'rug_modern.jpg', 'Contemporary geometric area rug', 1200000, 11),
+('Minimalist Sofa', 'furniture_sofa.jpg', '3-seater minimalist fabric sofa', 8500000, 12),
+('Wooden Dining Table', 'furniture_dining.jpg', '6-seater solid wood dining table', 6500000, 12),
+('Rain Shower Set', 'bath_shower.jpg', 'Ceiling-mounted rain shower set', 1800000, 13),
+('Wall-Mounted Toilet', 'bath_toilet.jpg', 'Modern wall-hung toilet bowl', 2500000, 13),
+('Wall Mirror', 'mirror_wall.jpg', 'Full-length frameless wall mirror', 650000, 14),
+('Vanity Mirror', 'mirror_vanity.jpg', 'LED-lit vanity mirror', 850000, 14),
+('Interior Wall Paint', 'paint_interior.jpg', 'Premium interior wall paint 5L', 350000, 15),
+('Exterior Wall Paint', 'paint_exterior.jpg', 'Weather-resistant exterior paint 5L', 480000, 15);
 
 INSERT INTO customers (name, dob, subdistrict, phone) VALUES
 ('Budi Santoso', '1985-03-15', 'Menteng', '081234567001'),
@@ -19,6 +59,30 @@ INSERT INTO customers (name, dob, subdistrict, phone) VALUES
 ('Lina Marlina', '1987-08-08', 'Cilandak', '081234567008');
 
 INSERT INTO stocks (user_id, product_id, customer_id, quantity, price, description, created_at) VALUES
+(1,  9, NULL,  6,   850000, 'Initial stock Oak Wood Flooring',         '2026-03-29 08:00:00'),
+(2, 10, NULL,  7,   950000, 'Initial stock Teak Wood Flooring',        '2026-03-29 08:30:00'),
+(1, 11, NULL,  8,  1500000, 'Initial stock Carrara Marble Tile',       '2026-03-29 09:00:00'),
+(2, 12, NULL,  9,  1800000, 'Initial stock Calacatta Marble Tile',     '2026-03-29 09:30:00'),
+(1, 13, NULL, 10,   150000, 'Initial stock Gypsum Ceiling Panel',      '2026-03-29 10:00:00'),
+(2, 14, NULL,  6,   200000, 'Initial stock PVC Ceiling Panel',         '2026-03-29 10:30:00'),
+(1, 15, NULL,  7,  2500000, 'Initial stock Wooden Panel Door',         '2026-03-29 11:00:00'),
+(2, 16, NULL,  8,  3200000, 'Initial stock Glass Door',                '2026-03-29 11:30:00'),
+(1, 17, NULL,  9,   850000, 'Initial stock Aluminum Window Frame',     '2026-03-29 12:00:00'),
+(2, 18, NULL, 10,  1200000, 'Initial stock UPVC Window Frame',         '2026-03-29 12:30:00'),
+(1, 19, NULL,  6,   750000, 'Initial stock Pendant Light',             '2026-03-29 13:00:00'),
+(2, 20, NULL,  7,   180000, 'Initial stock LED Downlight',             '2026-03-29 13:30:00'),
+(1, 21, NULL,  8,   450000, 'Initial stock Blackout Curtain',          '2026-03-29 14:00:00'),
+(2, 22, NULL,  9,   280000, 'Initial stock Sheer Curtain',             '2026-03-29 14:30:00'),
+(1, 23, NULL, 10,  3500000, 'Initial stock Persian Rug',               '2026-03-29 15:00:00'),
+(2, 24, NULL,  6,  1200000, 'Initial stock Modern Area Rug',           '2026-03-29 15:30:00'),
+(1, 25, NULL,  7,  8500000, 'Initial stock Minimalist Sofa',           '2026-03-29 16:00:00'),
+(2, 26, NULL,  8,  6500000, 'Initial stock Wooden Dining Table',       '2026-03-29 16:30:00'),
+(1, 27, NULL,  9,  1800000, 'Initial stock Rain Shower Set',           '2026-03-29 17:00:00'),
+(2, 28, NULL, 10,  2500000, 'Initial stock Wall-Mounted Toilet',       '2026-03-29 17:30:00'),
+(1, 29, NULL,  6,   650000, 'Initial stock Wall Mirror',               '2026-03-29 18:00:00'),
+(2, 30, NULL,  7,   850000, 'Initial stock Vanity Mirror',             '2026-03-29 18:30:00'),
+(1, 31, NULL,  8,   350000, 'Initial stock Interior Wall Paint',       '2026-03-29 19:00:00'),
+(2, 32, NULL,  9,   480000, 'Initial stock Exterior Wall Paint',       '2026-03-29 19:30:00'),
 (1, 4, NULL,  20,  250000,  'Initial stock Floral Wallpaper',     '2026-03-30 08:00:00'),
 (2, 6, NULL,  10,  400000,  'Initial stock Vinyl Wallpaper',       '2026-03-30 08:30:00'),
 (1, 7, NULL,   2, 15000000, 'Initial stock Modern Kitchen Set',    '2026-03-30 09:00:00'),

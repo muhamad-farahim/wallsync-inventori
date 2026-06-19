@@ -4,11 +4,13 @@
  */
 package com.mycompany.buat_apk.frames;
 
+import java.util.Comparator;
 import java.util.List;
 
 import com.mycompany.buat_apk.domains.entities.users.CreateUser;
 import com.mycompany.buat_apk.domains.entities.users.UpdateUser;
 import com.mycompany.buat_apk.domains.entities.users.User;
+import com.mycompany.buat_apk.domains.enums.SortBy;
 import com.mycompany.buat_apk.registry.ServiceRegistry;
 import com.mycompany.buat_apk.services.UserService;
 
@@ -38,8 +40,17 @@ public class frame_listUser extends javax.swing.JFrame {
     }
 
     public void loadTableData() {
-        List<User> userList = this.service.getAllUsers();
-        displayTable(userList);
+        String query = searchField.getText().trim();
+        SortBy sortBy = mapSortKey((String) sortByBox.getSelectedItem());
+
+        List<User> users;
+        if (query.isEmpty()) {
+            users = this.service.getAllUsersSorted(sortBy);
+        } else {
+            users = this.service.searchUsers(query);
+            users.sort(comparatorFor(sortBy));
+        }
+        displayTable(users);
     }
 
     public void loadTableData(List<User> userList) {
@@ -131,9 +142,9 @@ public class frame_listUser extends javax.swing.JFrame {
         nameField = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jTextField3 = new javax.swing.JTextField();
-        jButton6 = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        searchField = new javax.swing.JTextField();
+        searchBtn = new javax.swing.JButton();
+        sortByBox = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
@@ -250,10 +261,14 @@ public class frame_listUser extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        jButton6.setText("Search");
+        searchField.addActionListener(this::searchFieldActionPerformed);
 
-        jComboBox1.setForeground(new java.awt.Color(102, 102, 102));
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sort By" }));
+        searchBtn.setText("Search");
+        searchBtn.addActionListener(this::searchBtnActionPerformed);
+
+        sortByBox.setForeground(new java.awt.Color(102, 102, 102));
+        sortByBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sort By: id", "Name A-Z", "Username A-Z", "Created At" }));
+        sortByBox.addActionListener(this::sortByBoxActionPerformed);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -261,11 +276,11 @@ public class frame_listUser extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton6)
+                .addComponent(searchBtn)
                 .addGap(18, 18, 18)
-                .addComponent(jComboBox1, 0, 178, Short.MAX_VALUE)
+                .addComponent(sortByBox, 0, 178, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -273,9 +288,9 @@ public class frame_listUser extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton6)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(searchBtn)
+                    .addComponent(sortByBox, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(24, Short.MAX_VALUE))
         );
 
@@ -478,6 +493,18 @@ public class frame_listUser extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_deleteBtnActionPerformed
 
+    private void searchFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchFieldActionPerformed
+        loadTableData();
+    }//GEN-LAST:event_searchFieldActionPerformed
+
+    private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
+        loadTableData();
+    }//GEN-LAST:event_searchBtnActionPerformed
+
+    private void sortByBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sortByBoxActionPerformed
+        loadTableData();
+    }//GEN-LAST:event_sortByBoxActionPerformed
+
     private void clearForm() {
         idField.setText("");
         nameField.setText("");
@@ -487,6 +514,22 @@ public class frame_listUser extends javax.swing.JFrame {
 
         this.selectedId = null;
         jTable1.clearSelection();
+    }
+
+    private SortBy mapSortKey(String key) {
+        if ("Name A-Z".equals(key)) return SortBy.NAME_ASC;
+        if ("Username A-Z".equals(key)) return SortBy.USERNAME_ASC;
+        if ("Created At".equals(key)) return SortBy.CREATED_AT_DESC;
+        return SortBy.ID;
+    }
+
+    private Comparator<User> comparatorFor(SortBy sortBy) {
+        return switch (sortBy) {
+            case NAME_ASC -> Comparator.comparing(User::getName, String.CASE_INSENSITIVE_ORDER);
+            case USERNAME_ASC -> Comparator.comparing(User::getUsername, String.CASE_INSENSITIVE_ORDER);
+            case CREATED_AT_DESC -> Comparator.comparing(User::getCreatedAt, Comparator.nullsLast(Comparator.reverseOrder()));
+            default -> Comparator.comparing(User::getId);
+        };
     }
 
     /**
@@ -521,8 +564,6 @@ public class frame_listUser extends javax.swing.JFrame {
     private javax.swing.JButton deleteBtn;
     private javax.swing.JButton editBtn;
     private javax.swing.JTextField idField;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -533,10 +574,12 @@ public class frame_listUser extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField nameField;
     private javax.swing.JPasswordField passwordField;
     private javax.swing.JButton saveBtn;
+    private javax.swing.JButton searchBtn;
+    private javax.swing.JTextField searchField;
+    private javax.swing.JComboBox<String> sortByBox;
     private javax.swing.JTextField usernameField;
     // End of variables declaration//GEN-END:variables
 }
