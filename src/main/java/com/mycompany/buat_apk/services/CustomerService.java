@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.mycompany.buat_apk.domains.entities.customers.CreateCustomer;
 import com.mycompany.buat_apk.domains.entities.customers.Customer;
+import com.mycompany.buat_apk.domains.entities.customers.CustomerSummary;
 import com.mycompany.buat_apk.domains.entities.customers.UpdateCustomer;
 import com.mycompany.buat_apk.domains.repositories.CustomerRepository;
 
@@ -27,6 +28,11 @@ public class CustomerService {
 
     public List<Customer> getAllCustomers() {
         List<Customer> list = this.customerRepo.getAllCustomer();
+        return (list != null) ? list : new ArrayList<>();
+    }
+
+    public List<CustomerSummary> getAllCustomerSummaries() {
+        List<CustomerSummary> list = this.customerRepo.getAllCustomerSummaries();
         return (list != null) ? list : new ArrayList<>();
     }
 

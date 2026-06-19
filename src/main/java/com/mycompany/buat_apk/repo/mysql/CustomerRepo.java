@@ -5,12 +5,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import com.mycompany.buat_apk.db.DbConnection;
 import com.mycompany.buat_apk.domains.entities.customers.CreateCustomer;
 import com.mycompany.buat_apk.domains.entities.customers.Customer;
+import com.mycompany.buat_apk.domains.entities.customers.CustomerSummary;
 import com.mycompany.buat_apk.domains.entities.customers.UpdateCustomer;
 import com.mycompany.buat_apk.domains.repositories.CustomerRepository;
 
@@ -47,16 +52,16 @@ public class CustomerRepo implements CustomerRepository {
     public List<Customer> getAllCustomer() {
         List<Customer> customers = new ArrayList<>();
         String sql = "SELECT id, name, dob, subdistrict, phone, created_at FROM customers";
-        
+
         try (Connection conn = DbConnection.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
-            
+
             while (rs.next()) {
                 Customer customer = new Customer(
                     rs.getLong("id"),
                     rs.getString("name"),
-                    rs.getTimestamp("dob"), 
+                    rs.getTimestamp("dob"),
                     rs.getString("subdistrict"),
                     rs.getString("phone"),
                     rs.getTimestamp("created_at")
@@ -67,6 +72,22 @@ public class CustomerRepo implements CustomerRepository {
             e.printStackTrace();
         }
         return customers;
+    }
+
+    @Override
+    public List<CustomerSummary> getAllCustomerSummaries() {
+        List<Customer> customers = getAllCustomer();
+        customers.sort(Comparator.comparing(Customer::getId));
+
+        List<CustomerSummary> summaries = new ArrayList<>();
+        ZoneId zone = ZoneId.systemDefault();
+        for (Customer c : customers) {
+            LocalDate dob = c.getDob().toInstant().atZone(zone).toLocalDate();
+            LocalDateTime joinedAt = c.getCreatedAt().toInstant().atZone(zone).toLocalDateTime();
+            summaries.add(new CustomerSummary(
+                c.getId(), c.getName(), c.getSubdistrict(), dob, joinedAt));
+        }
+        return summaries;
     }
 
     @Override
