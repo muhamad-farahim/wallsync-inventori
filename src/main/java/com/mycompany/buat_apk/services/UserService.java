@@ -7,6 +7,7 @@ import java.util.List;
 import com.mycompany.buat_apk.domains.entities.users.CreateUser;
 import com.mycompany.buat_apk.domains.entities.users.UpdateUser;
 import com.mycompany.buat_apk.domains.entities.users.User;
+import com.mycompany.buat_apk.domains.enums.SortBy;
 import com.mycompany.buat_apk.domains.repositories.UserRepository;
 
 public class UserService {
@@ -105,6 +106,26 @@ public class UserService {
         } catch (SQLException e) {
             System.err.println("Error deleting user: " + e.getMessage());
             return false;
+        }
+    }
+
+    public List<User> searchUsers(String query) {
+        try {
+            List<User> list = this.userRepo.searchUsers(query);
+            return (list != null) ? list : new ArrayList<>();
+        } catch (SQLException e) {
+            System.err.println("Error searching users: " + e.getMessage());
+            return new ArrayList<>();
+        }
+    }
+
+    public List<User> getAllUsersSorted(SortBy sortBy) {
+        try {
+            List<User> list = this.userRepo.getAllUsersSorted(sortBy);
+            return (list != null) ? list : new ArrayList<>();
+        } catch (SQLException e) {
+            System.err.println("Error fetching sorted users: " + e.getMessage());
+            return new ArrayList<>();
         }
     }
 }

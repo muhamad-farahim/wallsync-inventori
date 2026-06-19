@@ -13,6 +13,7 @@ public interface ProductRepository {
     public Long createProductReturnId(CreateProduct c) throws SQLException;
     public List<Product> getAllProducts() throws SQLException;
     public List<ProductWithStocks> getAllProductsWithStocks() throws SQLException;
+    public List<ProductWithStocks> getProductsByCategory(Long categoryId) throws SQLException;
     public void deleteProductById(Long id) throws SQLException;
     public ProductDetails getProductDetailById(Long id) throws SQLException;
     public void updateProduct(Long id, UpdateProduct data) throws SQLException;

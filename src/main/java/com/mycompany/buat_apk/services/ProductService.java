@@ -94,6 +94,15 @@ public class ProductService {
             return new ArrayList<>();
         }
     }
+
+    public List<ProductWithStocks> getProductsByCategory(Long categoryId) {
+        try {
+            return repo.getProductsByCategory(categoryId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+    }
     /**
      *
      * @param productId
