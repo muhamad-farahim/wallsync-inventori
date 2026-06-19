@@ -37,19 +37,42 @@ public class frame_listCustomer extends javax.swing.JFrame {
 
     public void loadTableData() {
         // 1. Fetch data from service
-        List<Customer> customers = this.service.getAllCustomers();
-        displayTableData(customers);
+        List<Customer> all = this.service.getAllCustomers();
+        applyMetrics(all);
+        displayTableData(all);
     }
 
-    public void loadTableData(List<Customer> customers) {
-        displayTableData(customers);
+    public void loadTableData(List<Customer> filtered) {
+        applyMetrics(this.service.getAllCustomers());
+        displayTableData(filtered);
+    }
+
+    private void applyMetrics(List<Customer> all) {
+        totalCustomer.setText(String.valueOf(all.size()));
+
+        java.util.Map<String, Integer> domCounts = new java.util.HashMap<>();
+        String topDom = "-";
+        int topCount = 0;
+        int newCount = 0;
+        java.time.YearMonth currentMonth = java.time.YearMonth.from(java.time.LocalDate.now());
+        java.time.ZoneId zone = java.time.ZoneId.systemDefault();
+        for (Customer c : all) {
+            String d = c.getSubdistrict();
+            int count = domCounts.merge(d, 1, Integer::sum);
+            if (count > topCount || (count == topCount && d.compareTo(topDom) < 0)) {
+                topCount = count;
+                topDom = d;
+            }
+            java.time.LocalDate created = c.getCreatedAt().toInstant().atZone(zone).toLocalDate();
+            if (java.time.YearMonth.from(created).equals(currentMonth)) {
+                newCount++;
+            }
+        }
+        topDomicile.setText(topDom);
+        newCustomer.setText(String.valueOf(newCount));
     }
 
     private void displayTableData(List<Customer> tableData) {
-        // Update metric indicators
-        jLabel3.setText(String.valueOf(tableData.size()));
-
-        // 2. Setup structural model
         String[] columns = {"CUSTOMER ID", "CUSTOMER NAME", "DOMICILE", "DATE", "ACTION"};
         javax.swing.table.DefaultTableModel model = new javax.swing.table.DefaultTableModel(columns, 0) {
             @Override
@@ -60,7 +83,6 @@ public class frame_listCustomer extends javax.swing.JFrame {
 
         java.text.SimpleDateFormat df = new java.text.SimpleDateFormat("dd-MM-yyyy");
 
-        // 3. Hydrate table dataset
         for (Customer c : tableData) {
             String dateStr = (c.getDob() != null) ? df.format(c.getDob()) : "-";
             model.addRow(new Object[]{
@@ -68,7 +90,7 @@ public class frame_listCustomer extends javax.swing.JFrame {
                     c.getName(),
                     c.getSubdistrict(),
                     dateStr,
-                    "View" 
+                    "View"
             });
         }
 
@@ -93,21 +115,21 @@ public class frame_listCustomer extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        totalCustomer = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        topDomicile = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        newCustomer = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jPanel5 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        searchField = new javax.swing.JTextField();
+        searchBtn = new javax.swing.JButton();
+        sortBy = new javax.swing.JComboBox<>();
         addCustomerBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -121,10 +143,10 @@ public class frame_listCustomer extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(0, 51, 255));
         jLabel2.setText("Total Customers");
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel3.setText("[num]");
-        jLabel3.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        totalCustomer.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        totalCustomer.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        totalCustomer.setText("[num]");
+        totalCustomer.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
 
         jLabel12.setText("all customers");
 
@@ -135,9 +157,10 @@ public class frame_listCustomer extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(totalCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap(86, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -146,7 +169,7 @@ public class frame_listCustomer extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel3)
+                .addComponent(totalCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(9, Short.MAX_VALUE))
@@ -158,10 +181,10 @@ public class frame_listCustomer extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(0, 51, 255));
         jLabel4.setText("Top Domicile");
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel5.setText("[string]");
-        jLabel5.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        topDomicile.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        topDomicile.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        topDomicile.setText("[string]");
+        topDomicile.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -171,8 +194,8 @@ public class frame_listCustomer extends javax.swing.JFrame {
                 .addGap(14, 14, 14)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(107, Short.MAX_VALUE))
+                    .addComponent(topDomicile, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -180,7 +203,7 @@ public class frame_listCustomer extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel5)
+                .addComponent(topDomicile)
                 .addContainerGap(50, Short.MAX_VALUE))
         );
 
@@ -190,10 +213,10 @@ public class frame_listCustomer extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(0, 51, 255));
         jLabel6.setText("New Customers");
 
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel7.setText("[num]");
-        jLabel7.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        newCustomer.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        newCustomer.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        newCustomer.setText("[num]");
+        newCustomer.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
 
         jLabel10.setText("this month");
 
@@ -203,10 +226,10 @@ public class frame_listCustomer extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                    .addComponent(newCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(65, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -215,7 +238,7 @@ public class frame_listCustomer extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel7)
+                .addComponent(newCustomer)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -236,11 +259,13 @@ public class frame_listCustomer extends javax.swing.JFrame {
 
         jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jTextField1.addActionListener(this::jTextField1ActionPerformed);
+        searchField.addActionListener(this::searchFieldActionPerformed);
 
-        jButton2.setText("Search");
+        searchBtn.setText("Search");
+        searchBtn.addActionListener(this::searchBtnActionPerformed);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sort By", "Wallpaper", "Wall Panel", "Wood Panel", "Marble Panel" }));
+        sortBy.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sort by: id", "Name", "Domicile" }));
+        sortBy.addActionListener(this::sortByActionPerformed);
 
         addCustomerBtn.setBackground(new java.awt.Color(0, 51, 255));
         addCustomerBtn.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -254,11 +279,11 @@ public class frame_listCustomer extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap(17, Short.MAX_VALUE)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton2)
+                .addComponent(searchBtn)
                 .addGap(18, 18, 18)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(sortBy, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(61, 61, 61)
                 .addComponent(addCustomerBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(22, 22, 22))
@@ -268,9 +293,9 @@ public class frame_listCustomer extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2)
+                    .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(sortBy, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(searchBtn)
                     .addComponent(addCustomerBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
@@ -318,14 +343,49 @@ public class frame_listCustomer extends javax.swing.JFrame {
 
 
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    private void searchFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchFieldActionPerformed
+        applyFilter();
+    }//GEN-LAST:event_searchFieldActionPerformed
 
     private void addCustomerBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCustomerBtnActionPerformed
         // TODO add your handling code here:
         this.parent.goTo("CUSTOMER_CREATE");
     }//GEN-LAST:event_addCustomerBtnActionPerformed
+
+    private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
+        applyFilter();
+    }//GEN-LAST:event_searchBtnActionPerformed
+
+    private void sortByActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sortByActionPerformed
+        applyFilter();
+    }//GEN-LAST:event_sortByActionPerformed
+
+    private void applyFilter() {
+        List<Customer> customers = this.service.getAllCustomers();
+
+        String query = searchField.getText().trim();
+        if (!query.isEmpty()) {
+            String q = query.toLowerCase();
+            java.util.List<Customer> filtered = new java.util.ArrayList<>();
+            for (Customer c : customers) {
+                if (c.getName().toLowerCase().contains(q)) {
+                    filtered.add(c);
+                }
+            }
+            customers = filtered;
+        }
+
+        String sortKey = (String) sortBy.getSelectedItem();
+        if ("Name".equals(sortKey)) {
+            customers.sort(java.util.Comparator.comparing(Customer::getName, String.CASE_INSENSITIVE_ORDER));
+        } else if ("Domicile".equals(sortKey)) {
+            customers.sort(java.util.Comparator.comparing(Customer::getSubdistrict, String.CASE_INSENSITIVE_ORDER));
+        } else if ("Sort by: id".equals(sortKey)) {
+            customers.sort(java.util.Comparator.comparing(Customer::getId));
+        }
+
+        loadTableData(customers);
+    }
 
     /**
      * @param args the command line arguments
@@ -355,23 +415,23 @@ public class frame_listCustomer extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addCustomerBtn;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel newCustomer;
+    private javax.swing.JButton searchBtn;
+    private javax.swing.JTextField searchField;
+    private javax.swing.JComboBox<String> sortBy;
+    private javax.swing.JLabel topDomicile;
+    private javax.swing.JLabel totalCustomer;
     // End of variables declaration//GEN-END:variables
 }
