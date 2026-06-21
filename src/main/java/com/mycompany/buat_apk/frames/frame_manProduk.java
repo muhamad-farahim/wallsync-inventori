@@ -217,7 +217,7 @@ public class frame_manProduk extends javax.swing.JFrame {
         btnLaporanNav.setBackground(new java.awt.Color(0, 51, 255));
         btnLaporanNav.setFont(new java.awt.Font("Poppins Medium", 1, 12)); // NOI18N
         btnLaporanNav.setForeground(new java.awt.Color(255, 255, 255));
-        btnLaporanNav.setText("Laporan");
+        btnLaporanNav.setText("Reports");
         btnLaporanNav.setBorderPainted(false);
         btnLaporanNav.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnLaporanNav.addActionListener(this::btnLaporanNavActionPerformed);

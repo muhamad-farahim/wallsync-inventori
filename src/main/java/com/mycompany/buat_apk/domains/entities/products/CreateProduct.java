@@ -8,6 +8,7 @@ public class CreateProduct {
     private Long price;
     private Long category_id;
     private int quantity;
+    private Long buyingPrice;
 
     public CreateProduct(String name, String image, String description, Long category_id, int quantity, Long price) {
         this.name = name;
@@ -67,6 +68,14 @@ public class CreateProduct {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+    
+    public Long getBuyingPrice() {
+        return buyingPrice;
+    }
+    
+    public void setBuyingPrice(Long buyingPrice) {
+        this.buyingPrice = buyingPrice;
     }
 }
 

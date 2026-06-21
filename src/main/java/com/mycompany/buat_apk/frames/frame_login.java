@@ -63,16 +63,17 @@ public class frame_login extends javax.swing.JFrame {
         getContentPane().setLayout(null);
 
         usernameField.setToolTipText("Masukkan username");
+        usernameField.addActionListener(this::usernameFieldActionPerformed);
         getContentPane().add(usernameField);
         usernameField.setBounds(660, 220, 259, 30);
 
         jLabel1.setFont(new java.awt.Font("Microsoft JhengHei UI", 1, 24)); // NOI18N
-        jLabel1.setText("Selamat Datang");
+        jLabel1.setText("Welcome!");
         getContentPane().add(jLabel1);
         jLabel1.setBounds(660, 110, 220, 32);
 
         jLabel2.setFont(new java.awt.Font("Microsoft JhengHei UI", 0, 12)); // NOI18N
-        jLabel2.setText("Masuk ke akun Anda untuk melanjutkan");
+        jLabel2.setText("Log in to your account to continue.");
         getContentPane().add(jLabel2);
         jLabel2.setBounds(660, 140, 240, 17);
 
@@ -89,7 +90,7 @@ public class frame_login extends javax.swing.JFrame {
         loginButton.setBackground(new java.awt.Color(51, 153, 255));
         loginButton.setFont(new java.awt.Font("Microsoft JhengHei UI", 1, 12)); // NOI18N
         loginButton.setForeground(new java.awt.Color(255, 255, 255));
-        loginButton.setText("Masuk");
+        loginButton.setText("Login");
         loginButton.setToolTipText("");
         loginButton.addActionListener(this::loginButtonActionPerformed);
         getContentPane().add(loginButton);
@@ -97,7 +98,7 @@ public class frame_login extends javax.swing.JFrame {
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/a.jpg"))); // NOI18N
         getContentPane().add(jLabel5);
-        jLabel5.setBounds(-340, 0, 970, 490);
+        jLabel5.setBounds(-340, 0, 930, 610);
 
         passwordField.setToolTipText("masukkan passsword");
         getContentPane().add(passwordField);
@@ -135,8 +136,8 @@ public class frame_login extends javax.swing.JFrame {
             
             javax.swing.JOptionPane.showMessageDialog(
                 this,
-                "Login berhasil",
-                "Notifikasi",
+                "Log In Successful.",
+                "Notification!",
                 javax.swing.JOptionPane.INFORMATION_MESSAGE
             );
             
@@ -145,11 +146,11 @@ public class frame_login extends javax.swing.JFrame {
             return;
         }
         if(username.isEmpty() || password.isEmpty()) {
-            lblError.setText("Username dan password wajib diisi");
+            lblError.setText("Username and password are required.");
             return;
         }
 
-        lblError.setText("Username atau password salah");
+        lblError.setText("Incorrect username or password.");
 
         passwordField.setText("");
         passwordField.requestFocus();
@@ -161,6 +162,10 @@ public class frame_login extends javax.swing.JFrame {
         usernameField.setText("");
         passwordField.setText("");
     }//GEN-LAST:event_clearButtonActionPerformed
+
+    private void usernameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_usernameFieldActionPerformed
 
     /**
      * @param args the command line arguments

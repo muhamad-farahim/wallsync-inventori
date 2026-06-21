@@ -95,30 +95,30 @@ public class frame_editProduk extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel1.setText("Edit Produk");
+        jLabel1.setText("Product Edit");
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel2.setText("Nama Produk");
+        jLabel2.setText("Product Name");
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel3.setText("Harga Satuan (Rp)");
+        jLabel3.setText("Unit Price (Rp)");
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel5.setText("Deskripsi");
+        jLabel5.setText("Description");
 
         descField.setColumns(20);
         descField.setRows(5);
         jScrollPane1.setViewportView(descField);
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel6.setText("Kategori");
+        jLabel6.setText("Category");
 
         photoField.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jLabel7.setText("Perbarui informasi produk");
+        jLabel7.setText("Update Product Information");
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel8.setText("Edit Informasi Produk");
+        jLabel8.setText("Edit Product Information");
 
         backButton.setBackground(new java.awt.Color(246, 246, 246));
         backButton.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
@@ -132,7 +132,7 @@ public class frame_editProduk extends javax.swing.JFrame {
         saveButton.setBackground(new java.awt.Color(0, 0, 255));
         saveButton.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
         saveButton.setForeground(new java.awt.Color(255, 255, 255));
-        saveButton.setText("Simpan Perubahan");
+        saveButton.setText("Save Changes");
         saveButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         saveButton.addActionListener(this::saveButtonActionPerformed);
 
@@ -158,9 +158,7 @@ public class frame_editProduk extends javax.swing.JFrame {
                         .addGap(34, 34, 34)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(categoryField, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 405, Short.MAX_VALUE)
@@ -169,7 +167,9 @@ public class frame_editProduk extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(nameField)
-                            .addComponent(priceField))))
+                            .addComponent(priceField)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(36, 36, 36))
         );
         layout.setVerticalGroup(
