@@ -91,6 +91,10 @@ public class MainFrame extends JFrame {
             return;
         }
 
+        if(name.equals("TRANSACTION_LIST")){
+
+        }
+
         this.cardLayout.show(this.mainContent, name);
     }
     

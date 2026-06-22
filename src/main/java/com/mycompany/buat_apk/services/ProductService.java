@@ -35,6 +35,7 @@ public class ProductService {
 
         try {
             CreateStock stockData = new CreateStock(userId, productId, data.getQuantity());
+            stockData.setPrice(data.getBuyingPrice());
             this.stockRepo.createStocks(stockData);
 
         }catch(SQLException e) {
