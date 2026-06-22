@@ -47,22 +47,22 @@ public class frame_manTransaksi extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        totalTransactionLabel = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        totalSalesLabel = new javax.swing.JLabel();
+        salesOutboundLabel = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
+        totalPurchaseLabel = new javax.swing.JLabel();
+        purchaseInboundLabel = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
+        searchField = new javax.swing.JTextField();
+        saleButton = new javax.swing.JButton();
+        purchaseButton = new javax.swing.JButton();
+        searchBtn = new javax.swing.JButton();
+        refreshBtn = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableTransaction = new javax.swing.JTable();
 
@@ -79,8 +79,8 @@ public class frame_manTransaksi extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(0, 102, 255));
         jLabel2.setText("Total Transactions");
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel3.setText("[num]");
+        totalTransactionLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        totalTransactionLabel.setText("[num]");
 
         jLabel4.setText("all transactions");
 
@@ -91,7 +91,7 @@ public class frame_manTransaksi extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(totalTransactionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE))
                 .addContainerGap(88, Short.MAX_VALUE))
@@ -102,7 +102,7 @@ public class frame_manTransaksi extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel3)
+                .addComponent(totalTransactionLabel)
                 .addGap(12, 12, 12)
                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(8, Short.MAX_VALUE))
@@ -116,10 +116,10 @@ public class frame_manTransaksi extends javax.swing.JFrame {
         jLabel5.setForeground(new java.awt.Color(0, 204, 51));
         jLabel5.setText("Total Sales");
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel6.setText("Rp. [num]");
+        totalSalesLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        totalSalesLabel.setText("Rp. [num]");
 
-        jLabel7.setText("[num] outbound");
+        salesOutboundLabel.setText("[num] outbound");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -128,10 +128,13 @@ public class frame_manTransaksi extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(64, Short.MAX_VALUE))
+                    .addComponent(totalSalesLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(salesOutboundLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 58, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -139,9 +142,9 @@ public class frame_manTransaksi extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel6)
+                .addComponent(totalSalesLabel)
                 .addGap(12, 12, 12)
-                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(salesOutboundLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(8, Short.MAX_VALUE))
         );
 
@@ -152,10 +155,10 @@ public class frame_manTransaksi extends javax.swing.JFrame {
         jLabel8.setForeground(new java.awt.Color(255, 51, 51));
         jLabel8.setText("Total Purchases");
 
-        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel9.setText("Rp. [num]");
+        totalPurchaseLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        totalPurchaseLabel.setText("Rp. [num]");
 
-        jLabel10.setText("[num] inbound");
+        purchaseInboundLabel.setText("[num] inbound");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -164,10 +167,13 @@ public class frame_manTransaksi extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(72, Short.MAX_VALUE))
+                    .addComponent(totalPurchaseLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(purchaseInboundLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 66, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -175,33 +181,36 @@ public class frame_manTransaksi extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel9)
+                .addComponent(totalPurchaseLabel)
                 .addGap(12, 12, 12)
-                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(purchaseInboundLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(8, Short.MAX_VALUE))
         );
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jTextField1.addActionListener(this::jTextField1ActionPerformed);
+        searchField.addActionListener(this::searchFieldActionPerformed);
 
-        jButton4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton4.setForeground(new java.awt.Color(0, 204, 51));
-        jButton4.setText("Sale");
-        jButton4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 204, 51), 1, true));
-        jButton4.addActionListener(this::jButton4ActionPerformed);
+        saleButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        saleButton.setForeground(new java.awt.Color(0, 204, 51));
+        saleButton.setText("Sale");
+        saleButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 204, 51), 1, true));
+        saleButton.addActionListener(this::saleButtonActionPerformed);
 
-        jButton5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton5.setForeground(new java.awt.Color(255, 51, 51));
-        jButton5.setText("Purchase");
-        jButton5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 51, 51), 1, true));
-        jButton5.addActionListener(this::jButton5ActionPerformed);
+        purchaseButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        purchaseButton.setForeground(new java.awt.Color(255, 51, 51));
+        purchaseButton.setText("Purchase");
+        purchaseButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 51, 51), 1, true));
+        purchaseButton.addActionListener(this::purchaseButtonActionPerformed);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sort By", "Wallpaper", "Wall Panel", "Wood Panel", "Marble Panel" }));
+        searchBtn.setText("Search");
+        searchBtn.addActionListener(this::searchBtnActionPerformed);
 
-        jButton1.setText("Search");
-        jButton1.addActionListener(this::jButton1ActionPerformed);
+        refreshBtn.setText("Refresh");
+        refreshBtn.setMaximumSize(new java.awt.Dimension(33, 17));
+        refreshBtn.setMinimumSize(new java.awt.Dimension(33, 17));
+        refreshBtn.addActionListener(this::refreshBtnActionPerformed);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -209,27 +218,28 @@ public class frame_manTransaksi extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(3, 3, 3)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(searchBtn)
                 .addGap(18, 18, 18)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(refreshBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(saleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(purchaseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                .addGap(16, 16, 16)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(refreshBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
+                        .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(saleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(purchaseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(searchBtn)))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
@@ -284,21 +294,92 @@ public class frame_manTransaksi extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void searchFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+        applySearch(searchField.getText().trim());
+    }//GEN-LAST:event_searchFieldActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void saleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saleButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+        applyTypeFilter(true);
+    }//GEN-LAST:event_saleButtonActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    private void purchaseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchaseButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
+        applyTypeFilter(false);
+    }//GEN-LAST:event_purchaseButtonActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+        applySearch(searchField.getText().trim());
+    }//GEN-LAST:event_searchBtnActionPerformed
+
+    private void refreshBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshBtnActionPerformed
+        // TODO add your handling code here:
+        loadTableData();
+    }//GEN-LAST:event_refreshBtnActionPerformed
+
+    private void applyTypeFilter(boolean salesOnly) {
+
+        List<TransactionItem> data =
+            stockService.getAllTransactions();
+
+        if (data == null) {
+            tableTransaction.setModel(new TransactionTableModel(new ArrayList<>()));
+            return;
+        }
+
+        List<TransactionItem> filtered = new ArrayList<>();
+        for (TransactionItem item : data) {
+            boolean isSale = item.getQuantity() < 0;
+            if (salesOnly == isSale) {
+                filtered.add(item);
+            }
+        }
+
+        tableTransaction.setModel(new TransactionTableModel(filtered));
+    }
+
+    private void applySearch(String query) {
+
+        List<TransactionItem> data =
+            stockService.getAllTransactions();
+
+        if (data == null) {
+            tableTransaction.setModel(new TransactionTableModel(new ArrayList<>()));
+            return;
+        }
+
+        if (query.isEmpty()) {
+            tableTransaction.setModel(new TransactionTableModel(data));
+            return;
+        }
+
+        String needle = query.toLowerCase();
+
+        List<TransactionItem> byProduct = new ArrayList<>();
+        for (TransactionItem item : data) {
+            String name = item.getProductName();
+            if (name != null && name.toLowerCase().contains(needle)) {
+                byProduct.add(item);
+            }
+        }
+
+        if (!byProduct.isEmpty()) {
+            tableTransaction.setModel(new TransactionTableModel(byProduct));
+            return;
+        }
+
+        List<TransactionItem> byCustomer = new ArrayList<>();
+        for (TransactionItem item : data) {
+            String customer = item.getCustomerName();
+            if (customer != null && customer.toLowerCase().contains(needle)) {
+                byCustomer.add(item);
+            }
+        }
+
+        tableTransaction.setModel(new TransactionTableModel(byCustomer));
+    }
     public void loadTableData() {
 
         List<TransactionItem> data =
@@ -308,6 +389,42 @@ public class frame_manTransaksi extends javax.swing.JFrame {
             new TransactionTableModel(data);
 
         tableTransaction.setModel(model);
+        updateKpiPanels(data);
+    }
+
+    private void updateKpiPanels(List<TransactionItem> data) {
+
+        if (data == null) {
+            return;
+        }
+
+        long totalSales = 0L;
+        long totalPurchases = 0L;
+        int salesCount = 0;
+        int purchaseCount = 0;
+
+        for (TransactionItem item : data) {
+            Long price = item.getPrice();
+            long p = price != null ? price : 0L;
+
+            if (item.getQuantity() < 0) {
+                salesCount++;
+                totalSales += p;
+            } else {
+                purchaseCount++;
+                totalPurchases += p;
+            }
+        }
+
+        totalTransactionLabel.setText(String.valueOf(data.size()));
+        totalSalesLabel.setText(
+            "Rp. " + String.format(Locale.of("id", "ID"), "%,d", totalSales)
+        );
+        salesOutboundLabel.setText(salesCount + " outbound");
+        totalPurchaseLabel.setText(
+            "Rp. " + String.format(Locale.of("id", "ID"), "%,d", totalPurchases)
+        );
+        purchaseInboundLabel.setText(purchaseCount + " inbound");
     }
     /**
      * @param args the command line arguments
@@ -336,26 +453,26 @@ public class frame_manTransaksi extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JButton purchaseButton;
+    private javax.swing.JLabel purchaseInboundLabel;
+    private javax.swing.JButton refreshBtn;
+    private javax.swing.JButton saleButton;
+    private javax.swing.JLabel salesOutboundLabel;
+    private javax.swing.JButton searchBtn;
+    private javax.swing.JTextField searchField;
     private javax.swing.JTable tableTransaction;
+    private javax.swing.JLabel totalPurchaseLabel;
+    private javax.swing.JLabel totalSalesLabel;
+    private javax.swing.JLabel totalTransactionLabel;
     // End of variables declaration//GEN-END:variables
 }

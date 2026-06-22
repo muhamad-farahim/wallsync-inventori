@@ -345,7 +345,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel5" min="-2" pref="77" max="-2" attributes="0"/>
                           <Component id="jLabel7" min="-2" pref="172" max="-2" attributes="0"/>
-                          <Component id="jLabel6" min="-2" pref="172" max="-2" attributes="0"/>
+                          <Component id="totalProductLabel" min="-2" pref="172" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="47" max="32767" attributes="0"/>
                   </Group>
@@ -357,7 +357,7 @@
                       <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
                       <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
+                      <Component id="totalProductLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
                       <EmptySpace pref="18" max="32767" attributes="0"/>
@@ -374,7 +374,7 @@
                 <Property name="text" type="java.lang.String" value="available products"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabel6">
+            <Component class="javax.swing.JLabel" name="totalProductLabel">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Poppins" size="18" style="1"/>
@@ -413,7 +413,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel8" alignment="0" min="-2" pref="77" max="-2" attributes="0"/>
                           <Component id="jLabel10" alignment="0" min="-2" pref="172" max="-2" attributes="0"/>
-                          <Component id="jLabel9" alignment="0" min="-2" pref="172" max="-2" attributes="0"/>
+                          <Component id="totalStockLabel" alignment="0" min="-2" pref="172" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="45" max="32767" attributes="0"/>
                   </Group>
@@ -425,7 +425,7 @@
                       <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
                       <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
+                      <Component id="totalStockLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
                       <EmptySpace pref="17" max="32767" attributes="0"/>
@@ -443,7 +443,7 @@
                 <Property name="text" type="java.lang.String" value="Total Stock"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabel9">
+            <Component class="javax.swing.JLabel" name="totalStockLabel">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Poppins" size="18" style="1"/>
@@ -481,7 +481,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel11" alignment="0" min="-2" pref="77" max="-2" attributes="0"/>
                           <Component id="jLabel13" alignment="0" min="-2" pref="172" max="-2" attributes="0"/>
-                          <Component id="jLabel12" alignment="0" min="-2" pref="172" max="-2" attributes="0"/>
+                          <Component id="lowStockLabel" alignment="0" min="-2" pref="172" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
@@ -493,7 +493,7 @@
                       <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                       <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jLabel12" max="32767" attributes="0"/>
+                      <Component id="lowStockLabel" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLabel13" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
@@ -511,7 +511,7 @@
                 <Property name="text" type="java.lang.String" value="Low Stock"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabel12">
+            <Component class="javax.swing.JLabel" name="lowStockLabel">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Poppins" size="18" style="1"/>

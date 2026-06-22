@@ -91,7 +91,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="jLabel3" alignment="0" min="-2" pref="67" max="-2" attributes="0"/>
+                      <Component id="totalTransactionLabel" alignment="0" min="-2" pref="67" max="-2" attributes="0"/>
                       <Component id="jLabel4" alignment="0" max="32767" attributes="0"/>
                       <Component id="jLabel2" alignment="0" pref="134" max="32767" attributes="0"/>
                   </Group>
@@ -105,7 +105,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jLabel2" min="-2" pref="29" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                  <Component id="totalTransactionLabel" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                   <Component id="jLabel4" min="-2" pref="29" max="-2" attributes="0"/>
                   <EmptySpace pref="8" max="32767" attributes="0"/>
@@ -125,7 +125,7 @@
             <Property name="text" type="java.lang.String" value="Total Transactions"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel3">
+        <Component class="javax.swing.JLabel" name="totalTransactionLabel">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="14" style="1"/>
@@ -158,11 +158,16 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jLabel5" alignment="0" min="-2" pref="118" max="-2" attributes="0"/>
-                      <Component id="jLabel6" alignment="0" min="-2" pref="110" max="-2" attributes="0"/>
-                      <Component id="jLabel7" alignment="0" min="-2" pref="158" max="-2" attributes="0"/>
+                      <Component id="totalSalesLabel" max="32767" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="jLabel5" alignment="0" min="-2" pref="118" max="-2" attributes="0"/>
+                              <Component id="salesOutboundLabel" alignment="0" min="-2" pref="158" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="0" pref="58" max="32767" attributes="0"/>
+                      </Group>
                   </Group>
-                  <EmptySpace pref="64" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -172,9 +177,9 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jLabel5" min="-2" pref="29" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
+                  <Component id="totalSalesLabel" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                  <Component id="jLabel7" min="-2" pref="29" max="-2" attributes="0"/>
+                  <Component id="salesOutboundLabel" min="-2" pref="29" max="-2" attributes="0"/>
                   <EmptySpace pref="8" max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -195,7 +200,7 @@
             <Property name="text" type="java.lang.String" value="Total Sales"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel6">
+        <Component class="javax.swing.JLabel" name="totalSalesLabel">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="14" style="1"/>
@@ -203,7 +208,7 @@
             <Property name="text" type="java.lang.String" value="Rp. [num]"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel7">
+        <Component class="javax.swing.JLabel" name="salesOutboundLabel">
           <Properties>
             <Property name="text" type="java.lang.String" value="[num] outbound"/>
           </Properties>
@@ -228,11 +233,16 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jLabel8" alignment="0" min="-2" pref="131" max="-2" attributes="0"/>
-                      <Component id="jLabel9" alignment="0" min="-2" pref="112" max="-2" attributes="0"/>
-                      <Component id="jLabel10" alignment="0" min="-2" pref="150" max="-2" attributes="0"/>
+                      <Component id="totalPurchaseLabel" max="32767" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="jLabel8" alignment="0" min="-2" pref="131" max="-2" attributes="0"/>
+                              <Component id="purchaseInboundLabel" alignment="0" min="-2" pref="150" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="0" pref="66" max="32767" attributes="0"/>
+                      </Group>
                   </Group>
-                  <EmptySpace pref="72" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -242,9 +252,9 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jLabel8" min="-2" pref="29" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
+                  <Component id="totalPurchaseLabel" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                  <Component id="jLabel10" min="-2" pref="29" max="-2" attributes="0"/>
+                  <Component id="purchaseInboundLabel" min="-2" pref="29" max="-2" attributes="0"/>
                   <EmptySpace pref="8" max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -262,7 +272,7 @@
             <Property name="text" type="java.lang.String" value="Total Purchases"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel9">
+        <Component class="javax.swing.JLabel" name="totalPurchaseLabel">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="14" style="1"/>
@@ -270,7 +280,7 @@
             <Property name="text" type="java.lang.String" value="Rp. [num]"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel10">
+        <Component class="javax.swing.JLabel" name="purchaseInboundLabel">
           <Properties>
             <Property name="text" type="java.lang.String" value="[num] inbound"/>
           </Properties>
@@ -294,15 +304,15 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="32767" attributes="0"/>
-                  <Component id="jTextField1" min="-2" pref="271" max="-2" attributes="0"/>
+                  <Component id="searchField" min="-2" pref="271" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
-                  <Component id="jButton1" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="jComboBox1" min="-2" pref="113" max="-2" attributes="0"/>
+                  <Component id="searchBtn" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="jButton4" min="-2" pref="100" max="-2" attributes="0"/>
+                  <Component id="refreshBtn" min="-2" pref="107" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="jButton5" min="-2" pref="100" max="-2" attributes="0"/>
+                  <Component id="saleButton" min="-2" pref="100" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="purchaseButton" min="-2" pref="100" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -310,13 +320,15 @@
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" max="-2" attributes="0">
-                      <Component id="jTextField1" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
-                      <Component id="jButton4" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
-                      <Component id="jButton5" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
-                      <Component id="jComboBox1" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
-                      <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Component id="refreshBtn" alignment="1" min="-2" pref="37" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" max="-2" attributes="0">
+                          <Component id="searchField" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
+                          <Component id="saleButton" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
+                          <Component id="purchaseButton" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
+                          <Component id="searchBtn" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
                   <EmptySpace pref="21" max="32767" attributes="0"/>
               </Group>
@@ -324,12 +336,12 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JTextField" name="jTextField1">
+        <Component class="javax.swing.JTextField" name="searchField">
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="searchFieldActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton4">
+        <Component class="javax.swing.JButton" name="saleButton">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="12" style="1"/>
@@ -347,10 +359,10 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton4ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saleButtonActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton5">
+        <Component class="javax.swing.JButton" name="purchaseButton">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="12" style="1"/>
@@ -368,31 +380,29 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton5ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="purchaseButtonActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JComboBox" name="jComboBox1">
-          <Properties>
-            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="5">
-                <StringItem index="0" value="Sort By"/>
-                <StringItem index="1" value="Wallpaper"/>
-                <StringItem index="2" value="Wall Panel"/>
-                <StringItem index="3" value="Wood Panel"/>
-                <StringItem index="4" value="Marble Panel"/>
-              </StringArray>
-            </Property>
-          </Properties>
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-          </AuxValues>
-        </Component>
-        <Component class="javax.swing.JButton" name="jButton1">
+        <Component class="javax.swing.JButton" name="searchBtn">
           <Properties>
             <Property name="text" type="java.lang.String" value="Search"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="searchBtnActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="refreshBtn">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Refresh"/>
+            <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[33, 17]"/>
+            </Property>
+            <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[33, 17]"/>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="refreshBtnActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

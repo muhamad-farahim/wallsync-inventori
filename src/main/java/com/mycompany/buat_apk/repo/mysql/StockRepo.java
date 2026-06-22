@@ -129,7 +129,7 @@ public class StockRepo implements StockRepository {
             long price = rs.getLong("price");
             if (rs.wasNull()) price = 0L;
             LocalDate day = rs.getTimestamp("created_at").toLocalDateTime().toLocalDate();
-            long amount = price * Math.abs(qty);
+            long amount = price;
             long[] totals = buckets.computeIfAbsent(day, k -> new long[2]);
             if (qty < 0) {
                 totals[0] += amount;
@@ -158,9 +158,9 @@ public class StockRepo implements StockRepository {
             "p.name AS product_name, " +
             "COALESCE(SUM(s.quantity), 0) AS current_stock, " +
             "COALESCE(SUM(CASE WHEN s.created_at >= ? AND s.created_at < ? AND s.quantity < 0 " +
-            "  THEN COALESCE(s.price, 0) * ABS(s.quantity) ELSE 0 END), 0) AS money_in, " +
+            "  THEN COALESCE(s.price, 0) ELSE 0 END), 0) AS money_in, " +
             "COALESCE(SUM(CASE WHEN s.created_at >= ? AND s.created_at < ? AND s.quantity >= 0 " +
-            "  THEN COALESCE(s.price, 0) * ABS(s.quantity) ELSE 0 END), 0) AS money_out " +
+            "  THEN COALESCE(s.price, 0) ELSE 0 END), 0) AS money_out " +
             "FROM products p " +
             "LEFT JOIN stocks s ON p.id = s.product_id " +
             "GROUP BY p.id, p.name " +

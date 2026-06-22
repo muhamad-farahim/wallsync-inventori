@@ -16,9 +16,11 @@ import com.mycompany.buat_apk.domains.entities.products.ProductWithStocks;
 import com.mycompany.buat_apk.domains.frames.ButtonEditor;
 import com.mycompany.buat_apk.domains.frames.ButtonRenderer;
 import com.mycompany.buat_apk.domains.frames.ProductTableModel;
+import com.mycompany.buat_apk.registry.AppContextRegistry;
 import com.mycompany.buat_apk.registry.ServiceRegistry;
 import com.mycompany.buat_apk.services.CategoryService;
 import com.mycompany.buat_apk.services.ProductService;
+import com.mycompany.buat_apk.domains.entities.users.User;
 
 /**
  *
@@ -130,15 +132,15 @@ public class frame_manProduk extends javax.swing.JFrame {
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jPanel2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
+        totalProductLabel = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
+        totalStockLabel = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
+        lowStockLabel = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         txtSearch = new javax.swing.JTextField();
@@ -276,8 +278,8 @@ public class frame_manProduk extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Poppins Light", 0, 10)); // NOI18N
         jLabel7.setText("available products");
 
-        jLabel6.setFont(new java.awt.Font("Poppins", 1, 18)); // NOI18N
-        jLabel6.setText("10");
+        totalProductLabel.setFont(new java.awt.Font("Poppins", 1, 18)); // NOI18N
+        totalProductLabel.setText("10");
 
         jLabel5.setFont(new java.awt.Font("Poppins Light", 0, 10)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -292,7 +294,7 @@ public class frame_manProduk extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(totalProductLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(47, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -301,7 +303,7 @@ public class frame_manProduk extends javax.swing.JFrame {
                 .addGap(16, 16, 16)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel6)
+                .addComponent(totalProductLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel7)
                 .addContainerGap(18, Short.MAX_VALUE))
@@ -314,8 +316,8 @@ public class frame_manProduk extends javax.swing.JFrame {
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel8.setText("Total Stock");
 
-        jLabel9.setFont(new java.awt.Font("Poppins", 1, 18)); // NOI18N
-        jLabel9.setText("10");
+        totalStockLabel.setFont(new java.awt.Font("Poppins", 1, 18)); // NOI18N
+        totalStockLabel.setText("10");
 
         jLabel10.setFont(new java.awt.Font("Poppins Light", 0, 10)); // NOI18N
         jLabel10.setText("available units");
@@ -329,7 +331,7 @@ public class frame_manProduk extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(totalStockLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(45, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -338,7 +340,7 @@ public class frame_manProduk extends javax.swing.JFrame {
                 .addGap(17, 17, 17)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel9)
+                .addComponent(totalStockLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel10)
                 .addContainerGap(17, Short.MAX_VALUE))
@@ -351,8 +353,8 @@ public class frame_manProduk extends javax.swing.JFrame {
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel11.setText("Low Stock");
 
-        jLabel12.setFont(new java.awt.Font("Poppins", 1, 18)); // NOI18N
-        jLabel12.setText("10");
+        lowStockLabel.setFont(new java.awt.Font("Poppins", 1, 18)); // NOI18N
+        lowStockLabel.setText("10");
 
         jLabel13.setFont(new java.awt.Font("Poppins Light", 0, 10)); // NOI18N
         jLabel13.setText("items to restock");
@@ -366,7 +368,7 @@ public class frame_manProduk extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lowStockLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
@@ -375,7 +377,7 @@ public class frame_manProduk extends javax.swing.JFrame {
                 .addGap(15, 15, 15)
                 .addComponent(jLabel11)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lowStockLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel13)
                 .addGap(19, 19, 19))
@@ -535,6 +537,8 @@ public class frame_manProduk extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
+        AppContextRegistry.getInstance().setActiveUser(null);
+        this.parent.goTo("LOGIN");
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -582,6 +586,10 @@ public class frame_manProduk extends javax.swing.JFrame {
     }//GEN-LAST:event_categorySortActionPerformed
 
     public void loadTableData() {
+        User activeUser = AppContextRegistry.getInstance().getActiveUser();
+        if (activeUser != null && activeUser.getName() != null && !activeUser.getName().isBlank()) {
+            btnAdmin.setText("<html>" + activeUser.getName() + "<br><small>Administrator</small></html>");
+        }
         applyFilters();
     }
 
@@ -615,7 +623,30 @@ public class frame_manProduk extends javax.swing.JFrame {
             products = filtered;
         }
 
+        updateKpiPanels(products);
+
         renderTable(products);
+    }
+
+    private void updateKpiPanels(List<ProductWithStocks> products) {
+
+        int totalProducts = 0;
+        long totalStockUnits = 0L;
+        int lowStockCount = 0;
+
+        if (products != null) {
+            totalProducts = products.size();
+            for (ProductWithStocks p : products) {
+                totalStockUnits += p.getStocks();
+                if (p.getStocks() < 5) {
+                    lowStockCount++;
+                }
+            }
+        }
+
+        totalProductLabel.setText(String.valueOf(totalProducts));
+        totalStockLabel.setText(String.valueOf(totalStockUnits));
+        lowStockLabel.setText(String.valueOf(lowStockCount));
     }
 
     private void renderTable(List<ProductWithStocks> products) {
@@ -682,14 +713,11 @@ public class frame_manProduk extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -697,7 +725,10 @@ public class frame_manProduk extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JLabel lowStockLabel;
     private javax.swing.JButton productListNav;
+    private javax.swing.JLabel totalProductLabel;
+    private javax.swing.JLabel totalStockLabel;
     private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 }
