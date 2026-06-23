@@ -52,11 +52,10 @@ public class frame_login extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         loginButton = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
         passwordField = new javax.swing.JPasswordField();
-        jLabel6 = new javax.swing.JLabel();
         clearButton = new javax.swing.JButton();
         lblError = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(600, 500));
@@ -65,27 +64,27 @@ public class frame_login extends javax.swing.JFrame {
         usernameField.setToolTipText("Masukkan username");
         usernameField.addActionListener(this::usernameFieldActionPerformed);
         getContentPane().add(usernameField);
-        usernameField.setBounds(660, 220, 259, 30);
+        usernameField.setBounds(650, 190, 259, 30);
 
         jLabel1.setFont(new java.awt.Font("Microsoft JhengHei UI", 1, 24)); // NOI18N
         jLabel1.setText("Welcome!");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(660, 110, 220, 32);
+        jLabel1.setBounds(650, 80, 220, 32);
 
         jLabel2.setFont(new java.awt.Font("Microsoft JhengHei UI", 0, 12)); // NOI18N
         jLabel2.setText("Log in to your account to continue.");
         getContentPane().add(jLabel2);
-        jLabel2.setBounds(660, 140, 240, 17);
+        jLabel2.setBounds(650, 110, 240, 17);
 
         jLabel3.setFont(new java.awt.Font("Microsoft JhengHei UI", 0, 12)); // NOI18N
         jLabel3.setText("Username");
         getContentPane().add(jLabel3);
-        jLabel3.setBounds(660, 200, 57, 17);
+        jLabel3.setBounds(650, 170, 57, 17);
 
         jLabel4.setFont(new java.awt.Font("Microsoft JhengHei UI", 0, 12)); // NOI18N
         jLabel4.setText("Password");
         getContentPane().add(jLabel4);
-        jLabel4.setBounds(660, 270, 60, 17);
+        jLabel4.setBounds(650, 240, 60, 17);
 
         loginButton.setBackground(new java.awt.Color(51, 153, 255));
         loginButton.setFont(new java.awt.Font("Microsoft JhengHei UI", 1, 12)); // NOI18N
@@ -94,30 +93,27 @@ public class frame_login extends javax.swing.JFrame {
         loginButton.setToolTipText("");
         loginButton.addActionListener(this::loginButtonActionPerformed);
         getContentPane().add(loginButton);
-        loginButton.setBounds(660, 350, 260, 33);
-
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/a.jpg"))); // NOI18N
-        getContentPane().add(jLabel5);
-        jLabel5.setBounds(-340, 0, 930, 610);
+        loginButton.setBounds(650, 320, 260, 33);
 
         passwordField.setToolTipText("masukkan passsword");
         getContentPane().add(passwordField);
-        passwordField.setBounds(660, 290, 260, 30);
-
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/b.jpg"))); // NOI18N
-        getContentPane().add(jLabel6);
-        jLabel6.setBounds(220, 0, 340, 490);
+        passwordField.setBounds(650, 260, 260, 30);
 
         clearButton.setText("Clear");
         clearButton.addActionListener(this::clearButtonActionPerformed);
         getContentPane().add(clearButton);
-        clearButton.setBounds(660, 390, 260, 30);
+        clearButton.setBounds(650, 360, 260, 30);
 
         lblError.setBackground(new java.awt.Color(255, 255, 255));
         lblError.setFont(new java.awt.Font("Segoe UI", 2, 10)); // NOI18N
         lblError.setForeground(new java.awt.Color(255, 0, 0));
         getContentPane().add(lblError);
-        lblError.setBounds(660, 160, 260, 30);
+        lblError.setBounds(650, 130, 260, 30);
+
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/a.jpg"))); // NOI18N
+        jLabel6.setText("jLabel6");
+        getContentPane().add(jLabel6);
+        jLabel6.setBounds(-70, -130, 680, 830);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -211,7 +207,6 @@ public class frame_login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel lblError;
     private javax.swing.JButton loginButton;
